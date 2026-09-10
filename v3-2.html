@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="PNJzjSNcBu0BaA1NQnu2Wo">
+<head data-page-node-id="AjpAJKh4Cz2euavPKCavfP">
+<meta charset="UTF-8" data-page-node-id="nlzLkNfk4A92hQRtri6bV5">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" data-page-node-id="Cm8NNEeJEBxWreis4d6p1V">
+<title>WorkBuddy × 总裁班 · 解放大脑 · 演示 v3.2</title>
+<style>
+/* === 1. 颜色变量（实战 10 色 + 阴影）===\n */
+:root{
+  --navy:#12365C;  --navy2:#1E4E7A;  --deep:#0A2239;
+  --gold:#C9A063;  --gold2:#E3C48F;
+  --ink:#1C2733;   --ink2:#5A6B7C;   --ink3:#93A3B3;
+  --line:#E3E9EF;  --bg:#F5F7FA;     --card:#FFFFFF;
+  --up:#C0392B;    --down:#1E8449;
+  --shadow-s:0 2px 8px rgba(18,54,92,.05), 0 1px 2px rgba(18,54,92,.04);
+  --shadow-m:0 10px 30px rgba(18,54,92,.08), 0 2px 8px rgba(18,54,92,.04);
+  --shadow-l:0 24px 60px rgba(18,54,92,.12), 0 6px 16px rgba(18,54,92,.06);
+  --r:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#0A2239;
+  font-family:"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+  color:#fff;touch-action:pan-y pinch-zoom;user-select:none;-webkit-user-select:none}
+body{display:flex;align-items:center;justify-content:center}
+
+#deck{position:relative;width:1280px;height:720px;max-width:100vw;max-height:100vh;
+  aspect-ratio:16/9;overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,.5);border-radius:6px}
+.page{position:absolute;inset:0;width:100%;height:100%;opacity:0;visibility:hidden;
+  transition:opacity .5s ease;overflow:hidden}
+.page.active{opacity:1;visibility:visible}
+
+/* === 2. Stage 骨架 === */
+.stage{position:relative;width:100%;height:100%;background:linear-gradient(135deg,#12365C 0%,#0A2239 100%);
+  display:flex;flex-direction:column}
+.stage.light{background:#F5F7FA;color:#1C2733}
+.card-bg{position:absolute;inset:0;
+  background:radial-gradient(circle at 80% 20%,rgba(201,160,99,.08),transparent 60%);pointer-events:none}
+.card-bg.cover{background:
+  radial-gradient(circle at 85% 50%,rgba(201,160,99,.18),transparent 55%),
+  radial-gradient(circle at 15% 80%,rgba(30,78,122,.25),transparent 60%)}
+.card-bg.end{background:
+  radial-gradient(circle at 50% 50%,rgba(201,160,99,.15),transparent 70%)}
+.stage-in{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;
+  padding:32px 64px 56px;min-height:0}
+
+/* === 3. 页头统一 === */
+.hd{margin-bottom:18px}
+.eyebrow{display:inline-block;font-size:13px;font-weight:600;color:var(--gold);
+  letter-spacing:.22em;text-transform:uppercase;margin-bottom:10px}
+.hd-row{display:flex;align-items:flex-start;justify-content:space-between;gap:32px}
+.hd-row>div:first-child{flex:1}
+.title{font-size:32px;font-weight:700;line-height:1.25;color:#fff;letter-spacing:.04em}
+.stage.light .title{color:var(--ink)}
+.title em,.title .g{color:var(--gold);font-style:normal;font-weight:700}
+.sub{margin-top:10px;font-size:15px;color:rgba(255,255,255,.75);line-height:1.65}
+.stage.light .sub{color:var(--ink2)}
+.hd-badge{display:flex;align-items:center;gap:12px;padding:14px 22px;
+  border:1px solid rgba(201,160,99,.4);border-radius:14px;background:rgba(201,160,99,.06)}
+.hd-badge .n{font-size:34px;font-weight:800;color:var(--gold);line-height:1}
+.hd-badge .t{font-size:12px;color:rgba(255,255,255,.85);line-height:1.4;letter-spacing:.04em}
+.bd{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+
+/* === 5. 页脚 === */
+.cv-ft{display:flex;justify-content:space-between;align-items:center;
+  margin-top:auto;padding-top:14px;font-size:11px;color:rgba(255,255,255,.4);
+  letter-spacing:.1em}
+.stage.light .cv-ft{color:var(--ink3)}
+.cv-ft .left{display:flex;align-items:baseline;gap:2px}
+.cv-ft .pg{font-family:"Inter",monospace;font-size:14px;color:var(--gold);font-weight:700}
+.cv-ft .brand{display:flex;align-items:center;gap:8px}
+.cv-ft .wmark{display:inline-flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border:1px solid var(--gold);border-radius:50%;
+  font-weight:700;font-size:12px;color:var(--gold)}
+
+/* === 6. 通用 === */
+.pill{display:inline-block;padding:6px 14px;border:1px solid var(--gold);
+  border-radius:99px;font-size:12px;color:var(--gold);letter-spacing:.1em}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);
+  margin-right:10px;vertical-align:middle}
+
+/* === 7. 议程 goals === */
+.goals{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.goal{display:flex;gap:14px;padding:18px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,160,99,.18);border-radius:var(--r)}
+.goal .num{font-size:32px;font-weight:800;color:var(--gold);line-height:1;min-width:46px}
+.goal .h{font-size:16px;font-weight:600;color:#fff;margin-bottom:6px}
+.goal .p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.6}
+.notes{display:flex;gap:14px;margin-top:auto}
+.note{display:flex;gap:10px;padding:10px 14px;background:rgba(201,160,99,.08);
+  border-left:2px solid var(--gold);border-radius:6px;font-size:12px;color:rgba(255,255,255,.85);line-height:1.5}
+.note .x{color:var(--gold);font-weight:700}
+
+/* === 8. persona + pains === */
+.split{display:grid;grid-template-columns:1fr 1.2fr;gap:24px}
+.persona{padding:24px;background:rgba(255,255,255,.05);border-radius:var(--r)}
+.persona .role{font-size:11px;color:var(--gold);letter-spacing:.18em;margin-bottom:8px}
+.persona h3{font-size:22px;color:#fff;margin-bottom:12px}
+.persona .pj{font-size:14px;color:rgba(255,255,255,.8);line-height:1.6;margin-bottom:10px}
+.persona .pq{font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;
+  padding:14px;background:rgba(0,0,0,.2);border-radius:10px}
+.pains{display:grid;grid-template-columns:1fr;gap:14px}
+.pain{padding:16px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,160,99,.15);border-radius:12px;display:flex;gap:12px}
+.pain .pv{min-width:80px;text-align:center;padding:6px;border-right:1px solid rgba(201,160,99,.2)}
+.pain .pv .n{font-size:20px;font-weight:800;color:var(--gold);line-height:1}
+.pain .pv .u{font-size:11px;color:var(--ink3);margin-top:2px}
+.pain .pt{font-size:13px;color:rgba(255,255,255,.85);line-height:1.5;flex:1}
+.stage.light .pain .pt{color:var(--ink)}
+
+/* === 9. scenes 总览 === */
+.scenes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:auto}
+.scene{padding:22px;background:rgba(255,255,255,.05);
+  border:1px solid rgba(201,160,99,.2);border-radius:var(--r);
+  display:flex;flex-direction:column;gap:10px}
+.scene .si{display:inline-block;width:fit-content;padding:6px 12px;border-radius:6px;
+  font-size:11px;color:#fff;letter-spacing:.16em}
+.scene .st{font-size:18px;font-weight:700;color:#fff;line-height:1.3}
+.scene .ss{font-size:11px;color:var(--gold);letter-spacing:.16em}
+.scene .sd{font-size:13px;color:rgba(255,255,255,.75);line-height:1.6;flex:1}
+.scene .sm{padding-top:10px;border-top:1px solid rgba(201,160,99,.2);
+  font-size:13px;color:rgba(255,255,255,.85)}
+.scene .sm em{color:var(--gold);font-style:normal;font-weight:700}
+
+/* === 10. flowline 6 步 === */
+.flowline{display:flex;gap:6px;align-items:stretch}
+.fstep{flex:1;padding:14px;background:rgba(255,255,255,.05);
+  border:1px solid rgba(201,160,99,.18);border-radius:12px}
+.fstep .fn{font-size:11px;color:var(--gold);letter-spacing:.16em;margin-bottom:6px;
+  display:flex;align-items:center;gap:6px}
+.fstep .fn i{display:inline-flex;align-items:center;justify-content:center;
+  width:18px;height:18px;border-radius:50%;background:var(--gold);color:var(--deep);
+  font-style:normal;font-weight:700;font-size:11px}
+.fstep .fh{font-size:14px;font-weight:600;color:#fff;margin-bottom:6px}
+.fstep .fp{font-size:12px;color:rgba(255,255,255,.7);line-height:1.5}
+.farrow{align-self:center;color:var(--gold);font-size:18px;font-weight:700}
+
+/* === 11. cmp-list === */
+.cmp-list{display:flex;flex-direction:column;gap:10px}
+.cmp{display:grid;grid-template-columns:200px 1fr 140px;gap:16px;align-items:center;
+  padding:12px 16px;background:rgba(255,255,255,.04);border-radius:10px}
+.cmp .cn{font-size:14px;font-weight:600;color:#fff}
+.cmp .cn span{display:block;font-size:11px;color:var(--ink3);font-weight:400;margin-top:2px}
+.bars{display:flex;flex-direction:column;gap:6px}
+.brow{display:flex;align-items:center;gap:8px}
+.brow .bl{width:36px;font-size:11px;color:var(--ink2)}
+.btrack{flex:1;height:18px;background:rgba(255,255,255,.06);border-radius:4px;
+  position:relative;overflow:hidden}
+.bfill{height:100%;display:flex;align-items:center;justify-content:flex-end;
+  padding-right:8px;font-size:11px;color:#fff;font-weight:600;border-radius:4px}
+.bfill.bef{background:rgba(255,255,255,.2)}
+.bfill.aft.gold{background:linear-gradient(90deg,var(--gold),var(--gold2));color:var(--deep)}
+.save{text-align:right}
+.save .sv{font-size:22px;font-weight:800;color:var(--gold);line-height:1}
+.save .sd{font-size:11px;color:var(--ink3);margin-top:2px}
+
+/* === 12. tl 时间轴 === */
+.tl{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.tl-item{padding:16px;background:rgba(255,255,255,.05);
+  border-left:3px solid var(--gold);border-radius:8px}
+.tl-item .tn{font-size:11px;color:var(--gold);letter-spacing:.18em;font-weight:700}
+.tl-item .th{font-size:18px;font-weight:700;color:#fff;margin:6px 0 10px}
+.tl-item ul{list-style:none;margin-bottom:10px}
+.tl-item li{font-size:12px;color:rgba(255,255,255,.75);line-height:1.6;
+  padding:4px 0;border-bottom:1px dashed rgba(255,255,255,.1)}
+.tl-item li:last-child{border-bottom:none}
+.tl-item .ok{padding:8px 10px;background:rgba(201,160,99,.1);border-radius:6px;
+  font-size:12px;color:var(--gold);margin-top:auto}
+.tl-item .ok em{font-style:normal;font-weight:700}
+
+/* === 13. case-grid === */
+.case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.case-card{padding:18px;background:rgba(255,255,255,.05);
+  border:1px solid rgba(201,160,99,.2);border-radius:var(--r);
+  display:flex;flex-direction:column;gap:8px}
+.case-card .tag{display:inline-block;width:fit-content;padding:4px 10px;
+  background:rgba(201,160,99,.15);border:1px solid var(--gold);border-radius:99px;
+  font-size:11px;color:var(--gold);letter-spacing:.08em}
+.case-card .h{font-size:16px;font-weight:700;color:#fff;margin-top:4px}
+.case-card .p{font-size:12px;color:rgba(255,255,255,.75);line-height:1.6;flex:1}
+.case-card .fx{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:8px;
+  border-top:1px solid rgba(201,160,99,.15)}
+.case-card .fx span{padding:3px 8px;background:rgba(255,255,255,.06);
+  border-radius:4px;font-size:11px;color:var(--gold)}
+
+/* === 14. shot 截图 === */
+.shot{padding:0;background:#fff;border-radius:var(--r);overflow:hidden;
+  box-shadow:var(--shadow-l);display:flex;flex-direction:column;height:100%}
+.shot img{width:100%;flex:1;object-fit:cover;display:block}
+.shot-cap{padding:12px 18px;background:var(--navy);color:#fff;
+  display:flex;align-items:center;gap:10px;font-size:12px}
+.shot-cap .num{flex:none;width:24px;height:24px;border-radius:50%;
+  background:var(--gold);color:var(--deep);display:flex;align-items:center;
+  justify-content:center;font-weight:700}
+
+/* === 15. cover === */
+.cv-in{position:relative;z-index:2;flex:1;display:flex;
+  align-items:center;padding:64px}
+.cv-l{flex:1.2}
+.cv-tag{display:inline-flex;align-items:center;padding:8px 16px;
+  background:rgba(201,160,99,.12);border:1px solid var(--gold);
+  border-radius:99px;font-size:12px;color:var(--gold);letter-spacing:.16em}
+.cv-h1{font-size:58px;font-weight:800;color:#fff;line-height:1.15;
+  margin-top:24px;letter-spacing:.04em;text-shadow:0 4px 24px rgba(0,0,0,.35)}
+.cv-h1 .g,.cv-h1 em{color:var(--gold);font-style:normal;font-weight:800}
+.cv-rule{width:80px;height:3px;background:var(--gold);margin:24px 0}
+.cv-sub{font-size:17px;color:rgba(255,255,255,.85);line-height:1.7;max-width:760px}
+.cv-sub b{color:#fff;font-weight:600}
+.cv-meta{display:flex;gap:24px;margin-top:36px;padding-top:28px;
+  border-top:1px solid rgba(201,160,99,.2)}
+.cv-meta>div{flex:1}
+.cv-meta .v{font-size:36px;font-weight:800;color:var(--gold);line-height:1}
+.cv-meta .v em{font-size:14px;color:rgba(255,255,255,.7);font-style:normal;
+  font-weight:400;margin-left:4px}
+.cv-meta .k{font-size:12px;color:rgba(255,255,255,.7);margin-top:6px;line-height:1.5}
+.cv-r{flex:1;display:flex;align-items:center;justify-content:center}
+
+/* === 16. end === */
+.end-in{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:64px;text-align:center}
+.end-in h1{font-size:64px;color:#fff;font-weight:800;line-height:1.2;
+  text-shadow:0 4px 24px rgba(0,0,0,.35);letter-spacing:.06em}
+.end-in h1 .g{color:#F0D49A;text-shadow:0 3px 18px rgba(240,212,154,.4)}
+.end-in .es{font-size:18px;color:rgba(255,255,255,.92);margin-top:20px;
+  max-width:760px;line-height:1.7;text-shadow:0 2px 12px rgba(0,0,0,.3)}
+.end-meta{margin-top:36px;font-size:14px;color:var(--gold);letter-spacing:.13em}
+
+/* === 17. 动画 === */
+.rise{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
+.page.active .rise{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+.d4{transition-delay:.32s}.d5{transition-delay:.40s}.d6{transition-delay:.48s}
+.d7{transition-delay:.56s}.d8{transition-delay:.64s}
+
+/* === 18. 打印 === */
+@media print{
+  @page{size:1280px 720px;margin:0}
+  html,body{width:1280px!important;background:#fff!important;overflow:visible!important}
+  body>*:not(#deck){display:none!important}
+  #deck{position:static!important;transform:none!important;overflow:visible!important;
+    box-shadow:none!important;border-radius:0!important}
+  #deck>.page{position:relative!important;display:block!important;
+    width:1280px!important;height:720px!important;opacity:1!important;visibility:visible!important;
+    page-break-after:always;break-after:page;transform:none!important;transition:none!important}
+  #deck>.page:last-of-type{page-break-after:auto;break-after:auto}
+  .rise,.d1,.d2,.d3,.d4,.d5,.d6,.d7,.d8{opacity:1!important;transform:none!important;
+    transition:none!important;animation:none!important}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+/* === 19. 移动端 === */
+@media (max-width:768px){
+  .stage{font-size:14px}
+  .hd-row{flex-direction:column}
+  .hd-badge{margin-top:16px}
+  .goals,.scenes,.case-grid{grid-template-columns:1fr}
+  .flowline{flex-direction:column}
+  .farrow{transform:rotate(90deg)}
+  .tl{grid-template-columns:1fr 1fr}
+  .split{grid-template-columns:1fr}
+}
+
+/* === 20. 自定义:故事卡(开场故事 P02) === */
+.story{background:linear-gradient(135deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
+  border:1px solid rgba(201,160,99,.2);border-radius:var(--r);padding:24px 28px;display:flex;gap:24px}
+.story .quote{font-size:18px;color:#fff;line-height:1.7;letter-spacing:.04em}
+.story .quote em{color:var(--gold);font-style:normal;font-weight:700}
+.story .quote .src{display:block;margin-top:14px;font-size:12px;color:var(--ink3);letter-spacing:.08em}
+
+/* === 21. 自定义:大数字展示 === */
+.bignum{display:flex;gap:32px;align-items:stretch;margin-bottom:14px}
+.bn{flex:1;padding:18px 20px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,160,99,.2);border-radius:14px;display:flex;flex-direction:column;justify-content:space-between;min-height:120px}
+.bn .v{font-size:48px;font-weight:800;color:var(--gold);line-height:1;letter-spacing:.02em}
+.bn .v em{font-size:18px;color:rgba(255,255,255,.7);font-style:normal;font-weight:600;margin-left:6px}
+.bn .k{font-size:13px;color:rgba(255,255,255,.85);line-height:1.5;margin-top:10px}
+
+/* === 22. 对照左右栏 === */
+.cmp2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.cmp2-col{padding:22px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,160,99,.18);border-radius:var(--r)}
+.cmp2-col.dark{background:rgba(201,160,99,.10);border-color:var(--gold)}
+.cmp2-col .tag{display:inline-block;padding:5px 12px;border-radius:6px;font-size:11px;
+  letter-spacing:.14em;color:#fff;background:linear-gradient(135deg,#12365C,#1E4E7A)}
+.cmp2-col.dark .tag{background:linear-gradient(135deg,#C9A063,#A37D44);color:var(--deep)}
+.cmp2-col h3{font-size:22px;color:#fff;margin:12px 0 6px;line-height:1.25}
+.cmp2-col .lead{font-size:13px;color:rgba(255,255,255,.7);line-height:1.7}
+.cmp2-col ul{list-style:none;margin-top:14px}
+.cmp2-col li{font-size:13px;color:rgba(255,255,255,.85);padding:6px 0;
+  border-bottom:1px dashed rgba(255,255,255,.1);display:flex;gap:8px;align-items:flex-start;line-height:1.55}
+.cmp2-col li:before{content:"·";color:var(--gold);font-weight:700;flex:none}
+
+/* === 23. 金句条 === */
+.goldline{padding:14px 20px;background:rgba(201,160,99,.10);
+  border-left:3px solid var(--gold);border-radius:8px;
+  font-size:14px;color:#fff;line-height:1.7}
+.goldline em{color:var(--gold);font-style:normal;font-weight:700}
+
+/* === 24. 矩阵(场景地图) === */
+.matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.matrix .cell{padding:16px;background:rgba(255,255,255,.05);
+  border:1px solid rgba(201,160,99,.2);border-radius:12px;display:flex;flex-direction:column;gap:6px}
+.matrix .cell .ic{font-size:22px}
+.matrix .cell .h{font-size:15px;font-weight:700;color:#fff}
+.matrix .cell .p{font-size:12px;color:rgba(255,255,255,.75);line-height:1.5}
+
+/* === 25. 行业圈 === */
+.industries{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:14px;
+  border-top:1px dashed rgba(201,160,99,.2)}
+.industries .ind{padding:5px 12px;background:rgba(201,160,99,.10);
+  border:1px solid rgba(201,160,99,.25);border-radius:99px;
+  font-size:12px;color:var(--gold);letter-spacing:.04em}
+
+/* === 26. 一天时间线 === */
+.day{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.day .step{padding:14px;background:rgba(255,255,255,.05);
+  border:1px solid rgba(201,160,99,.18);border-radius:12px;
+  display:flex;flex-direction:column;gap:8px}
+.day .step .tm{font-size:20px;font-weight:800;color:var(--gold);letter-spacing:.04em}
+.day .step .hh{font-size:14px;font-weight:700;color:#fff}
+.day .step .pp{font-size:12px;color:rgba(255,255,255,.75);line-height:1.55;flex:1}
+
+/* === 27. ROI 测算 4 列 === */
+.roi4{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.roi4 .r{padding:18px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,160,99,.2);border-radius:14px;
+  display:flex;flex-direction:column;gap:10px}
+.roi4 .r .head{display:flex;justify-content:space-between;align-items:center}
+.roi4 .r .num{font-size:13px;color:var(--gold);font-weight:700;letter-spacing:.18em}
+.roi4 .r .scale{font-size:11px;color:var(--ink3)}
+.roi4 .r .scope{font-size:14px;color:#fff;font-weight:600}
+.roi4 .r .save{font-size:32px;font-weight:800;color:var(--gold);letter-spacing:.02em;margin-top:auto}
+.roi4 .r .save em{font-size:14px;color:rgba(255,255,255,.7);font-style:normal;font-weight:600;margin-left:4px}
+
+/* === 28. 三栏隐性价值 === */
+.values{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.values .v{padding:18px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,160,99,.18);border-radius:14px;display:flex;flex-direction:column;gap:10px}
+.values .v .tag{display:inline-block;width:fit-content;padding:4px 10px;border-radius:6px;
+  background:rgba(201,160,99,.15);font-size:11px;color:var(--gold);letter-spacing:.14em}
+.values .v .h{font-size:17px;color:#fff;font-weight:700;margin-top:4px}
+.values .v .p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.65}
+.values .v .ref{font-size:11px;color:var(--ink3);margin-top:auto;padding-top:10px;
+  border-top:1px dashed rgba(201,160,99,.2);letter-spacing:.06em}
+
+/* === 29. FDE 工程师专页 === */
+.fde{display:grid;grid-template-columns:1.2fr 1fr;gap:24px}
+.fde .left{padding:24px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,160,99,.25);border-radius:var(--r)}
+.fde .left .role{font-size:11px;color:var(--gold);letter-spacing:.2em;margin-bottom:6px}
+.fde .left h3{font-size:22px;color:#fff;margin-bottom:8px;letter-spacing:.04em}
+.fde .left .pj{font-size:13px;color:rgba(255,255,255,.75);line-height:1.7;margin-bottom:14px}
+.fde-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.fde-steps .s{padding:12px;background:rgba(0,0,0,.2);border-radius:10px;
+  display:flex;flex-direction:column;gap:6px}
+.fde-steps .s .i{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--deep);
+  font-weight:800;font-size:13px}
+.fde-steps .s .h{font-size:13px;color:#fff;font-weight:600}
+.fde-steps .s .p{font-size:11px;color:rgba(255,255,255,.7);line-height:1.5}
+.fde .right{padding:24px;background:linear-gradient(135deg,rgba(201,160,99,.18),rgba(201,160,99,.06));
+  border:1px solid var(--gold);border-radius:var(--r);display:flex;flex-direction:column;gap:14px;justify-content:center}
+.fde .right .tag{display:inline-block;width:fit-content;padding:5px 12px;border-radius:6px;
+  background:var(--gold);color:var(--deep);font-size:11px;letter-spacing:.16em;font-weight:700}
+.fde .right h3{font-size:26px;color:#fff;font-weight:800;line-height:1.3;letter-spacing:.04em}
+.fde .right h3 em{color:var(--gold);font-style:normal}
+.fde .right .pj{font-size:13px;color:rgba(255,255,255,.85);line-height:1.7}
+.fde .right .promise{padding:12px 14px;background:rgba(0,0,0,.25);border-radius:8px;
+  font-size:13px;color:#fff;line-height:1.65;border-left:3px solid var(--gold)}
+
+/* === 30. 5件事 + 问 === */
+.boss{display:grid;grid-template-columns:1.3fr 1fr;gap:20px}
+.boss .five{padding:22px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,160,99,.2);border-radius:var(--r)}
+.boss .five h4{font-size:13px;color:var(--gold);letter-spacing:.18em;margin-bottom:14px;font-weight:700}
+.boss .five ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.boss .five li{display:flex;gap:14px;align-items:center;padding:10px 14px;
+  background:rgba(255,255,255,.04);border-radius:10px;font-size:14px;color:#fff}
+.boss .five li .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex:none}
+.boss .qa{padding:22px;background:rgba(201,160,99,.10);border:1px solid var(--gold);
+  border-radius:var(--r);display:flex;flex-direction:column;gap:14px;justify-content:center}
+.boss .qa h4{font-size:13px;color:var(--gold);letter-spacing:.18em;font-weight:700}
+.boss .qa .q{font-size:22px;color:#fff;font-weight:700;line-height:1.4;letter-spacing:.04em}
+.boss .qa .q:before{content:'"';color:var(--gold);font-weight:800;margin-right:4px}
+.boss .qa .q:after{content:'"';color:var(--gold);font-weight:800;margin-left:4px}
+.boss .qa .ref{font-size:11px;color:var(--ink3);letter-spacing:.08em}
+
+/* === 31. 财务分身 4 卡 === */
+.fin4{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.fin4 .c{padding:18px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,160,99,.2);border-radius:14px;
+  display:flex;flex-direction:column;gap:8px;min-height:120px}
+.fin4 .c .tag{display:inline-block;width:fit-content;padding:4px 10px;border-radius:6px;
+  background:rgba(201,160,99,.15);font-size:11px;color:var(--gold);letter-spacing:.14em;font-weight:700}
+.fin4 .c .h{font-size:16px;color:#fff;font-weight:700}
+.fin4 .c .p{font-size:12px;color:rgba(255,255,255,.78);line-height:1.6}
+
+/* === 32. 互动举手 === */
+.vote{padding:16px 22px;background:rgba(201,160,99,.10);border:1px solid var(--gold);
+  border-radius:12px;margin-top:auto;font-size:15px;color:#fff;line-height:1.7;text-align:center}
+.vote em{color:var(--gold);font-style:normal;font-weight:700}
+
+/* === 33. light stage 卡片覆盖(让深色风格卡片在浅色 stage 上可读) === */
+.stage.light .matrix .cell{background:#fff;border:1px solid rgba(18,54,92,.12)}
+.stage.light .matrix .cell .h{color:var(--ink)}
+.stage.light .matrix .cell .p{color:rgba(28,39,51,.72)}
+.stage.light .fstep{background:#fff;border:1px solid rgba(18,54,92,.12)}
+.stage.light .fstep .fh{color:var(--ink)}
+.stage.light .fstep .fp{color:rgba(28,39,51,.72)}
+.stage.light .case-card{background:#fff;border:1px solid rgba(18,54,92,.12)}
+.stage.light .case-card .h{color:var(--ink)}
+.stage.light .case-card .p{color:rgba(28,39,51,.72)}
+.stage.light .day .step{background:#fff;border:1px solid rgba(18,54,92,.12)}
+.stage.light .day .step .hh{color:var(--ink)}
+.stage.light .day .step .pp{color:rgba(28,39,51,.72)}
+.stage.light .boss .five{background:#fff;border:1px solid rgba(18,54,92,.12)}
+.stage.light .boss .five li{background:rgba(18,54,92,.04);color:var(--ink)}
+.stage.light .boss .qa{background:rgba(201,160,99,.08)}
+.stage.light .boss .qa .q{color:var(--ink)}
+.stage.light .vote{color:var(--ink)}
+
+/* === 34. light stage · P12 财务分身 fin4 覆盖 === */
+.stage.light .fin4 .c{background:#fff;border:1px solid rgba(18,54,92,.14);box-shadow:0 1px 0 rgba(18,54,92,.04)}
+.stage.light .fin4 .c .h{color:var(--ink)}
+.stage.light .fin4 .c .p{color:rgba(28,39,51,.72)}
+
+/* === 35. light stage · P5 20年时间轴 tl-item 覆盖 === */
+.stage.light .tl-item{background:#fff;border:1px solid rgba(18,54,92,.12)}
+.stage.light .tl-item .th{color:var(--ink)}
+.stage.light .tl-item li{color:rgba(28,39,51,.72);border-bottom-color:rgba(18,54,92,.10)}
+.stage.light .tl-item .ok{background:rgba(201,160,99,.10);color:var(--ink)}
+
+/* === 36. light stage · P6/P8 cmp2-col 覆盖 === */
+.stage.light .cmp2-col{background:#fff;border:1px solid rgba(18,54,92,.12)}
+.stage.light .cmp2-col h3{color:var(--ink)}
+.stage.light .cmp2-col .lead{color:rgba(28,39,51,.72)}
+.stage.light .cmp2-col li{color:rgba(28,39,51,.78);border-bottom-color:rgba(18,54,92,.10)}
+
+/* === 37. light stage · P15 ROI roi4 覆盖 === */
+.stage.light .roi4 .r{background:#fff;border:1px solid rgba(18,54,92,.12)}
+.stage.light .roi4 .r .scope{color:var(--ink)}
+.stage.light .roi4 .r .save em{color:rgba(28,39,51,.72)}
+
+/* === 38. light stage · P16 隐性价值 values 覆盖 === */
+.stage.light .values .v{background:#fff;border:1px solid rgba(18,54,92,.12)}
+.stage.light .values .v .h{color:var(--ink)}
+.stage.light .values .v .p{color:rgba(28,39,51,.72)}
+
+/* === 38-bis. light stage · 金句条 goldline 覆盖 === */
+.stage.light .goldline{color:var(--ink);background:rgba(201,160,99,.12)}
+
+/* === 39. light stage · P17 FDE 工程师 fde 覆盖 === */
+.stage.light .fde .left{background:#fff;border:1px solid rgba(18,54,92,.12)}
+.stage.light .fde .left h3{color:var(--ink)}
+.stage.light .fde .left .pj{color:rgba(28,39,51,.72)}
+.stage.light .fde-steps .s{background:#fff;border:1px solid rgba(18,54,92,.12)}
+.stage.light .fde-steps .s .h{color:var(--ink)}
+.stage.light .fde-steps .s .p{color:rgba(28,39,51,.72)}
+.stage.light .fde .right{background:linear-gradient(135deg,rgba(201,160,99,.10),rgba(201,160,99,.04));border:1px solid rgba(201,160,99,.30)}
+.stage.light .fde .right h3{color:var(--ink)}
+.stage.light .fde .right .pj{color:rgba(28,39,51,.78)}
+.stage.light .fde .right .promise{background:rgba(18,54,92,.04);color:var(--ink)}
+
+/* === 40. P02 开场故事 垂直压缩(内容超 720px 溢出修复) === */
+.page[data-title="开场故事 宗庆后"] .hd{margin-bottom:10px}
+.page[data-title="开场故事 宗庆后"] .title{font-size:28px}
+.page[data-title="开场故事 宗庆后"] .sub{margin-top:6px;font-size:14px}
+.page[data-title="开场故事 宗庆后"] .bignum{gap:20px;margin-bottom:12px}
+.page[data-title="开场故事 宗庆后"] .bn{padding:12px 16px;min-height:92px}
+.page[data-title="开场故事 宗庆后"] .bn .v{font-size:38px}
+.page[data-title="开场故事 宗庆后"] .bn .k{font-size:12px;margin-top:6px;line-height:1.4}
+.page[data-title="开场故事 宗庆后"] .story{padding:16px 20px;gap:16px}
+.page[data-title="开场故事 宗庆后"] .story .quote{font-size:15px;line-height:1.6}
+.page[data-title="开场故事 宗庆后"] .story .quote .src{margin-top:8px;font-size:11px}
+.page[data-title="开场故事 宗庆后"] .goldline{padding:10px 16px;font-size:13px;line-height:1.55}
+</style>
+</head>
+<body data-page-node-id="y9lzd0faDGnHhQWw4vFRS5">
+<div id="deck" data-page-node-id="TAYRqYjsIgtgWcrzqfiNbK">
+
+<!-- ============ P01 封面 ============ -->
+<section class="page" data-title="封面" data-page-node-id="DxhjlHQEqmQSVhZMSlxPkO">
+  <div class="stage" data-page-node-id="TVL892nsb5z9uQ0oQ3tyTG"><div class="card-bg cover" data-page-node-id="OwNsjrbFOflNAdtWv1Uo6V"></div>
+    <div class="cv-in" data-page-node-id="L1ztgf51pDF6VkyDkySfvT">
+      <div class="cv-l" data-page-node-id="riZVld1GPaAYhsiBUNIf79">
+        <span class="cv-tag rise" data-page-node-id="KoIBZiQPMMUoSdxMhnwAEs"><span class="dot" data-page-node-id="yhBbxn7VsggTVOyIk3PShp"></span>WORKBUDDY × 总裁班 · 演示材料</span>
+        <h1 class="cv-h1 rise d1" data-page-node-id="qsgUoSr5hnDzDmQp86mlFP">解放大脑 ·<br data-page-node-id="sqDp1FOWc4Trdm9SdeqSFm"><span class="g" data-page-node-id="S6HAnpGO9BlkpJz6DZRGS7">企业的第二次效率革命</span></h1>
+        <div class="cv-rule rise d2" data-page-node-id="lOtxJiA567nhr0OT4wqxu0"></div>
+        <p class="cv-sub rise d3" data-page-node-id="EpteGSTPAWFbrBSAqS1kqN">自动化、信息化做完了它们能做的一切——下一轮效率的增量,只能来自<b data-page-node-id="LVPjQpnI4hyXGgL2G1R09k">决策本身的智能化</b>。<br data-page-node-id="LX88A2RGn91UHTPUEJA5mr">WorkBuddy + FDE 工程师,落到 6 大岗位、11 个行业——3–5 倍投入产出。</p>
+        <div class="cv-meta rise d4" data-page-node-id="Yh6TJdJIXAcdyEVby5Y9iS">
+          <div data-page-node-id="23wYSZ6byBfU6ZAyC6tzba"><div class="v" data-page-node-id="CcCzBO3pM9rF3ihIeel3cT">6<em data-page-node-id="AMtkhGYLYK9IEEym0JOGTn">个</em></div><div class="k" data-page-node-id="OFqFKuXzf3ey7hCh97bbvT">岗位数字分身<br data-page-node-id="shtygDgWMiktk3efDlCiYl">老板·销售·财务·人力·运营·行政</div></div>
+          <div data-page-node-id="xbQMzuB2CiW8SRlSjPsxo9"><div class="v" data-page-node-id="6cg6Qq7PWHAlQzKehV2Rg4">11<em data-page-node-id="OMaIAPzUMIpiDgEjs7diKp">个</em></div><div class="k" data-page-node-id="RRJ2uys6moEV6kF9GXZ1aA">覆盖行业<br data-page-node-id="gHjiKFlOlAX8L6KyAXEwLS">金融/制造/家纺/建工/物流…</div></div>
+          <div data-page-node-id="dgpxkjGHGmOvRhSJpRoSDR"><div class="v" data-page-node-id="aAecTV9iQV2t8J5QQSuOLJ">3-5<em data-page-node-id="SYCEtC93xrDsHE39GDQAQa">×</em></div><div class="k" data-page-node-id="MKFhFmtVkKjCQVqr3f5Jwr">投入产出<br data-page-node-id="LEUyrwisp1BfpzAlZvgk9V">4 套 ROI 测算模型</div></div>
+        </div>
+      </div>
+      <div class="cv-r rise d3" data-page-node-id="u4xqOPfueI0x3zJs6aNinM">
+        <svg viewBox="0 0 400 400" width="380" height="380" data-page-node-id="kWDq73KDw2KliqfpTCqxtT">
+          <circle cx="200" cy="200" r="168" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="1.4" data-page-node-id="V41nxg9TDLyUFviAInYYGV"/>
+          <circle cx="200" cy="200" r="138" fill="none" stroke="rgba(201,160,99,.30)" stroke-width="1" stroke-dasharray="5 9" style="transform-origin:200px 200px;animation:spin 46s linear infinite" data-page-node-id="IptajD9UZXqXRxQs47eyCw"/>
+          <circle cx="200" cy="200" r="108" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="1" stroke-dasharray="2 14" style="transform-origin:200px 200px;animation:spinR 62s linear infinite" data-page-node-id="iI8EozwplBaOsAIRgBDdVu"/>
+          <circle cx="200" cy="200" r="76" fill="rgba(201,160,99,.08)" stroke="rgba(201,160,99,.4)" stroke-width="1.2" data-page-node-id="vzY0c5j1EY30FsXaEcCqx2"/>
+          <text x="200" y="190" text-anchor="middle" fill="#fff" font-size="22" font-weight="700" data-page-node-id="AImkwcpVuo6kvutAzwLa3m">数字分身</text>
+          <text x="200" y="216" text-anchor="middle" fill="#C9A063" font-size="11" letter-spacing="4" data-page-node-id="zmJFW1LOU0NG9zzvhFo3cd">DIGITAL AVATAR</text>
+          <text x="200" y="234" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="9" letter-spacing="3" data-page-node-id="HtqinICXVfA9PGOG1NHyLu">2026 · 数字分身元年</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ P02 开场故事:宗庆后一支笔 ============ -->
+<section class="page" data-title="开场故事 宗庆后" data-page-node-id="n6jFfigKRnw8anOVOCuoEU">
+  <div class="stage" data-page-node-id="uLh2DmaeQv9GK8OFOCnGu0"><div class="card-bg" data-page-node-id="ADTNBasFWHVfKwwpbTfWa8"></div><div class="stage-in" data-page-node-id="RCNS1sAz5Xyh8oAPNCwBav">
+    <div class="hd" data-page-node-id="YiPj34O4InzzjDmy9AKuyG">
+      <span class="eyebrow" data-page-node-id="kATc3kyCNtWl17MaUG04zT">PART 01 · 开场共鸣</span>
+      <div class="hd-row" data-page-node-id="uRqN6kanI1enuSG8aCJE7G">
+        <div data-page-node-id="YfRq2S8fxiJQN7sMea2ab7"><h2 class="title" data-page-node-id="TmgLXLOYdgFXGzSb6aEcpH">一支笔,<em data-page-node-id="JoAiIouJmTLsAi0STMioXY">撑起 782 亿</em></h2>
+          <p class="sub" data-page-node-id="DT0M8zN1LVIefpKBieewEv">讲一个所有人都认识的商业人物 —— 宗庆后</p></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="taqU5yWN2g02mFQbJ07kn9">
+      <div class="bignum" data-page-node-id="bHZQ6ECuG5VzGkZXhUjHOc">
+        <div class="bn rise" data-page-node-id="kHBO5B8O8CddCCJljqHX8I"><div class="v" data-page-node-id="LsAMKQSI3DT1Pyub05TC5W">782.8<em data-page-node-id="sNRXGg4w4BKpe6Xg8Qkbmy">亿</em></div><div class="k" data-page-node-id="b2dL89ZYhGfZLEtZFXDzOr">2013 年娃哈哈营收<br data-page-node-id="rsJ4kFWp4HVopzie9Ma5sC">宗庆后第三次问鼎中国首富</div></div>
+        <div class="bn rise d1" data-page-node-id="V3GiDskRdGecU9eQgYtXM9"><div class="v" data-page-node-id="PTHMiZIW8c1NVRdbyFINzj">3<em data-page-node-id="YpXa5FqAr6f4qsh52CpJA9">万</em></div><div class="k" data-page-node-id="HnLZkWG3zJLfPEx1Znm2fA">全集团员工<br data-page-node-id="NSgOt3NzQ6xn5i2HGjIjFM">187 家子公司 · 不设副总经理</div></div>
+        <div class="bn rise d2" data-page-node-id="vUHwIIOZe1C9TR0mPP3pbw"><div class="v" data-page-node-id="ss9d62mHcp26B5AeH3wm7A">16<em data-page-node-id="6NK2V5FuSVbvBI0bQuCQGh">h+</em></div><div class="k" data-page-node-id="2AO1pa62oxU2WwVYBsLwze">早 7 点前上班 · 晚 11 点后下班<br data-page-node-id="Nj3e0w1FkGIS5CdeHDkCaL">每天工作 16 小时 · 几十年如一日</div></div>
+        <div class="bn rise d3" data-page-node-id="l4Fxqjyof6vaBcK4tVql5D"><div class="v" data-page-node-id="32iBoqZW6vzBX3wDGQalwC">1<em data-page-node-id="lCrtzIOGHZbmOBT4aC7E4v">支笔</em></div><div class="k" data-page-node-id="6AW6E4L7FG8yH2DMPWiUMW">晚 9 点 · 一杯茶一盒烟一支笔<br data-page-node-id="YSxiOI6ucvfVWulq7rGpek">批到深夜 · 请示不隔夜</div></div>
+      </div>
+      <div class="story rise d4" data-page-node-id="B4SfrpbmsA1yTEcGmFLMJD">
+        <div class="quote" data-page-node-id="fzIQSbRMYeO8R0yiAv0mfJ">晚 9 点,秘书把当天汇报打印出来放到他面前;一杯茶、一盒烟、<em data-page-node-id="PJ9gxaBR1lILMUqn67PKhw">一支笔</em>,批到深夜 11 点甚至凌晨,再由秘书扫描传回系统。女儿宗馥莉被问「<em data-page-node-id="L2DmH1qhuPSy27tyRiv412">娃哈哈减去宗庆后等于什么</em>」——她答:<em data-page-node-id="WqbszRpo1VB2lsZuBBojlU">「等于零」</em>。
+          <span class="src" data-page-node-id="DgGdr5UTyswAReYuUdqVjx">来源:新华社《环球企业家》、第一财经、《 人物》采访口径交叉核实</span>
+        </div>
+      </div>
+      <div class="goldline rise d5" data-page-node-id="vUs6qvRHvqfUlCyuVTVc6W"><em data-page-node-id="5BJvoWpL8utXKGBNJSAcUZ">钩子 ·</em> 连这样一颗大脑都扛不住 3 万人的请示,我们普通老板的大脑——又该拿什么来解放?</div>
+    </div>
+    <div class="cv-ft" data-page-node-id="zBNmzCBVYYCRWBED8nyBo3"><div class="left" data-page-node-id="qrOWAoIpRcRXOHAeWC1DYV"><span class="pg" data-page-node-id="yLASx87iIbRbXYbbfSF2Ev">02</span><span data-page-node-id="8XiqJlCAOEGvCw91CE5ME9">/ 18</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P03 互动:这20年 ============ -->
+<section class="page" data-title="这20年 自动化" data-page-node-id="2YlED4OUepCgrDswK6VN1n">
+  <div class="stage" data-page-node-id="bVDKG60bJEm2Yj5IcahbMf"><div class="card-bg" data-page-node-id="un5xxTnTBs5jlAqB9GY9r6"></div><div class="stage-in" data-page-node-id="srcocPVFjJnhWD8LW5p9IG">
+    <div class="hd" data-page-node-id="eL1Y6hstRwXZNldtDMyBpi">
+      <span class="eyebrow" data-page-node-id="seUo71kUBIsrUAItCBr9id">PART 01 · 开场共鸣</span>
+      <div class="hd-row" data-page-node-id="QUKZprhLrtE8AfYSp1tA5x">
+        <div data-page-node-id="SjBLlPaCyqlcUmbv33FxnU"><h2 class="title" data-page-node-id="Np9ZN6N3uT01NtioK3jZV1">这 20 年,自动化<em data-page-node-id="cFi4YK0XUOGhS5hYpaoBOo">帮我们省下了什么?</em></h2>
+          <p class="sub" data-page-node-id="gKxIXGiH9fD1Eka117Av87">车间越来越空,办公室越来越满</p></div>
+        <div class="hd-badge" data-page-node-id="DEAwegz3tpnZO3rGRIK0zn"><div data-page-node-id="jnI2LayezGEBD1QNuHOiwu"><div class="n" data-page-node-id="WKLKf8BXKpULttkJAhGdKs">20<em style="font-size:14px" data-page-node-id="WYXkxM4OZCahGUHyiE76nr">年</em></div></div><div class="t" data-page-node-id="C7QDibCAqcfTyMh6uqhCEw">一个问题<br>留给现场回答</div></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="D83OE5Klm4lVD8UZlUsr9I">
+      <div class="cmp2" style="margin-bottom:14px" data-page-node-id="EF6DqCcrLFdmh23QsB2ozn">
+        <div class="cmp2-col rise" data-page-node-id="G6Bsh0OzY9gOCc7QSo6nq9">
+          <div class="tag" data-page-node-id="nj1oQadZsK8CHE0eAaOa54">左边 · 已经赢过的</div>
+          <h3 data-page-node-id="SswSJIr7HiFY3MqiFcniAE">智能产线 · 自动化设备 · OA 系统</h3>
+          <p class="lead" data-page-node-id="BVnXbouiWM89tceUK5WpAj">20 年前我们裁掉了一批流水线工人;今天车间越来越空。</p>
+          <ul data-page-node-id="X4eH6Jx8sCsBOhr2DKL1LU">
+            <li data-page-node-id="kPZ9N48awEIZ4G8Lm6xbdj">冲压、焊接、搬运机器人大规模替代重复体力</li>
+            <li data-page-node-id="hFVo4ZJaSpqS4fwKB64W9t">ERP / 财务系统 / OA / 企微陆续上线,跨部门信息流转效率提升</li>
+            <li data-page-node-id="oZ3SGNchGVZ960e2yRB4v0">大模型时代:算法排产、预测维护、自动质检、智能客服陆续上岗</li>
+          </ul>
+        </div>
+        <div class="cmp2-col dark rise d1" data-page-node-id="bqe1bZ6aBdKJNd4DXTWDNx">
+          <div class="tag" data-page-node-id="xzysNAU9GHw0p2NBOQKZpC">右边 · 没赢过的</div>
+          <h3 data-page-node-id="bbdRxl6Kafq10qldHanCII">堆满文件的老板办公室</h3>
+          <p class="lead" data-page-node-id="346FyPYdz0ivXX9dqmdC6Q">报表、审批单、微信群——但办公室越来越满。</p>
+          <ul data-page-node-id="dA22aGhZ3IEQMMCzCV1Fjr">
+            <li data-page-node-id="PO1Gog9jzRxuFvrR00HHIm">订单要审、合同要看、对账要对、报表要查</li>
+            <li data-page-node-id="sl8X8ywIDfzlw0NlMNBo8X">系统 24 小时在转,决策者也是 24 小时在转</li>
+            <li data-page-node-id="H8KX49pwO63CPIxbLpMipO">要决策的事永远排队;汇报的事又常常带错数据</li>
+          </ul>
+        </div>
+      </div>
+      <div class="vote rise d2" data-page-node-id="cHMsUQNUhYhkd0orgfqrst">现场举手 · <em data-page-node-id="k1cjNHEqDz90SIkohhJ0wT">「贵公司自动化之后,办公室里的人是更忙了,还是更闲了?」</em></div>
+    </div>
+    <div class="cv-ft" data-page-node-id="y59kDJYYoOgzoEJqmqpkYX"><div class="left" data-page-node-id="r7WojTMsKs78FDm0wF7z9T"><span class="pg" data-page-node-id="xedNBASJBnCTlzKVv81syY">03</span><span data-page-node-id="jI4uTDMovhbMrYVOhtAOFh">/ 18</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P04 王总 + 三个发现 ============ -->
+<section class="page" data-title="王总 三句话" data-page-node-id="2Y070yggxY8EOuFV4A9PTG">
+  <div class="stage" data-page-node-id="9F1LkCAzKuSMnKXt9EBNdF"><div class="card-bg" data-page-node-id="wIrrqAfkjWOoH74BhrhMy8"></div><div class="stage-in" data-page-node-id="P5dRa5XgT8PdrH1XxWFpIu">
+    <div class="hd" data-page-node-id="ipIcMuERo7SkUX0FzYg7Ie">
+      <span class="eyebrow" data-page-node-id="WgjA5caswFGD3mWFRPDS58">PART 01 · 开场共鸣</span>
+      <div class="hd-row" data-page-node-id="JxztYQzXOAMfREDMDhgMSV">
+        <div data-page-node-id="akW0TlXw8GV4TvWkDBKCQn"><h2 class="title" data-page-node-id="ZyHMm24iZRsoYrUPAfzmVh">机器把手<em data-page-node-id="n7pXLEzXpHxKfnHJPckJgR">解放了,脑子还没</em></h2>
+          <p class="sub" data-page-node-id="trnFxWFfiS0FuHmKT07rcA">制造业老板王总 · 三句大实话 + 三个发现</p></div>
+        <div class="hd-badge" data-page-node-id="FjlAJS3AqEYuptUoZAlu40"><div data-page-node-id="clSO6DzF4FSVLkOjTkQI9L"><div class="n" data-page-node-id="VFAsgzfMtJ1GbUF01XlqKu">3<em data-page-node-id="APWTZURVKb4R5LF4gad5EB">句</em></div></div><div class="t" data-page-node-id="WF0gDnALlvcol2T7Rs90Na">王总的大实话</div></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="WuRnQo6CtJG5IELEkinEXl">
+      <div class="split" data-page-node-id="mBleRkLzFEkbiQBImdsePj">
+        <div class="persona rise" data-page-node-id="s29Bgxsf5BPFKnEndAnRqJ">
+          <span class="role" data-page-node-id="ClE7voICjf9FTHI6ikjqpz">PERSONA · 制造业 · 上海苏南</span>
+          <h3 data-page-node-id="Iy20cUQ0e7AmDmICXFndAg">王总 · 50 岁 · 制造业老板</h3>
+          <p class="pj" data-page-node-id="XM9cPTQIqecNfKWuLrvPqm">1998 年办厂,管<b data-page-node-id="FJRMg6EnhaMljoW28lciFf">生产 · 订单 · 对账 · 报表</b>全链路。一路走过自动化、信息化,如今还是被文件围着转。</p>
+          <div class="pq" data-page-node-id="HihzlBBCDi9419fh2EyxV4">
+            「我 1998 年办厂的时候,一个车间要 <em data-page-node-id="fIYH9r9SWvKil5F7cb1JKa">80 个人</em>;今天同样产能,我只要 <em data-page-node-id="DXWA4oArEciXEUpelnnmqO">18 个人</em>。」<br data-page-node-id="YlHrzE03yd9sCq06dra7sn"><br data-page-node-id="brssVPrnQ3qkXgji8N7UpC">
+            「但是——我自己,<em data-page-node-id="iFDyOUSCSlVjoFsAGtKFaa">每天还是被文件围着转</em>。」<br data-page-node-id="WKWSVrITC0Se921Oqlv39H"><br data-page-node-id="FUnMISJqAcTokn4yF7n8lP">
+            「订单要审、合同要看、对账要对、报表要查……<em data-page-node-id="mF4DMSpVy0K7ACp8huS34L">机器把他们的双手解放了,但我的脑子没有</em>。」
+          </div>
+        </div>
+        <div class="pains" data-page-node-id="UC0w67626YKl6YrFk3MTzg">
+          <div class="pain rise d1" data-page-node-id="I0WnRGqGLnInvU8THsydkh"><div class="pv" data-page-node-id="CqBhgvp9w9HePhy8td8eJu"><div class="n" data-page-node-id="ENTvGn4pwWfXtuhRoMCLyS">①</div><div class="u" data-page-node-id="uxfxW6J3YnSnqqNagsesyF">脑子比机器忙</div></div>
+            <div class="pt" data-page-node-id="D0CNRNFa9ynqT8BwrhIww9">系统 24 小时在转,决策者也是 24 小时在转——<b data-page-node-id="HLakol1QPbnW2YKR7yfI6P">但脑子没被自动化</b>。</div></div>
+          <div class="pain rise d2" data-page-node-id="KjYlUFRmCsysLdYNsr1Qau"><div class="pv" data-page-node-id="C5ICxjroae1aFSx2zxGaAC"><div class="n" data-page-node-id="s4C6OPJ5h0Zl1emvCNtYh8">②</div><div class="u" data-page-node-id="aLTRC3MO29i9VBITcEPQN6">重复消耗判断力</div></div>
+            <div class="pt" data-page-node-id="tzu34Dmb30XxmNfecJpWy6">审单、对账、答疑——把最有经验的脑力浪费在<b data-page-node-id="prWgyOBCpU0CTO8dsTFZ6g">「低水平重复」</b>上。</div></div>
+          <div class="pain rise d3" data-page-node-id="gESynteUojCasU3XOpIJId"><div class="pv" data-page-node-id="RZTkkjzNJdxFIWIZZV5sQH"><div class="n" data-page-node-id="9b0WVTUXPjO3l3l3VhGWip">③</div><div class="u" data-page-node-id="ZowYXY5PLABQDwLwoDROUS">决策永远排队</div></div>
+            <div class="pt" data-page-node-id="xwNzCaYTueL6poQBFGJJTF">重要的事等汇报;汇报的事又常常<b data-page-node-id="xjwYV6Zi9Z4uv6Ed7easBk">带错数据</b>。</div></div>
+          <div class="pain rise d4" style="background:rgba(201,160,99,.10);border-color:var(--gold)" data-page-node-id="xsqVLPVs4hHQRcQSsvenOK"><div class="pv" data-page-node-id="rdOiz0IOXazNoWGAiR5W9k"><div class="n" data-page-node-id="7qY7zYtRT1kkAPRg97GU6g">数据</div><div class="u" data-page-node-id="ET48YNwjtDG4lSMXvZMKMS">压阵 · 示意</div></div>
+            <div class="pt" data-page-node-id="yIVVhHZpKizQG9u57FUKNi">制造业老板平均每天 <em data-page-node-id="haIowy17vkFqAKnfaFQ7QP">2 小时</em> 耗在审单 / 报表 / 邮件上;服务业老板平均 <em data-page-node-id="RaqKq8h0gHw6OQ7x2KiUFN">3 小时</em> 耗在跨部门对齐 / 找数 / 纪要上。<b data-page-node-id="j6VZrMjSJqErNutGp6M4na">真实背书见下一页(麦肯锡 / 微软)</b>。</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="cv-ft" data-page-node-id="UBljfLHxK51zmgKjqKpnTC"><div class="left" data-page-node-id="q6qreaRuqUj0kLxlguEWm1"><span class="pg" data-page-node-id="U3AXJZavttWf6Mc6uCZUar">04</span><span data-page-node-id="Od6PyHZ5mQiFvpWdabSCOh">/ 18</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P05 20年成就时间轴 ============ -->
+<section class="page" data-title="20年成就时间轴" data-page-node-id="vFGCspovv3U9eIQKhsQFgS">
+  <div class="stage light" data-page-node-id="34MpiEblvOd0m1HaAerSSJ"><div class="card-bg" data-page-node-id="01FQGrxcRAgAM7BBXkCGtI"></div><div class="stage-in" data-page-node-id="jHexFf4Og8eA7CeOI9fraA">
+    <div class="hd" data-page-node-id="MDTllGP1R78wYQi8OtwDtO">
+      <span class="eyebrow" data-page-node-id="a0SLhQoadb4Zi0wrlfyLBZ">PART 01 · 自动化这 20 年</span>
+      <div class="hd-row" data-page-node-id="ybXX19c3idO0wExn0eILGu">
+        <div data-page-node-id="NTL0cfuAqKa2CjFpxkBABK"><h2 class="title" data-page-node-id="f14QgXsAaEsHcJ1d3JoSYJ">你们用机器和系统,<em data-page-node-id="jEFa2rJMj0H6WDM7Ou5ZVZ">解放了双手</em></h2>
+          <p class="sub" data-page-node-id="GkhLfWAkHsKxv0ZAmhE45S">2006 → 2026 · 富士康 + 三一两组国民级数字 · 第四节点就是此刻</p></div>
+        <div class="hd-badge" style="border-color:rgba(18,54,92,.25);background:rgba(18,54,92,.04)" data-page-node-id="xvwiEYbMryBCcHD1frSxMw"><div data-page-node-id="DUl1quBtuPazSNyjpzBcC3"><div class="n" data-page-node-id="zCRlmI2QGbcgpcTrkKjx8J">4<em style="font-size:14px" data-page-node-id="GFZhwz8rTgz6CZZAlHDpmn">段</em></div></div><div class="t" style="color:#5A6B7C" data-page-node-id="uBZErQdCtCBhW9tT15WzDb">从机器设备<br data-page-node-id="6llMz7zl9qlcH3HEyZhjnk">到数字分身</div></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="PyHBJGkbB66N98NHm7aaTg">
+      <div class="tl" data-page-node-id="DtvcMDv8ruxwOsqnRaXtge">
+        <div class="tl-item rise" data-page-node-id="anirv1FA08MK2pD4BPLCuk">
+          <div class="tn" data-page-node-id="zZMHYOgHpPypxEWHaYxliF">STAGE 01 · 2006-2015</div>
+          <div class="th" data-page-node-id="23N2l3vDCA7gBL8wqiY7Jg">机器设备普及</div>
+          <ul data-page-node-id="t8RDE3Q1dVokAkkvTsPAwG">
+            <li data-page-node-id="9UCzbWDOZbdIo4sV37UHcf">冲压 / 焊接 / 搬运机器人进车间</li>
+            <li data-page-node-id="UszOYL3d5lENyNBQnuKDxR">Excel / 邮件替代纸质台账</li>
+          </ul>
+          <div class="ok" data-page-node-id="qwV6btfr9p5IiKPpkjC8sB"><em data-page-node-id="IWG5hi3DxnIUDEyJtbLAtl">收官</em> · 富士康昆山:员工 <b data-page-node-id="yv0OChkxBABhx6wvDo41iF">11 万 → 5 万</b>(-54%),投入 3 亿、2000+ 台机械臂,营业额不降反升</div>
+        </div>
+        <div class="tl-item rise d1" data-page-node-id="6Qak1MInhZoqnJTVUaSFJH">
+          <div class="tn" data-page-node-id="iRqswcKyO1gz63ueygJ8v2">STAGE 02 · 2016-2021</div>
+          <div class="th" data-page-node-id="ES9Xj9xZXRzewcHhaGA4Fd">信息化打通</div>
+          <ul data-page-node-id="cN318DnpMqOU5oBoTqhRre">
+            <li data-page-node-id="UVk2RGiYtGJG0AK7sfmt3j">ERP / 财务 / OA / 企微陆续上线</li>
+            <li data-page-node-id="xj9nO0yBEseKCTyHLiAmlB">报销、审批、合同从线下跑到线上</li>
+          </ul>
+          <div class="ok" data-page-node-id="AWghTB23dMJKGDBJ33UWPU">跨部门流转效率提升 · 重复沟通减少</div>
+        </div>
+        <div class="tl-item rise d2" data-page-node-id="b3dOhqDSSd0Ru1DxonfnAE">
+          <div class="tn" data-page-node-id="RCmHAzBLTTKP4aCDvinME5">STAGE 03 · 2022-2025</div>
+          <div class="th" data-page-node-id="bCv1ZrKzMD2YpQkZd4KOUQ">智能协同</div>
+          <ul data-page-node-id="cBZfTfKpmHcf1VmzgMONMN">
+            <li data-page-node-id="HjLOLDls7iH7zAO52yQ7ER">2022 ChatGPT 发布,大模型时代开启</li>
+            <li data-page-node-id="y9bVusEFJUtlCGCFoTab0Y">算法排产 / 预测维护 / 智能客服上岗</li>
+          </ul>
+          <div class="ok" data-page-node-id="1iq8jMaKlEPTd4PAadq9lf"><em data-page-node-id="A45sHv7EALi1xJNbhDZVMY">点题</em> · 三一灯塔工厂:<b data-page-node-id="iV2kuwvnDVJjMgXzNIFyaI">2000 人年产 500 台 → 500 人年产 3000 台</b>,人均产值 1072.8 万</div>
+        </div>
+        <div class="tl-item rise d3" style="background:rgba(201,160,99,.12);border-color:var(--gold);border-left-color:var(--gold)" data-page-node-id="KNmSHOMMABWc2xI0HkWo8N">
+          <div class="tn" data-page-node-id="aYii0RGz809B39kuWv6p1B">STAGE 04 · 2026 · 现在</div>
+          <div class="th" style="color:var(--gold)" data-page-node-id="ay46cFwJrNQmpMn10LKOax">数字分身元年</div>
+          <ul data-page-node-id="yMBZzJWsXL94kh1B8ggprZ">
+            <li data-page-node-id="S1sY5GcBGf6t2x2BZpSjqa">过去 20 年解放了「手」和「系统」</li>
+            <li data-page-node-id="BIUNATjWLkzsvh4f2DkXFa">现在要解放「每个岗位上的大脑」</li>
+          </ul>
+          <div class="ok" style="background:rgba(201,160,99,.18);color:var(--deep)" data-page-node-id="l789upvJhMuN8ntZfmDj5n"><em data-page-node-id="Kum5bfOtgIGMSAeB6hmfWu">金句</em> · 解放了员工的双手,该用 AI 分身解放他们的大脑了</div>
+        </div>
+      </div>
+    </div>
+    <div class="cv-ft" data-page-node-id="GHa93LSqETU4BDojqKo7CD"><div class="left" data-page-node-id="DIfzCeyqCxd11EtKkYsRpF"><span class="pg" data-page-node-id="PpbiuyKCkvjRWFwevSxbh1">05</span><span data-page-node-id="YjpXCAyjLfVJ5pSCItvtNB">/ 18</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P06 下一个瓶颈 ============ -->
+<section class="page" data-title="下一个瓶颈" data-page-node-id="BfJYfGUtaFSGCpzy9xQqBC">
+  <div class="stage light" data-page-node-id="9B9RftsDsXranton7VYCPY"><div class="card-bg" data-page-node-id="7pLWdNCGtuDCLGnx4BvvCQ"></div><div class="stage-in" data-page-node-id="JIn2XqWiRjEVpAkZKfdLGd">
+    <div class="hd" data-page-node-id="NTWWCTDTCtKH8MuSSWAetA">
+      <span class="eyebrow" data-page-node-id="ROj0tamfRr5a5lFfPm7KMg">PART 02 · 认知升级</span>
+      <div class="hd-row" data-page-node-id="GWyhp7ZPCNd4dJhPDzAfOX">
+        <div data-page-node-id="6L6SjnvubQCjXFtt92qbWf"><h2 class="title" data-page-node-id="egf1LgL0O78Ev8q1bY1hDN">下一个瓶颈:<em data-page-node-id="PCRJWhbJ3Wgg99rE9LTTsb">脑子没被自动化</em></h2>
+          <p class="sub" data-page-node-id="rxPF21omy9yuMhHsQgqd7E">麦肯锡 + 微软数据压阵 · 机器 24h 在转,脑子也是 24h 在转</p></div>
+        <div class="hd-badge" style="border-color:rgba(18,54,92,.25);background:rgba(18,54,92,.04)" data-page-node-id="QbGbusMcjVPxYkxJFGv6BH"><div data-page-node-id="yjogm2JSocY3vjHlGxOlQQ"><div class="n" data-page-node-id="bC8oySqGDnQmFdvvjqkFQD">28%<em style="font-size:14px" data-page-node-id="q3G3SzECbdw7DGItpB2vAx">+57%</em></div></div><div class="t" style="color:#5A6B7C" data-page-node-id="N1kYfqdtH8eE3r6mrs5ZOA">两组权威数据<br data-page-node-id="LqD9szsm4LVYWLDCyNzY2s">麦肯锡 / 微软</div></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="rryvPost89cbCb9driom4r">
+      <div class="cmp2" style="margin-bottom:14px" data-page-node-id="rCqrkGwiOc1cpCfv4HODUp">
+        <div class="cmp2-col rise" data-page-node-id="PtCghTSOy0wqFRvYknxBtY">
+          <div class="tag" data-page-node-id="QrwqCEueTtkmJPQbJMEuVW">麦肯锡 · The Social Economy</div>
+          <h3 data-page-node-id="azC0QwthhPeiSawggV1UTn">28% 时间耗在邮件</h3>
+          <p class="lead" data-page-node-id="yoB33VKChBNf7jUmHLchst">知识型员工每周 50 小时,其中 <em style="color:var(--gold);font-style:normal;font-weight:700" data-page-node-id="OHQrHOBT8EtelECksujiCL">14 小时</em> 泡在收件箱里。</p>
+          <ul data-page-node-id="i0DNm24O7i1SR8ZxSeHdSS">
+            <li data-page-node-id="VITA4KxDMrxcbyR9TfPPAf">报告口径:麦肯锡全球研究院</li>
+            <li data-page-node-id="oRsbbZqLlZyywsgb5uhl4L">关键人群:知识型员工 / 管理者</li>
+            <li data-page-node-id="9zSsLVtWrAgQVSbW8BbzXT">耗时构成:阅读 + 回复 + 抄送 + 跟进</li>
+          </ul>
+        </div>
+        <div class="cmp2-col rise d1" data-page-node-id="ijWKHcnLNQheACyOXpu5ZM">
+          <div class="tag" data-page-node-id="jVzuAeZqxeFVv2GWfgfAuZ">微软 · Work Trend Index 2025</div>
+          <h3 data-page-node-id="46hL75C0LftnjjCotlDPox">57% 工时花在沟通</h3>
+          <p class="lead" data-page-node-id="0o6YEaQap58b9tRfJ0kT9r">基于数百万 M365 用户实测 · 邮件 / 会议 / 群消息,只剩 <em style="color:var(--gold);font-style:normal;font-weight:700" data-page-node-id="QM3Bjwr4CfkYU76LOWtPMG">43%</em> 留给创造。</p>
+          <ul data-page-node-id="ffMoujI4CaEfFQlHeypT41">
+            <li data-page-node-id="ELNXzVsnmhS5SKCvRiGYgF">报告口径:微软 2025《Work Trend Index》</li>
+            <li data-page-node-id="Ez2QnTmIVQnRWKaY1vRn1n">沟通构成:邮件 + 会议 + 即时消息</li>
+            <li data-page-node-id="sYrVzRn2z2kbinftXD6S02">真正瓶颈:不是车间不够快,而是「思考」没自动化</li>
+          </ul>
+        </div>
+      </div>
+      <div class="goldline rise d2" style="background:rgba(201,160,99,.12)" data-page-node-id="rffuIXHezCiRwMXEd3xCuV"><em data-page-node-id="dVc8Z1Jo4FY7Ap9FTiBREp">金句 ·</em> 机器 24 小时在转,你们的脑子也在 24 小时在转——但脑子没有「自动化」。</div>
+    </div>
+    <div class="cv-ft" data-page-node-id="SDl2GFWWySHP9CdkbOOWVK"><div class="left" data-page-node-id="hbSbQKwCGe8dZ8tFhpvhQQ"><span class="pg" data-page-node-id="dcm9yR7Vx2jsW2HsFpWOeH">06</span><span data-page-node-id="IwrSHAaxFyP81UQBMinYup">/ 18</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P07 三个误解 ============ -->
+<section class="page" data-title="三个误解" data-page-node-id="kqP4TsAZtAN2sEhFllm2z8">
+  <div class="stage light" data-page-node-id="0z1msOdELy0LQLuuatOEP9"><div class="card-bg" data-page-node-id="6TAmjwKTG7PbJ6s3RbNvMD"></div><div class="stage-in" data-page-node-id="Aaeu5JWBzkzvhMAy3j7o6W">
+    <div class="hd" data-page-node-id="kgHGqjPekLdao30WlFA9Pq">
+      <span class="eyebrow" data-page-node-id="UMra976yjG4uuNEotdyvmZ">PART 02 · 认知升级</span>
+      <div class="hd-row" data-page-node-id="JO5YhKj6A4333pQVRnykrc">
+        <div data-page-node-id="1OEb0VtAFYZ5eDkcQOptzv"><h2 class="title" data-page-node-id="pfMdN2CgC6ZYkm4kZEWS09">多数人对 AI 的<em data-page-node-id="atnVvpT7YssjXGZLVLASkg">三个误解</em></h2>
+          <p class="sub" data-page-node-id="2asHP4PPPPNbMMdi4CKAH8">误解 × 实情 · 一对一破除 · 让台下老板点头</p></div>
+        <div class="hd-badge" style="border-color:rgba(18,54,92,.25);background:rgba(18,54,92,.04)" data-page-node-id="2VH2lnDnV9I4lDapFoKXh1"><div data-page-node-id="vvqAeGPR6SdsLsna1B82GC"><div class="n" data-page-node-id="5G8bxDRNDuccgFgQgBX0cu">3<em data-page-node-id="1ylWKOXv7JlSpJPiREm2GM">条</em></div></div><div class="t" style="color:#5A6B7C" data-page-node-id="zWtQP0N6FqrtjGNI8HNUGt">× 错 → √ 实情<br data-page-node-id="smQFdCTtzj44ZcTZyqYMwa">跨行业通用</div></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="xlwYgrPOoQfoxT0e4G497u">
+      <div class="case-grid" data-page-node-id="8hJpDBILf1qf2zMyuZPsCR">
+        <div class="case-card rise" style="border-color:var(--up);background:rgba(192,57,43,.04)" data-page-node-id="FGb8WQl6jA1nqlnSq3xiZC">
+          <span class="tag" style="background:rgba(192,57,43,.15);color:var(--up);border-color:var(--up)" data-page-node-id="23RqGhbBaNPctycipZE8ND">× 误解 01</span>
+          <div class="h" data-page-node-id="HSjE6IM9mcu7URHyw7kV2W">AI 很贵</div>
+          <div class="p" data-page-node-id="GQ6kfmvr0pU5Om1zjBHuMI">大模型烧钱,只有头部企业才玩得起。</div>
+          <div class="fx" data-page-node-id="RkzmHkSjXszKRwT2zADWv2"><span style="background:rgba(30,132,73,.15);color:var(--down);border-color:var(--down)" data-page-node-id="C6SYyWaIk1ZIxAOWx0S4hh">√ 实情</span><span style="background:rgba(30,132,73,.1);color:var(--down)" data-page-node-id="oD7rxqIfXc7DRML724pYv2">SaaS 化,人均订阅远低于月薪</span></div>
+          <div class="fx" data-page-node-id="0OO8GirPC5vlsWfdlPUwaV"><span data-page-node-id="f8PvKMO9OsDnwsBIdHLT03">实际成本:约 1 名员工月薪的 5-10%</span></div>
+        </div>
+        <div class="case-card rise d1" style="border-color:var(--up);background:rgba(192,57,43,.04)" data-page-node-id="5Rc6A9vuBtfff95mPTavCy">
+          <span class="tag" style="background:rgba(192,57,43,.15);color:var(--up);border-color:var(--up)" data-page-node-id="DE7IiyHUCHyr0CPIRxmr2b">× 误解 02</span>
+          <div class="h" data-page-node-id="kKx8tiQZVzmMr0IMQxWwt7">大厂专属</div>
+          <div class="p" data-page-node-id="2J191pCQFMk4IxTmRzxzzl">AI 是互联网/科技行业的事,跟我没关系。</div>
+          <div class="fx" data-page-node-id="lyWg7jMiF257XFGZAGZSLI"><span style="background:rgba(30,132,73,.15);color:var(--down);border-color:var(--down)" data-page-node-id="JfHFELFUsn63NTmNUtUKZQ">√ 实情</span><span style="background:rgba(30,132,73,.1);color:var(--down)" data-page-node-id="J7AsYqjDjBzoP64CyaCR0v">越是劳动密集 + 事务密集越受益</span></div>
+          <div class="fx" data-page-node-id="nN1meGanKPcovDSkkA6SJI"><span data-page-node-id="V2q32ZkmREY1dHow886CU0">商会同行已落地:罗莱 / 恒辉 / 天海 / 瑞慈 / 国泰海通</span></div>
+        </div>
+        <div class="case-card rise d2" style="border-color:var(--up);background:rgba(192,57,43,.04)" data-page-node-id="MSaZbOcJLjzKKziIM90AGE">
+          <span class="tag" style="background:rgba(192,57,43,.15);color:var(--up);border-color:var(--up)" data-page-node-id="ph5KRQmu2TGu61wQAG6bIb">× 误解 03</span>
+          <div class="h" data-page-node-id="AHdDA57B3D0vL2rBl46Wfe">取代员工</div>
+          <div class="p" data-page-node-id="7fKkxo6LoZogYD1mc2DQKL">用了 AI 就要裁员,员工会抵触。</div>
+          <div class="fx" data-page-node-id="BBksvmtjz2ChVhSSP2taRe"><span style="background:rgba(30,132,73,.15);color:var(--down);border-color:var(--down)" data-page-node-id="nMJ9WBqkzBCCXgW2bfybKY">√ 实情</span><span style="background:rgba(30,132,73,.1);color:var(--down)" data-page-node-id="1eN2HMg6omCn1jAJ2wIR8A">取代的是「任务」不是「人」</span></div>
+          <div class="fx" data-page-node-id="GHATBsxGPL0a44SOSHas38"><span data-page-node-id="vF7YxIEKmFAMXwdOjRAlQx">自动化同理:机器代替了产线工人,也创造了运维岗位</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="cv-ft" data-page-node-id="0tOYGai5TJ50XvkIkVr5Mq"><div class="left" data-page-node-id="AuaGYLthZJgmIlQBShBmap"><span class="pg" data-page-node-id="F7x7U2wHg8d1GGa2ef7fNC">07</span><span data-page-node-id="pENbNXZTZIAe0MmOWklxiY">/ 18</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P08 自动化 vs 智能化 ============ -->
+<section class="page" data-title="自动化 vs 智能化" data-page-node-id="2TrVTHCAsRvAIgC7bAdDmU">
+  <div class="stage light" data-page-node-id="ZUjlZlAJ10EIOH76Wc9OV7"><div class="card-bg" data-page-node-id="ZnpgE27VtOHatIocQ43XkB"></div><div class="stage-in" data-page-node-id="LbzD3B79Rjagzv2iav56ZD">
+    <div class="hd" data-page-node-id="AmEPTxKkFFIVzc4zWJATjk">
+      <span class="eyebrow" data-page-node-id="YS552UrWHhguG10VUTvHN7">PART 02 · 认知升级</span>
+      <div class="hd-row" data-page-node-id="1TlYhZqH4mHoe3HEL4jFv4">
+        <div data-page-node-id="009G0KKU8sDTH7wqFVsNnV"><h2 class="title" data-page-node-id="Q9QnGUkV4TdIToFffODQzA">自动化 vs 智能化 · <em data-page-node-id="MOHEQ9DdX0FyVYQJZvcgt8">一张图讲清楚</em></h2>
+          <p class="sub" data-page-node-id="HTviIcEqU2R5bfi4yh7bHA">2006 买机床 vs 2026 用 AI · 跨行业通用</p></div>
+        <div class="hd-badge" style="border-color:rgba(18,54,92,.25);background:rgba(18,54,92,.04)" data-page-node-id="DCAwRnHDZ84zbMbzo1SZX7"><div data-page-node-id="rzXSbC9K0Hh2y3fAlSPacF"><div class="n" data-page-node-id="yCXn8fRGtoJW2EPkLppp8L">1<em data-page-node-id="9EG2hQ81nZZCzlST9gpGBe">张图</em></div></div><div class="t" style="color:#5A6B7C" data-page-node-id="pZ8pbH4BRgLbDaENfvFe55">自动化 vs 智能化</div></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="Ey72kcEEKuvTIGwyFHfzHd">
+      <div class="cmp2" style="margin-bottom:14px" data-page-node-id="L44qp5iIPj62d3YBRK9OHP">
+        <div class="cmp2-col rise" data-page-node-id="YYgzz0veMMjkwQGGtsGAgR">
+          <div class="tag" data-page-node-id="RcDIjwHfggp59DbJHfbpZS">自动化 · 体力替代</div>
+          <h3 data-page-node-id="uvo9bovkJREN2FoMfBouQZ">2006 年:买一台进口机床要转型吗?</h3>
+          <p class="lead" data-page-node-id="QdGTCkZ5ntuVgNinoqsbwK">冲压 / 焊接 / 搬运 / 装配 · 重复动作被机器替代。</p>
+          <ul data-page-node-id="CbqAAiWU5F0XTmqqK3LZZt">
+            <li data-page-node-id="liKOBXF61xYDkfGPFUGkAA">判断标准:逻辑重复的动作 → 机器替</li>
+            <li data-page-node-id="WhZ0DN0WW1u0oqX0WNH7GH">代表场景:制造业产线 / 仓储分拣 / 自动装配</li>
+            <li data-page-node-id="Zh2mr7G5P5EMiNYdSvLiuC">现实成果:富士康昆山员工 -54%,三一产值翻倍</li>
+          </ul>
+        </div>
+        <div class="cmp2-col dark rise d1" data-page-node-id="QcasUm2uVcJSoW8ysdnPC2">
+          <div class="tag" data-page-node-id="O8ocPfcBPFqOpowBlcjM8E">智能化 · 脑力替代</div>
+          <h3 data-page-node-id="bbZ5jlOejNigZS858E4nre">2026 年:企业要用 AI 吗?</h3>
+          <p class="lead" data-page-node-id="nt3PwlQgB5MYvaPLEnZMyU">读文件 / 写报告 / 做表格 / 查资料 / 跑流程 · 重复脑力被 AI 替。</p>
+          <ul data-page-node-id="cILav4gAR97uJqiYhLc6bA">
+            <li data-page-node-id="CkQ4UoGgkZbuldd1cIJHNg">判断标准:逻辑重复的思考 → AI 替</li>
+            <li data-page-node-id="d9aMqCGVA30dfqWO3fQQrP">代表场景:金融分析师 / 律师助理 / 财务对账 / 销售跟单</li>
+            <li data-page-node-id="Uplk1KJCTYsOlHm8JUdWUq">现在成果:销售跟单 2 天 → 2 小时,跨部门对齐 3 小时 → 30 分钟</li>
+          </ul>
+        </div>
+      </div>
+      <div class="goldline rise d2" style="background:rgba(201,160,99,.12)" data-page-node-id="lJT48KtqoSQBaY6C7XfJLi"><em data-page-node-id="VmmQHsPCjAGzZhlviRVHFO">金句 ·</em> 你们不需要会造机床 / 写 ERP,只需要会用具——<em data-page-node-id="HPngZAJtpz7PHbBSbORO3W">AI 一样</em>。两者的判断标准完全一样:<em data-page-node-id="z8q5zxEs30ATFK8CcD0WCC">逻辑重复的工作都能被替代</em>。</div>
+    </div>
+    <div class="cv-ft" data-page-node-id="VSVbTVrmsk5E81MGOxWjw7"><div class="left" data-page-node-id="B2socHACq6GeJ1RlEzoNmA"><span class="pg" data-page-node-id="bk9J0QRa9OA005AlLWNZva">08</span><span data-page-node-id="Up879Hps13ugh9LeEI9YLA">/ 18</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P09 WorkBuddy 是什么 ============ -->
+<section class="page" data-title="WorkBuddy 是什么" data-page-node-id="yxZbQzAir8xdaIkBWfrXAA">
+  <div class="stage light" data-page-node-id="s6wxy0CEdG4imXBhsGBdd8"><div class="card-bg" data-page-node-id="BvwVX942W9ovDHt2FR4XNc"></div><div class="stage-in" data-page-node-id="gr3Pg4bjtTcO1tzd8PZ5BG">
+    <div class="hd" data-page-node-id="O1igAFh0fpUp3ilNb7k8RE">
+      <span class="eyebrow" data-page-node-id="09jra7fkKZjowmgFNqgVxC">PART 02 · 认知升级</span>
+      <div class="hd-row" data-page-node-id="I2RayJ6Kf1r4X96gFptR73">
+        <div data-page-node-id="x8HLpU7wV9lCmlTQ8TCyrW"><h2 class="title" data-page-node-id="2m79JEJEKVW3EbHM5og7Rz">WorkBuddy · <em data-page-node-id="PzKEMNwk0wJETrMrOZHHer">给每个岗位一个数字分身</em></h2>
+          <p class="sub" data-page-node-id="G8jU26ZzIQ1fQNTjHF6qp8">会读文件 / 写报告 / 做表格 / 查资料 / 跑流程 · 给每个岗位配一个数字助理</p></div>
+        <div class="hd-badge" style="border-color:rgba(18,54,92,.25);background:rgba(18,54,92,.04)" data-page-node-id="eT4Ip1ytGxkxbqg6ywJGGO"><div data-page-node-id="guGBDeGsbrbb4Tc7qPzM8d"><div class="n" data-page-node-id="oScErSB2kRd0VaJVyw626h">1<em data-page-node-id="bh7pEKTDZ6LriENLIltRv5">句话</em></div></div><div class="t" style="color:#5A6B7C" data-page-node-id="FGZBvF2lrPUYZT9qJlh5im">数字分身 · WorkBuddy</div></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="B192dVw4cp4nwLTWo6DY5E">
+      <div style="flex:1;display:flex;flex-direction:column;gap:18px;justify-content:center;align-items:stretch" data-page-node-id="EHiC5MgUrNa8XVhdYBUwVR">
+        <div class="rise" style="padding:28px 32px;background:linear-gradient(135deg,rgba(18,54,92,.06),rgba(201,160,99,.08));
+          border:1px solid var(--gold);border-radius:18px;text-align:center;box-shadow:var(--shadow-m)" data-page-node-id="3sSkNt9jL3KnkJUrKmYohE">
+          <div style="font-size:12px;color:var(--gold);letter-spacing:.22em;margin-bottom:8px;font-weight:700" data-page-node-id="4jLOFO3RGYbkCgxGSw1vDe">WORKBUDDY · 一句话定义</div>
+          <div style="font-size:30px;color:var(--ink);font-weight:800;line-height:1.35;letter-spacing:.04em" data-page-node-id="oQS5QxmdoGDuntd3ColYDN">
+            给每个岗位配一个<em style="color:var(--gold);font-style:normal" data-page-node-id="FRRPllhg7zI5IJesNaYfdx">不知疲倦的数字助理</em>
+          </div>
+          <div style="margin-top:14px;font-size:14px;color:var(--ink2);line-height:1.7" data-page-node-id="o522JNcEHX9kMYMra2g2Qe">会读文件 / 写报告 / 做表格 / 查资料 / 跑流程 · 成本<em style="color:var(--gold);font-style:normal;font-weight:700" data-page-node-id="1m6OphuK0obKSGEiSX2jl5">不到一个实习生的零头</em></div>
+        </div>
+        <div class="case-grid rise d1" style="grid-template-columns:repeat(3,1fr)" data-page-node-id="sTkWZTUcC48cOayUYSEaoy">
+          <div class="case-card" style="background:rgba(18,54,92,.06);border-color:rgba(18,54,92,.25)" data-page-node-id="bFo5R2yY19xXYCm6ghGRig">
+            <span class="tag" style="background:rgba(18,54,92,.1);color:var(--navy);border-color:var(--navy)" data-page-node-id="qYq4Y8Ci5Ig25lf4358Jnr">否定 ①</span>
+            <div class="h" style="color:var(--ink)" data-page-node-id="rDyQ7Vn3buQsG55eP5Kw2F">不需要 IT 部门</div>
+            <div class="p" style="color:var(--ink2)" data-page-node-id="uIYpzq7vFrhSXV9QKNQZ1F">不是软件采购 · 是数字分身订阅</div>
+          </div>
+          <div class="case-card" style="background:rgba(18,54,92,.06);border-color:rgba(18,54,92,.25)" data-page-node-id="Bx3ljla5Wue6i3eFpmct7a">
+            <span class="tag" style="background:rgba(18,54,92,.1);color:var(--navy);border-color:var(--navy)" data-page-node-id="nwq5tBgl3B8LfRfTYA3V1v">否定 ②</span>
+            <div class="h" style="color:var(--ink)" data-page-node-id="lwxdanwJWfc38M2jBlVfa6">不需要写代码</div>
+            <div class="p" style="color:var(--ink2)" data-page-node-id="aC4oyJN2DgJCx78FxS1QbN">业务部门用自然语言就能调起</div>
+          </div>
+          <div class="case-card" style="background:rgba(18,54,92,.06);border-color:rgba(18,54,92,.25)" data-page-node-id="1Erd4HICHgoxYaJZQl29Zj">
+            <span class="tag" style="background:rgba(18,54,92,.1);color:var(--navy);border-color:var(--navy)" data-page-node-id="n6za6G84uOQkCEqsh68wpe">否定 ③</span>
+            <div class="h" style="color:var(--ink)" data-page-node-id="BHus9pCSHl4ZGdDms6UGDi">不需要买服务器</div>
+            <div class="p" style="color:var(--ink2)" data-page-node-id="ECksinTZsb7XMS53yV85Rj">SaaS 化交付 · 开箱即用</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cv-ft" data-page-node-id="nr4K1AJ1u75qKJRntvMsag"><div class="left" data-page-node-id="sxq8UXNkBe0inL1bD6gm1d"><span class="pg" data-page-node-id="7teNEjvBBqDhbkvfNQlNDv">09</span><span data-page-node-id="JcpMlpy4TDaBGjxPVjZHoo">/ 18</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P10 场景地图 ============ -->
+<section class="page" data-title="场景地图" data-page-node-id="Eq2PQIMUxre9TZEkOv6N6q">
+  <div class="stage light" data-page-node-id="cWs4HDWf0BVGJDAkExfmNT"><div class="card-bg" data-page-node-id="uj3Bkh3qJHBnqLT91bHqba"></div><div class="stage-in" data-page-node-id="RTgU5Ect9hjUkULDgrIbGo">
+    <div class="hd" data-page-node-id="B6IJiTcekRHDz493gTHoLg">
+      <span class="eyebrow" data-page-node-id="XzcVpXvLX1odoig5TbXm7w">PART 03 · 场景落地</span>
+      <div class="hd-row" data-page-node-id="VKijiJwxrJCxPeX90AXKH6">
+        <div data-page-node-id="zhy8q9GlLTGUWVxTxKaFyz"><h2 class="title" data-page-node-id="aABAH7sgJXAueSlXs9sAY1">6 个岗位分身 × <em data-page-node-id="53jObr7DHzhqjLj2VNABND">11 个行业</em></h2>
+          <p class="sub" data-page-node-id="YHHkG4gIRi123i2gD8A2bN">每个企业的每个岗位,都能配一个数字分身 — 无论坐哪个行业,都能找到自己的格子</p></div>
+        <div class="hd-badge" style="border-color:rgba(18,54,92,.25);background:rgba(18,54,92,.04)" data-page-node-id="q5KYXEJGmx9AaWJ13NgWts"><div data-page-node-id="tZRmTbsni24r7uWAKW2nlh"><div class="n" data-page-node-id="DemMunjVFsc8JbXtL72Oia">6×11</div></div><div class="t" style="color:#5A6B7C" data-page-node-id="mZIj4N2mTVDxAuJx8vHmKE">岗位 × 行业<br data-page-node-id="TWAFtvMVfTWvW3VgAmvJYE">全覆盖矩阵</div></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="6wYHsPqQDCsCucEzzSttPi">
+      <div style="font-size:12px;color:var(--gold);letter-spacing:.16em;margin-bottom:10px;font-weight:700" data-page-node-id="TybPta7L7A6tq3rR2ZnYIR">CORE · 6 个岗位数字分身</div>
+      <div class="matrix" style="margin-bottom:8px" data-page-node-id="BaXOjjn6aal9y8SoG5DzfS">
+        <div class="cell rise" style="background:linear-gradient(135deg,rgba(201,160,99,.15),rgba(201,160,99,.05));border-color:var(--gold)" data-page-node-id="1rvVeWO8iHd6fmQNEguauE"><div class="ic" style="color:var(--gold)" data-page-node-id="hjTuKTa7cgEMilueh0GPz8">◎</div><div class="h" data-page-node-id="Yfk22AF6xJXUE4X3cDoxCw">老板分身</div><div class="p" data-page-node-id="lZv6p5VMO6AiqkQsw0jAKa">出门简报 · 随时问答</div></div>
+        <div class="cell rise d1" data-page-node-id="9d6gMoasVGw71XHtDQ8sRa"><div class="ic" style="color:var(--gold)" data-page-node-id="FpMXTAyGhLx2F9fTTFDhqS">◆</div><div class="h" data-page-node-id="Aa8VmlPAjNeSg6VHNrSX3U">销售分身</div><div class="p" data-page-node-id="k0Qab9EyM3DekoOROddNCM">询价 → 报价 → 跟单 → 收款</div></div>
+        <div class="cell rise d2" style="background:rgba(201,160,99,.10);border-color:var(--gold)" data-page-node-id="STWmUUHOSfly8oDeTcAybM"><div class="ic" style="color:var(--gold)" data-page-node-id="B47FusVI0dRgImD1txc83r">★</div><div class="h" data-page-node-id="nCwXAI4jKTTOvYYKoSFfT5">财务分身</div><div class="p" data-page-node-id="I9vBqGTZiH3ZlmLBwi97ZF">智能问数 · 自动对账 · 一键报表</div></div>
+        <div class="cell rise d3" data-page-node-id="ONE5ZXnQc96cY6SFlb12mb"><div class="ic" style="color:var(--gold)" data-page-node-id="gLovOAmGZ7mu5ZZIDbxAXM">◇</div><div class="h" data-page-node-id="FVY8FVKZzf96oM2U4BHRi9">人力分身</div><div class="p" data-page-node-id="EgKZRufNW1XSG6ZGRBQS0s">简历筛选 · 员工问答 · 入转离</div></div>
+        <div class="cell rise d4" data-page-node-id="OAGu9wmD5gSNWgPBRxAqUi"><div class="ic" style="color:var(--gold)" data-page-node-id="joUnPWw6NYWZBLp0Hk7XiA">○</div><div class="h" data-page-node-id="26inZSJucOuBGrIAMOMNcE">运营分身</div><div class="p" data-page-node-id="IlsxqW6owipIyJe5a8ga7g">周报 · 月报 · 经营看板</div></div>
+        <div class="cell rise d5" data-page-node-id="H7HmEGDENZFo80JlJpiUi9"><div class="ic" style="color:var(--gold)" data-page-node-id="Qk6lOlZOUanKQuPupFU0hh">□</div><div class="h" data-page-node-id="CPkdvfvApVyxtvGplehvgO">行政分身</div><div class="p" data-page-node-id="BGNfRESm2u6Z3OmBK2t9BN">会议纪要 · 待办入企微</div></div>
+      </div>
+      <div style="font-size:12px;color:var(--gold);letter-spacing:.16em;margin-top:8px;margin-bottom:10px;font-weight:700" data-page-node-id="0U8UepPNjKqDTwPF0FrCaX">11 个行业 · 对号入座</div>
+      <div class="industries rise d6" data-page-node-id="iTwIwrH8JFHvOj9DxM9Qja">
+        <span class="ind" data-page-node-id="wtDCOAfbAtzRJTAc6E2JV9">金融</span><span class="ind" data-page-node-id="GDf8sUw5AGkFbhUcBfZpBU">传媒</span><span class="ind" data-page-node-id="gob4OcV9i9PQxjWEMJv5PC">软件</span><span class="ind" data-page-node-id="LwX26o8JGo9oFziaNvuBdv">园区</span><span class="ind" data-page-node-id="ZzpC1gYsYZ1CUicnfZ7faw">能源</span><span class="ind" data-page-node-id="9IBfm86NVB4kRA1LpeEho9">建工</span><span class="ind" data-page-node-id="GBiF6kIPMKQvzCedrtvHgZ">食品</span><span class="ind" data-page-node-id="M6yOL3iyQFuTT3NX2EC4up">制造</span><span class="ind" data-page-node-id="Trj3rCCeA7XGDSVy5drhDe">医疗</span><span class="ind" data-page-node-id="9dsVqHUyr4gBCFmQYy6fuK">家纺</span><span class="ind" data-page-node-id="CpqW2nfP3cyh9Z98rVovbk">物流</span>
+      </div>
+      <div class="goldline rise d7" style="margin-top:14px;background:rgba(201,160,99,.08)" data-page-node-id="hNtL6VHsrnqKOcqXipyBmF"><em data-page-node-id="rHBhIh8MKRU5IoBUPu4zyQ">提示 ·</em> 每个分身、每个行业都有专属场景——下面 4 页挑重点讲(销售 / 财务 / 老板 / 综合案例)。</div>
+    </div>
+    <div class="cv-ft" data-page-node-id="jwIvnuccymxAuv9q3Jrl58"><div class="left" data-page-node-id="ATcqWHG9Eo9JjKu8D8fDLM"><span class="pg" data-page-node-id="gNYgM0D3p2SpUQ7wGAleBS">10</span><span data-page-node-id="a1I4tE5faL1MxSD0xk4nrn">/ 18</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P11 销售分身 ============ -->
+<section class="page" data-title="销售分身" data-page-node-id="XnZH3H4LsFFGp0B7eAbyzA">
+  <div class="stage light" data-page-node-id="rHCpHXlEeSQe38t9t6X4mz"><div class="card-bg" data-page-node-id="78ZCER4qYlNsxZB6WUc4L6"></div><div class="stage-in" data-page-node-id="ZiOsJFuHGuY7dSG1l5ngGy">
+    <div class="hd" data-page-node-id="YoHlxp7AApSwyIq2m7DcH0">
+      <span class="eyebrow" data-page-node-id="BCeC94MP0UdKI1AYI5OG2w">PART 03 · 销售分身</span>
+      <div class="hd-row" data-page-node-id="8RlrrCRcpj1YDM0Ya35zGz">
+        <div data-page-node-id="HrsaVNuC52MGd75tzKGW7k"><h2 class="title" data-page-node-id="NDqngyemDHqUyS1E0HQsuP">销售分身 · <em data-page-node-id="3Dc9itbD6vB6QQfvgmR0D8">询价 → 收款</em>全链路</h2>
+          <p class="sub" data-page-node-id="RT4ulJOaEMPnXDFWNeJuNR">询价邮件 → 报价单 → 投标文件 → 拜访纪要 → 客户档案 · 案例换为商会企业</p></div>
+        <div class="hd-badge" style="border-color:rgba(18,54,92,.25);background:rgba(18,54,92,.04)" data-page-node-id="i5NHWY4rygpnQDtcSaDuM2"><div data-page-node-id="thqxG0vy4XjxciEDABMTRv"><div class="n" data-page-node-id="mRPENTUicy7gsSNDyy8wsb">2<em style="font-size:14px" data-page-node-id="C2ke6dig22JHBJG2wLqIZ8">天</em>→<em style="font-size:14px" data-page-node-id="hiAd6VrK0swWCE9uorlmDa">2</em><em style="font-size:14px" data-page-node-id="vNY0XGaM8mqNX31hmdTDcX">小时</em></div></div><div class="t" style="color:#5A6B7C" data-page-node-id="z8vscKrfNgWP4ObCKD8PUO">跟单一次<br data-page-node-id="xHWpCEcpyr0vGtHp3q8iLM">耗时对比</div></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="BGSGXpHFo7wWUxlsyBpmAK">
+      <div class="flowline" style="margin-bottom:14px" data-page-node-id="uhj1AY0GLE23OGmHe1qDlm">
+        <div class="fstep rise" data-page-node-id="sOz4qsWQbwbOvaQLZL2rRW"><div class="fn" data-page-node-id="VBOQXNFuh7EPD95PTAup9a"><i data-page-node-id="23xnj9HzhBnKx4kcV6zpt8">1</i>STEP 1</div><div class="fh" data-page-node-id="cbg1inllggjr96WCAyeeOi">询价邮件</div><div class="fp" data-page-node-id="C6lnDbE8T3VDlxpmb6aLiQ">客户询价自动整理<br data-page-node-id="Z7etpJKWirPywHIVCGnSRw">+ 起草回复</div></div>
+        <div class="farrow" data-page-node-id="tWZcw3jrAst7qmFSjWe0HC">→</div>
+        <div class="fstep rise d1" data-page-node-id="v6BKvcW5NWg5SF2ZvrmUI5"><div class="fn" data-page-node-id="fpNX4eRWdOsSRitDsuIzbL"><i data-page-node-id="jEB3Tyw0sl5yiUsNVehqw8">2</i>STEP 2</div><div class="fh" data-page-node-id="ojOHXi05eX744pBF13NY9C">报价单生成</div><div class="fp" data-page-node-id="Hhu452x3SEMF0Nk06bexgb">10 分钟出报价<br data-page-node-id="3Q2XMyTkU2LZg6kykKStFt">含历史对照</div></div>
+        <div class="farrow" data-page-node-id="wWkceU2Cj5AeQKpGFHWnFs">→</div>
+        <div class="fstep rise d2" data-page-node-id="dMv3B9Je8hOQjwPNTipet2"><div class="fn" data-page-node-id="70VxIzjCuvpZ0bdK2BeTSg"><i data-page-node-id="37Mb8641BDQyfIBmNzI4Qk">3</i>STEP 3</div><div class="fh" data-page-node-id="FjntBAIVy4P66cLntlQxuf">投标文件</div><div class="fp" data-page-node-id="cvUXvDZCvjLLiRlPPFihKN">框架自动出<br data-page-node-id="lCoEdaIiEF4ldp6XScaMkk">商务条款核对</div></div>
+        <div class="farrow" data-page-node-id="c5vS4nJxbYXFEIzAxjwG1O">→</div>
+        <div class="fstep rise d3" data-page-node-id="ADpqBFZkSrICixX884lagb"><div class="fn" data-page-node-id="UmnszzQuYqa6GESW3pCOQB"><i data-page-node-id="sUQ3yIXIkf6zdEDaK6rFq8">4</i>STEP 4</div><div class="fh" data-page-node-id="NLja91tWUaeEPnZu9FoRyS">拜访纪要</div><div class="fp" data-page-node-id="Vt6RF5fXAfjBooscRVrQ98">录音 → 转写<br data-page-node-id="d8xePzfxcm5xKBqinfPYVZ">客户画像更新</div></div>
+        <div class="farrow" data-page-node-id="H7ldA3QiDxMUEmlvfvIWLT">→</div>
+        <div class="fstep rise d4" data-page-node-id="KJvfFas1xeb7y9yVK0sPpu"><div class="fn" data-page-node-id="IVRDwLBZGQTbNJVqzS9cpC"><i data-page-node-id="U7JPzEdA5KqzVbSrLLGTLO">5</i>STEP 5</div><div class="fh" data-page-node-id="8prWFta2bReRuI2eNSPTu1">客户档案</div><div class="fp" data-page-node-id="yfAHH09awZM8aNpAH4N1O0">偏好 / 跟进节点<br data-page-node-id="hF5hyEEOdA6N2vyrtyxwCQ">自动维护</div></div>
+        <div class="farrow" data-page-node-id="VWtuApIRefIvg66hkWN4Nk">→</div>
+        <div class="fstep rise d5" data-page-node-id="A3HBkb1zaumhF8F5ECpsgg"><div class="fn" data-page-node-id="dLIDE0jrSvLbrjfpH7q6TC"><i data-page-node-id="gaJuHQCHgDcl6T7zZhAnjQ">6</i>STEP 6</div><div class="fh" data-page-node-id="8REBLtNRppGfrgX6QQuvvz">收款催办</div><div class="fp" data-page-node-id="KKQtEq8b0770MT6xjIU9IJ">节点预警<br data-page-node-id="u4FfcBV9KQJUAke19Qlw4F">到期自动提醒</div></div>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:auto" data-page-node-id="X8zgxjfqkjiJFC7p038w3F">
+        <div class="case-card rise d6" style="flex:1;padding:14px" data-page-node-id="yWAn3EBw73kFYNPv1c1BNn"><span class="tag" data-page-node-id="2bkpOHgBmTMOe7CLqiL2IU">案例</span><div class="h" style="font-size:14px" data-page-node-id="1E1V9rW5RG9Yrp0AbNVq1t">罗莱 · 订单对账</div><div class="p" style="font-size:11px" data-page-node-id="92Dyfa0eAy6IuwsYQGw8Wn">订单 / 对账 / 收款节点自动跟进</div></div>
+        <div class="case-card rise d6" style="flex:1;padding:14px" data-page-node-id="ec1mTReViXJhT11N9fPUaz"><span class="tag" data-page-node-id="Aw8YgVnGlhEeXjqBE9waHH">案例</span><div class="h" style="font-size:14px" data-page-node-id="pXLilCIfamcI5WcT5WyxqQ">天海防务 · 招投标</div><div class="p" style="font-size:11px" data-page-node-id="0bWjbd67v6B3iK0UQmbAPv">投标文件自动起草 · 商务条款核对</div></div>
+        <div class="case-card rise d6" style="flex:1;padding:14px" data-page-node-id="IMMmaDEJi6XoXeyFnsj3e6"><span class="tag" data-page-node-id="wQrIk8LcLrmOLoVwhCWpcx">案例</span><div class="h" style="font-size:14px" data-page-node-id="YxBpiQz4maFRMwF61ovvMl">国泰海通 · 投顾材料</div><div class="p" style="font-size:11px" data-page-node-id="T4AYBZAZyLXAVHfW9Cht0r">研究材料整理 · 客户问答秒答</div></div>
+      </div>
+    </div>
+    <div class="cv-ft" data-page-node-id="3bBNFYBJeFzdIEyfYZtTwq"><div class="left" data-page-node-id="YC7aBDDf7H7qQkqnzYGeep"><span class="pg" data-page-node-id="3B7YWau1q4uwkobRs9dIiZ">11</span><span data-page-node-id="FJbMIFfZAaqOVqWpIroy5O">/ 18</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P12 财务分身 重点 ============ -->
+<section class="page" data-title="财务分身" data-page-node-id="NOXKePexMeFATqkiJABVmh">
+  <div class="stage light" data-page-node-id="ExzJIy7vxumM2FqVfc6WZn"><div class="card-bg" data-page-node-id="xmP7O5yysB0gQ5224VXrtP"></div><div class="stage-in" data-page-node-id="bN7PTSCwXB9xbxvu5Bw9sG">
+    <div class="hd" data-page-node-id="UyQqtN4hImCH6WvTGfSGX6">
+      <span class="eyebrow" data-page-node-id="EpRCUgUFZM5xDLHnM8bhh3">PART 03 · 财务分身</span>
+      <div class="hd-row" data-page-node-id="JYwfH7ZxVlvyG4MmVXtTFe">
+        <div data-page-node-id="AkhtKwFvx0XjLKXiIYBcHs"><h2 class="title" data-page-node-id="fGeqMDvTHHsRc4JTHsW5RV">财务分身 · <em data-page-node-id="SdoGaGH0y0kzHShTr4Crhu">一句问出毛利率</em></h2>
+          <p class="sub" data-page-node-id="ohpTnZMKIbiShVyhpkARHd">金蝶 / 用友 / SAP / Excel / 银行流水 全打通 · 金融资本板块全员命中</p></div>
+        <div class="hd-badge" style="border-color:rgba(18,54,92,.25);background:rgba(18,54,92,.04)" data-page-node-id="JOeY8TvCzYuwjmbMHWKHuX"><div data-page-node-id="m619WUH4YSU1NFaDrB3VfU"><div class="n" data-page-node-id="tb7PFnWrG9Ex0IzskkML8b">"<em style="font-size:14px" data-page-node-id="Hb7aefJ38LgRAInW3DNkQD">秒</em>"</div></div><div class="t" style="color:#5A6B7C" data-page-node-id="PLqLXYc9y2rHKVtkeunfK1">级回答<br data-page-node-id="7470NBHhIF83Lw4ufGgUAY">CFO 不用加班</div></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="MYCDwBBEc34iSjgVEq7bLO">
+      <div class="fin4" style="margin-bottom:14px" data-page-node-id="UT8oU226wAZKZcdCQEwOT3">
+        <div class="c rise" style="background:linear-gradient(135deg,rgba(201,160,99,.10),rgba(255,255,255,.04));border-color:var(--gold)" data-page-node-id="s9K45o8MyQ557rlT0VbgxL">
+          <span class="tag" style="background:var(--gold);color:var(--deep)" data-page-node-id="PI2ZXBf86FuG7c4WeMZo6E">能力 01</span>
+          <div class="h" data-page-node-id="hn7IgqPpvt9dVs4ujen3rw">智能问数</div>
+          <div class="p" data-page-node-id="XWzBtQHi84nedZwW4lCZHV">直接问「<em style="color:var(--gold);font-style:normal;font-weight:700" data-page-node-id="Bz43oCWMO34O8nBCtNvNq7">今年回款?</em>」「<em style="color:var(--gold);font-style:normal;font-weight:700" data-page-node-id="ByW74fzej9LABlGrucSg2o">哪个客户逾期?</em>」 → 秒级回答</div>
+        </div>
+        <div class="c rise d1" data-page-node-id="VDBFzLxSyYv8XOd3H5TIqg">
+          <span class="tag" data-page-node-id="i6HzsLsENJIxRbW1j7FHx4">能力 02</span>
+          <div class="h" data-page-node-id="OUGi2dQCIqBP6TF3D8WzYk">多源对账</div>
+          <div class="p" data-page-node-id="455C2uEQTIzCkVVz8YvZ38">金蝶 / 用友 / SAP / 银行流水 / Excel <em style="color:var(--gold);font-style:normal;font-weight:700" data-page-node-id="3WD2uwKAZnkfiWP2Fqo0il">自动匹配差异</em></div>
+        </div>
+        <div class="c rise d2" data-page-node-id="Bpkpx2NU9ImyQTSfmtAADb">
+          <span class="tag" data-page-node-id="BqU7wH7QGPe2S8bohCW8w6">能力 03</span>
+          <div class="h" data-page-node-id="EI83rth9vY3PXg5mwujmaY">一键报表</div>
+          <div class="p" data-page-node-id="auhjezDyAmyOXTZkzjUPHT">经营日报 / 周报 / 月报 <em style="color:var(--gold);font-style:normal;font-weight:700" data-page-node-id="Vi6qgpmtIaG7CmItHCM3Tg">含图一键生成</em></div>
+        </div>
+        <div class="c rise d3" data-page-node-id="TZwchAZDYBUAnevThuLHau">
+          <span class="tag" data-page-node-id="T994Lgjngq20ed280y7CRW">能力 04</span>
+          <div class="h" data-page-node-id="4bhJrFbbSpeLyaHbhR1Js9">老板随问随答</div>
+          <div class="p" data-page-node-id="wMda4zXq4i1CAEctlghd47">出差路上、会议室里:<em style="color:var(--gold);font-style:normal;font-weight:700" data-page-node-id="itMQ8jEqQX2Nfgk2BdSiQj">「这季度毛利率最低的项目是哪个?」</em></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:auto" data-page-node-id="WPsOubgiN57FBQrH5abdaA">
+        <div class="case-card rise d4" style="flex:1;padding:12px" data-page-node-id="BFGeGwlhrCpJd3uBCOGmVq"><span class="tag" data-page-node-id="aCYz7wV36M1w4bAlweGGu3">恒辉安防</span><div class="p" style="font-size:11px" data-page-node-id="ao2dwqSpZsjg6q9wvsHuLM">智能问数 · 一句话查出逾期客户</div></div>
+        <div class="case-card rise d5" style="flex:1;padding:12px" data-page-node-id="6rqPNvw3YpGfcDqQEHIQLG"><span class="tag" data-page-node-id="nT4AHDzMjEoFWALyDEIwer">卓进半导体</span><div class="p" style="font-size:11px" data-page-node-id="sC17daGXJ0HYLDIBB6jrZk">多源对账 · 4 套账自动匹配</div></div>
+        <div class="case-card rise d6" style="flex:1;padding:12px" data-page-node-id="HkhgBA6dNqhFHI35GGGCJN"><span class="tag" data-page-node-id="C5y2AOlwVxe17aW12BH1sc">银都奥美</span><div class="p" style="font-size:11px" data-page-node-id="tx26KHyR0JndU1UsubZgcq">合并报表 · 一键生成含图表</div></div>
+      </div>
+    </div>
+    <div class="cv-ft" data-page-node-id="R4AQpX666dg4x1ub0dszs6"><div class="left" data-page-node-id="bISfDXsXGFKOmBgNCdsNAi"><span class="pg" data-page-node-id="poRU7UfmYnnifJZsCS8RRb">12</span><span data-page-node-id="7ULqwjbJE8eZqvigu33S1m">/ 18</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P13 老板分身 ============ -->
+<section class="page" data-title="老板分身" data-page-node-id="lCELMZf9Tkd1yZwE3kCUAk">
+  <div class="stage light" data-page-node-id="EaOLEbiBzxbGyQwJsDkvbW"><div class="card-bg" data-page-node-id="5JZQCoixqShXM4VUCwN9Ng"></div><div class="stage-in" data-page-node-id="GOzfZuhoYXK0i0an1icBpz">
+    <div class="hd" data-page-node-id="7UrBExldhkGoJxL81hc8Ux">
+      <span class="eyebrow" data-page-node-id="e2Y5tM8T0K7xDM8q4Blqdk">PART 03 · 老板分身</span>
+      <div class="hd-row" data-page-node-id="GmTjinMMARSebFHUlt73aB">
+        <div data-page-node-id="GcuRGAoZ33d4nMqO89caoJ"><h2 class="title" data-page-node-id="pjerp2zPn8AAl8KtCWjHeT">老板分身 · <em data-page-node-id="cAWhHDnYh1kNKsDKEv56OJ">早上 8 点,简报已在手机里</em></h2>
+          <p class="sub" data-page-node-id="hgPrfrzGHsuINtuXxF0VPB">跨行业通用 · 不论你是制造业老板、金融前台负责人、家纺销售总负责人</p></div>
+        <div class="hd-badge" style="border-color:rgba(18,54,92,.25);background:rgba(18,54,92,.04)" data-page-node-id="GfNy8tlMUk8NUlOafbQWVu"><div data-page-node-id="n2ZdKitsW0IrgW8909ASBE"><div class="n" data-page-node-id="Yjl73uvDbXKVDknLdcdvVp">5<em data-page-node-id="eJqhhAnLrNKTG8hbjhDvwF">件事</em></div></div><div class="t" style="color:#5A6B7C" data-page-node-id="7TVkUPmecgJ0BoijSnCz7o">出门前推送<br data-page-node-id="6rKjBfa6ejdbDrmBxWeG84">随时可问</div></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="5C2BZW00wjgQYXErWOqoRA">
+      <div class="boss" data-page-node-id="8W5PYQqTBRqzvzmyUrlHzD">
+        <div class="five rise" data-page-node-id="q5nnKnSYjDbxjgLBT4hmKe">
+          <h4 data-page-node-id="4EfuOa10P1BAJrL0o9N7su">出门前 · 5 件事自动推送</h4>
+          <ul data-page-node-id="HS1ebRKgzujJNYnbnmb1sk">
+            <li data-page-node-id="J5QhKLuavOsGdlvGEXd7Uq"><span class="dot" data-page-node-id="tWPOClgBR8pIbHlW45cBuP"></span>昨日销售简报 · 订单 / 回款</li>
+            <li data-page-node-id="i103xaGBB3DsMSZiDLMeE4"><span class="dot" data-page-node-id="TUEESDGamELXlKITkhqWDW"></span>回款节点 · 逾期 / 即将到期</li>
+            <li data-page-node-id="N9nci8CpkRuT1YObVZebJm"><span class="dot" data-page-node-id="kFpC8Wl6KSAkaSZvQiJM7f"></span>重大异常 · 系统告警 / 库存预警</li>
+            <li data-page-node-id="QLZ8xqcW6YPcjklteY8rV9"><span class="dot" data-page-node-id="jFeQq7y1okrZjw4XJsiPEI"></span>待签批 · 合同 / 报销 / 审批</li>
+            <li data-page-node-id="AAThcpn04oHYyOmDT8hZEF"><span class="dot" data-page-node-id="BF0Z4nRIwlfL40lbXfdTSK"></span>客户新动态 · 拜访 / 投诉 / 商机</li>
+          </ul>
+        </div>
+        <div class="qa rise d1" data-page-node-id="fOrEUXZuQubDILWwAb3EC7">
+          <h4 data-page-node-id="NfeG82SLzd6LZF3G2ifr0L">随时问 · 一句话回答</h4>
+          <div class="q" data-page-node-id="JtAS5ENnXtdEhzIJ8hiwBQ">过去 30 天客户投诉最多的是什么?</div>
+          <div class="ref" data-page-node-id="sD17PxF5IdvIfSx5AGp5Lg">案例参照:王总(金融集团) / 张总(家纺) / 李总(建工) — 同一个老板分身,跨行业通用</div>
+        </div>
+      </div>
+      <div class="goldline rise d2" style="margin-top:14px;background:rgba(201,160,99,.10)" data-page-node-id="nXySG0UoVpT0blkV1VLXUw"><em data-page-node-id="MIhj8KSZcCmeTP2rkggBJ4">金句 ·</em> 从今以后,老板不是<em data-page-node-id="TUwJZzzsFxuEMD8Xg60vmb">信息的中转站</em>,而是<em data-page-node-id="9tCCK87fShwEMMaDoizeUE">信息的决策者</em>。</div>
+    </div>
+    <div class="cv-ft" data-page-node-id="mSF9P5xu9APaDP0O9rGvNh"><div class="left" data-page-node-id="O4Kuw0gDmwbE2xCB9Lpmpr"><span class="pg" data-page-node-id="bc8fOXyffyJdYTXrMZQnzn">13</span><span data-page-node-id="jkIgDAwr4byGXFvUDXsQjw">/ 18</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P14 综合案例 王总的一天 ============ -->
+<section class="page" data-title="王总的一天" data-page-node-id="UMuT2if0VpuQVgypbg2Rhi">
+  <div class="stage light" data-page-node-id="gyQXZM8iMif5LKe31m6EKR"><div class="card-bg" data-page-node-id="QTMQiBi2QHi6Rz2onYDiwT"></div><div class="stage-in" data-page-node-id="KYshqtG3ppBWWIckcFIkHF">
+    <div class="hd" data-page-node-id="GIbyuPHnBHruRhD1IIWgAw">
+      <span class="eyebrow" data-page-node-id="r9xjfbYPwPfPNOpV6wtlLp">PART 03 · 综合案例</span>
+      <div class="hd-row" data-page-node-id="VCDKFam1uYSEBm28Bncq3s">
+        <div data-page-node-id="nwAfEd1yBdhPw0ovPBsrDa"><h2 class="title" data-page-node-id="evqTz4Z1DGlEm1KsMwQMlC">王总的一天 · <em data-page-node-id="khCIcrE17uQWQH99yqHmsS">同一套分身,可平移 11 行业</em></h2>
+          <p class="sub" data-page-node-id="pT7UTlprGK6G6O6AG0ANgu">案例虚拟化,不绑定单一行业 · 你可以代入您自己的企业</p></div>
+        <div class="hd-badge" style="border-color:rgba(18,54,92,.25);background:rgba(18,54,92,.04)" data-page-node-id="DShH5SyCBUJblutIcTHwtg"><div data-page-node-id="GmLEhN7yAZT2P52G8YKkuL"><div class="n" data-page-node-id="jbieRYRS1faTfL6X0YX5gL">4<em data-page-node-id="q9Om25cEMThQm82zzVhZSh">个切片</em></div></div><div class="t" style="color:#5A6B7C" data-page-node-id="z6Mw0n6TPRToRx8YLPGrQd">08:00 → 16:00<br data-page-node-id="6h73ovvKzsOsOoW7zRle1G">一天完整闭环</div></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="Hf0uLauH6CesZJTL5cYdAB">
+      <div class="day" data-page-node-id="QdAGh71Y9iqDiNafzSmjr5">
+        <div class="step rise" data-page-node-id="5bNPpmFy8HGDHfB7wFBsHl">
+          <div class="tm" data-page-node-id="7ODXxqqQYkDZWt3sZquCIM">08:00</div>
+          <div class="hh" data-page-node-id="ErKfUWoYBw0kBLCyGR4wPn">老板分身 · 简报推送</div>
+          <div class="pp" data-page-node-id="GBPcRBANbaBWdSEyVc1hV8">出门前 5 件事已到手机<br data-page-node-id="I2AD2YJBWi6ziPz510xDpx">销售 · 回款 · 异常 · 签批 · 客户动态</div>
+        </div>
+        <div class="step rise d1" data-page-node-id="CJG0P2hE9mzRWS4k2VY1wo">
+          <div class="tm" data-page-node-id="LN5nR2culbvyv2EXhVrneN">10:00</div>
+          <div class="hh" data-page-node-id="jJuhSdzE410hT7eHmcgn7a">销售分身 · 起草回复</div>
+          <div class="pp" data-page-node-id="xZMLxL7FCjZIBg655BCnaE">客户询价邮件 · 销售分身 10 分钟<br data-page-node-id="bmKcpaMmBnzite6ZS9ERev">出报价单 + 历史对照</div>
+        </div>
+        <div class="step rise d2" data-page-node-id="3coDaGGDIE0XpJAkciBaY2">
+          <div class="tm" data-page-node-id="yE5YEU91YBgizWH228GYhC">14:00</div>
+          <div class="hh" data-page-node-id="Ci3qxgU8fmOcHLLTdJiTsf">财务分身 · 智能问答</div>
+          <div class="pp" data-page-node-id="ikHUsOFMdiktzZG64eoFYL">「这季度哪个项目毛利率最低?」<br data-page-node-id="3DmXASmDGwPAP7C0jQbOQQ">秒级回答 + 图表</div>
+        </div>
+        <div class="step rise d3" data-page-node-id="WdrZ7TM66JWLaSI52nzWDD">
+          <div class="tm" data-page-node-id="123VfGVyfO84aL7hjOBoBZ">16:00</div>
+          <div class="hh" data-page-node-id="re1DjReqXsa5EV5UvacpPC">行政分身 · 纪要入企微</div>
+          <div class="pp" data-page-node-id="AeUfCkpDQNKazhNgECrEWE">会议录屏 → 纪要<br data-page-node-id="2dH28zFoeevP9DI4oHMqEz">+ 待办一键入企微任务列表</div>
+        </div>
+      </div>
+      <div class="goldline rise d4" style="margin-top:14px;background:rgba(201,160,99,.10)" data-page-node-id="KnX0otBPTj3BZCzuvUnHON"><em data-page-node-id="c3S6PAFpYqMFcesCahT6JN">金句 ·</em> 员工不是被替代,而是从「<em data-page-node-id="FFhikxDSZrD40fXC8ieYNH">表哥表姐</em>」升级为<em data-page-node-id="xY1Czxttbz8qgZp3YELmAv">分析者</em>。</div>
+    </div>
+    <div class="cv-ft" data-page-node-id="OZqEUFbKzY47FQcCvdnCqz"><div class="left" data-page-node-id="QnfaKRwvtbiQLyvP3hhAow"><span class="pg" data-page-node-id="jCOChrdoIbmCJmS04japW8">14</span><span data-page-node-id="KAdWC7iqQhGdmmV7HIAaMo">/ 18</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P15 ROI 一笔明白账 ============ -->
+<section class="page" data-title="ROI 一笔明白账" data-page-node-id="P4sW8GJsPFZkbARhBrNTTc">
+  <div class="stage light" data-page-node-id="4uXBpcv7zJNpVzosa9gE8E"><div class="card-bg" data-page-node-id="ov5Myl1aWKW0d4FH8WZTZm"></div><div class="stage-in" data-page-node-id="SVasB44p588urq0jKFbAas">
+    <div class="hd" data-page-node-id="Wp7OB7kQHn6sD4Ba487cFT">
+      <span class="eyebrow" data-page-node-id="CCvAGIEk1MRCqkFmoXlnst">PART 04 · 算账</span>
+      <div class="hd-row" data-page-node-id="VTdeDa384PQ7tCoTD9XzGL">
+        <div data-page-node-id="c0znifvB4wfSTtjXbhSbQd"><h2 class="title" data-page-node-id="9Y6eWaEuDDqJulYioomUV5">一笔明白账 · 投 1 拿回 <em data-page-node-id="1bvKR4qXimVzCUnIDhOKg4">3-5 倍</em></h2>
+          <p class="sub" data-page-node-id="xhtCekGU3RlgUZGdFR5RkL">4 套测算 · 对应不同规模 / 行业 · 让任何老板都对得上号</p></div>
+        <div class="hd-badge" style="border-color:rgba(18,54,92,.25);background:rgba(18,54,92,.04)" data-page-node-id="tZs8WY0RgOEZAsPx3MJP7i"><div data-page-node-id="4p0E1QSBLUeNsVpBCepJVX"><div class="n" data-page-node-id="um0alJ18y3gFUJjdqCFYNn">3-5<em data-page-node-id="o8aMVbJPycstI9GCD0s9ab">×</em></div></div><div class="t" style="color:#5A6B7C" data-page-node-id="plMyAzkqjWlQ6e4yQfnsjh">投入产出比<br data-page-node-id="cqXkBReJCSVj4wRATrBf7F">4 套测算</div></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="WEtmsLaa5VWNrVaYwuu3FT">
+      <div class="roi4" data-page-node-id="6bao8jzlK0Xc6M1rMkieB2">
+        <div class="r rise" data-page-node-id="iRkeJNERCetLuMYOVN9VXJ">
+          <div class="head" data-page-node-id="BsTc80GyHODgCAQ6YKIgX7"><span class="num" data-page-node-id="5l36tcjTe7cFE4bE9R1vjl">①</span><span class="scale" data-page-node-id="rQB9r8wN4DbieueFseDXd3">小厂</span></div>
+          <div class="scope" data-page-node-id="Gk2cLTkWxLeqSIUb6bDbwm">20 人小厂 · 200-500 万营收</div>
+          <div class="save" data-page-node-id="wW3BVi41aM00LvKBAnTxCw">¥6-12<em data-page-node-id="GGGFBDeN2GsEipR9vszxbQ">万/年</em></div>
+        </div>
+        <div class="r rise d1" data-page-node-id="kicgkRu7mWVtbUKAqoHKje">
+          <div class="head" data-page-node-id="wQ2PpiZGZrGinF2K9EQHlR"><span class="num" data-page-node-id="HlhsyKSNROq6DvEEvELLOz">②</span><span class="scale" data-page-node-id="YvBCm3v2GWLyHZbEyNMBD3">中厂</span></div>
+          <div class="scope" data-page-node-id="NWXEeCKAx2hlPQpLeDaXj2">200 人中厂 · 5000 万-2 亿营收</div>
+          <div class="save" data-page-node-id="Ti02KDwuLolLzDajNxDjUM">¥60-120<em data-page-node-id="JsB5hZf0PcgusPJ1XcDTln">万/年</em></div>
+        </div>
+        <div class="r rise d2" data-page-node-id="09zpvJt2ZvWXfZj2tkWyKB">
+          <div class="head" data-page-node-id="KTCrzlwsOyMmAjJyybFSQR"><span class="num" data-page-node-id="DVN7pcr0iwWqZpf4epHgwi">③</span><span class="scale" data-page-node-id="MHvcA5ayJ0sVbYqLKwfCqA">金融小前台</span></div>
+          <div class="scope" data-page-node-id="3WxVsnFx8G7ruR1v9n9ht1">10-30 人投顾 / 客服</div>
+          <div class="save" data-page-node-id="OdOmsRIKAZpC8IVZlNETVA">¥30-80<em data-page-node-id="mdpc2jnBXEmxfmzsPmMjZt">万/年</em></div>
+        </div>
+        <div class="r rise d3" data-page-node-id="HFg5jTGhbuTPrPTmV5qlvV">
+          <div class="head" data-page-node-id="7iWGZ1PrXzJPpAtuRYQuhK"><span class="num" data-page-node-id="GkPefo1K4H8qUtVtgFn1be">④</span><span class="scale" data-page-node-id="EOfhrdLS35ESXpvu9UtcWw">建工项目部</span></div>
+          <div class="scope" data-page-node-id="FbXbELw5IVFNXOxyRGgqVf">10-30 人项目部</div>
+          <div class="save" data-page-node-id="ZnvahbiXvBMFmIL82FGlBK">¥40-100<em data-page-node-id="qn7VEcexy7O4ZJqDwSjDJy">万/年</em></div>
+        </div>
+      </div>
+      <div class="goldline rise d4" style="margin-top:auto;background:rgba(201,160,99,.10)" data-page-node-id="phgBfcLGM2PSQRpWXY40I4"><em data-page-node-id="dQU2dW96eS0tHWv6iodRky">成本口径 ·</em> 人均订阅 ≈ 1 名员工月薪的 <em data-page-node-id="NaVCpqaEoQp6ip6PMTzbuy">5% - 10%</em> · 演讲时建议以「测算口径」表述</div>
+    </div>
+    <div class="cv-ft" data-page-node-id="BL9nN5TQD6vW2EpDm1CgtK"><div class="left" data-page-node-id="GLHMG6vnVBVspG9uGpC1dM"><span class="pg" data-page-node-id="ooOnO6Q3hTbI8jmUSCj8V7">15</span><span data-page-node-id="PWfr5sSQcNXouT77925DDQ">/ 18</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P16 三个隐性价值 ============ -->
+<section class="page" data-title="三个隐性价值" data-page-node-id="5tLL5t598jRWi80eBWrVXw">
+  <div class="stage light" data-page-node-id="SUXC8gVhQz2C9NxudD2Sci"><div class="card-bg" data-page-node-id="gjNYVrqQWCVRK9cwAL9FXO"></div><div class="stage-in" data-page-node-id="y4G3Bzo6xYQntXj3Q5N1cx">
+    <div class="hd" data-page-node-id="drft44vpy89ALjib5emSf1">
+      <span class="eyebrow" data-page-node-id="7aUjCA6nf7Zj8GcNupVlNA">PART 04 · 隐性价值</span>
+      <div class="hd-row" data-page-node-id="CRUMQokkHlDvOkbSQDiygv">
+        <div data-page-node-id="u1pTRIvMk02wsSeGBkjIfX"><h2 class="title" data-page-node-id="iRlPFOCebvcvviBgGERO6n">不止省时间 · <em data-page-node-id="QA8BxGrHPKhvGUxFgUY0XB">三个隐性价值</em></h2>
+          <p class="sub" data-page-node-id="FMUghx2EG7uvtseM0PNwsG">决策更快 / 经验沉淀 / 组织升级 · 从「省钱」升级到「值钱」</p></div>
+        <div class="hd-badge" style="border-color:rgba(18,54,92,.25);background:rgba(18,54,92,.04)" data-page-node-id="6bZzozHCXeaHlS2QqTW30v"><div data-page-node-id="kgfAXPTKLYa5RaCzp3vFnH"><div class="n" data-page-node-id="PLeeeJsshHxPer1qgU0ZaH">3<em data-page-node-id="3FmJ2wKRaSfAq1UwYlWOS6">条</em></div></div><div class="t" style="color:#5A6B7C" data-page-node-id="NWO6ueej3J5DTH1Gjsqbnf">从省钱 → 值钱<br data-page-node-id="cr005Atxo4ykrjI2j6MIC2">决策权才关心</div></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="AB7dwgU2gVCZiOOUmDufYB">
+      <div class="values" data-page-node-id="8TGvGjphmumZ7jCIuYmxl5">
+        <div class="v rise" data-page-node-id="IZibdYyvQnfFgjyLwD8Djf">
+          <span class="tag" data-page-node-id="TFCnc98yvVLeYrqNOgF7j8">决策更快</span>
+          <div class="h" data-page-node-id="SwF4qpFyCfKxpRSpI3yD93">信息随要随有 · 不用等周会</div>
+          <div class="p" data-page-node-id="fhWTKkxRfuEolIDNITpOjm">经营快报、异常预警、即时问答 · 老板随时掌握经营全貌,不再被周会牵着走。</div>
+          <div class="ref" data-page-node-id="78pVpHHBOKU1Aa6LjoY18E">参照:瑞慈医疗「经营快报」</div>
+        </div>
+        <div class="v rise d1" data-page-node-id="5oUVQB5K12yvkS1QfaTQ4A">
+          <span class="tag" data-page-node-id="K7wB6LHmNK03e1ZEJNG1oX">经验沉淀</span>
+          <div class="h" data-page-node-id="ob5HOtRkaIbT8f3ZSSIMCW">老师傅的方法 · 留存在企业里</div>
+          <div class="p" data-page-node-id="82tacQC1hdIgKGsGfQ61ep">老客户的偏好、老师的解决方法、行业 know-how · 全部沉淀为企业知识库,人不走经验就走。</div>
+          <div class="ref" data-page-node-id="fTx7ylrsyIrS95ds0xvgYM">参照:牧鲸 / 德汇 知识库</div>
+        </div>
+        <div class="v rise d2" data-page-node-id="meLG1wBUFGCDQvoviqy6eD">
+          <span class="tag" data-page-node-id="wzj8XUemE7AfpmYSZ4FpcJ">组织升级</span>
+          <div class="h" data-page-node-id="3PeA1gMCRsNBlfkKVkRUJ2">「用 AI 的工厂」是招聘优势</div>
+          <div class="p" data-page-node-id="I6KV5FFvrTOGsBxzlGD0Pw">年轻员工愿意来 · 招聘广告从「传统行业」变成「AI 驱动」· 人才结构自然升级。</div>
+          <div class="ref" data-page-node-id="qBP4hI1Ggo9wfa76KMrNGv">参照:近两年制造业校招画像变化</div>
+        </div>
+      </div>
+      <div class="goldline rise d3" style="margin-top:auto;background:rgba(201,160,99,.10)" data-page-node-id="VbFJDFX0t9NtvQnx8XIAMJ"><em data-page-node-id="lH9Q8wOwjTS5FtQYx9PHjj">金句 ·</em> 老师傅的方法、老客户的偏好,留存在<em data-page-node-id="eO7UQjMoEAC5fP9tenRM2s">企业里</em>而不是<em data-page-node-id="uruyeOmHzyoGpwQqeFr6PV">人脑里</em>。</div>
+    </div>
+    <div class="cv-ft" data-page-node-id="FxjK8bxoX41khEdF9HQfzp"><div class="left" data-page-node-id="GejACsN0whwF5Lln13IoBo"><span class="pg" data-page-node-id="PDIGnrqny6SBilm0U86C8d">16</span><span data-page-node-id="9CkjeSlQyrkS4m5BwIbxbC">/ 18</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P17 FDE 工程师专页 ============ -->
+<section class="page" data-title="FDE 工程师" data-page-node-id="ycOEKrfn1hBd7fa3SoGzA5">
+  <div class="stage light" data-page-node-id="c7ZQ8TLvmsCeMyxIiT83DD"><div class="card-bg" data-page-node-id="nfhnZdGQbObSAiAalW23X5"></div><div class="stage-in" data-page-node-id="IINREgFfkawgyAGclUVzM4">
+    <div class="hd" data-page-node-id="OFueLvSiwkKfJMIcUGQaAF">
+      <span class="eyebrow" data-page-node-id="xhrxKFcwDPdgnEVgSLKJJr">PART 04 · FDE 落地 · ★新增</span>
+      <div class="hd-row" data-page-node-id="vFD6qiEBGGosAvLaF77NDO">
+        <div data-page-node-id="orUkiLMH1FvnHKB5M0fkww"><h2 class="title" data-page-node-id="nmrLmRD0enC4US50DCKwJm">FDE 工程师 · <em data-page-node-id="mjDKvrqwTth1w56KbCEboO">陪你跑通这件事的人</em></h2>
+          <p class="sub" data-page-node-id="ZSvphlgneAn84AxAisolEm">软件是工具,FDE 才是陪你跑通的人 — 衔接 15:10 下一场李希的 FDE 演讲</p></div>
+        <div class="hd-badge" style="border-color:rgba(18,54,92,.25);background:rgba(18,54,92,.04)" data-page-node-id="mSiRx2eKwRsorUQq1FeMAF"><div data-page-node-id="8tMjISx1N69izhStOXxXWG"><div class="n" data-page-node-id="IYGUMDCK9NsKNZLCmGMnUV">4<em data-page-node-id="6UPkpbr2TxeAqqe4GqeVOJ">步</em></div></div><div class="t" style="color:#5A6B7C" data-page-node-id="OfrSns6gMVMcHdzcbYnEr4">锁定 → 接入<br data-page-node-id="IVyqJHI2KcKxUZFxNwLknP">→ 试跑 → 量化</div></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="AlBPKAQtqlu7GpMRvY1okr">
+      <div class="fde" data-page-node-id="y3gHrDm8xgOM6ZW7Sr4Zt5">
+        <div class="left rise" data-page-node-id="Pyg6NKJgd0vzfXI6Hyy1hy">
+          <div class="role" data-page-node-id="1noUTGzBsxwuVMXJrGNar7">FDE · Forward Deployment Engineer</div>
+          <h3 data-page-node-id="qxW15tJ2NfzmvS8LKBlhcE">落地工程师,不是销售</h3>
+          <p class="pj" data-page-node-id="G2Hx97IUWaizXEQ8HdxodN">FDE 是 Forward Deployment Engineer · 落地工程师 · 他/她做的事,3 步就能让你知道这个 AI 在你企业里到底值不值。</p>
+          <div class="fde-steps" style="margin-top:14px" data-page-node-id="Zgq1DtPLdh5zHvD6VXg7ns">
+            <div class="s" data-page-node-id="DHufbJKvMhLbzCKisTjdCF"><span class="i" data-page-node-id="qLzVPWLGTPHnwBwWja14Nh">1</span><div class="h" data-page-node-id="jbBG70vEyYzJQFnRlJjsHD">锁定</div><div class="p" data-page-node-id="Ao1aDehCJGyTsKXsBfBalD">1 个岗位分身<br data-page-node-id="H8LEi3XdaPSqhbQ8LFTsiE">+ 1 个最小场景</div></div>
+            <div class="s" data-page-node-id="g7sJc3FZyUSkLImKQrbinS"><span class="i" data-page-node-id="JIubmbv6uzK2TOilZlJhgQ">2</span><div class="h" data-page-node-id="mjBcK3oIsYH9SOVJFUxl8j">接入</div><div class="p" data-page-node-id="dSK25eKDPL8WdSuI2GSX7p">ERP / Excel<br data-page-node-id="bOIaOsGXRMGh67fWv9irSK">邮件 / 企微</div></div>
+            <div class="s" data-page-node-id="PcXtKpyujGeLPEUfycxJY8"><span class="i" data-page-node-id="24J3AphbaSOWGtoXVSHNl6">3</span><div class="h" data-page-node-id="CPcZR6esRguKO2RJ3bUw3w">试跑</div><div class="p" data-page-node-id="EZJHe3CbgUND61wlrx1PgM">2-4 周<br data-page-node-id="dRL9vXalvSiqTevBY9NnPu">高频使用者</div></div>
+            <div class="s" data-page-node-id="HvHHm56w4bDSzxYXHeNih5"><span class="i" data-page-node-id="iYqxHjNAvAMuDXSVeHQ4Ae">4</span><div class="h" data-page-node-id="k9N34ziZRSDYsLE7MWMjbU">量化</div><div class="p" data-page-node-id="br7CBIQLP427BsGF8CEaB2">出 ROI 报告<br data-page-node-id="BDC49GQe3ZJicQ4TOWquy5">决定推不推广</div></div>
+          </div>
+        </div>
+        <div class="right rise d1" data-page-node-id="MA28uSkOzWEwtriZiXdvYj">
+          <span class="tag" data-page-node-id="sUkJnSHLSjkEJBuBgVJAYH">现场承诺</span>
+          <h3 data-page-node-id="W9IHbTtCEkl3OZvq6HwukG">今天会议结束前<br data-page-node-id="q9iOT4GrIGhC66U6t67JuU">每位老板拿到一份<em data-page-node-id="1vL9q3zckJEBRl660jE9KM">「FDE 起步包」</em></h3>
+          <div class="promise" data-page-node-id="7B3fQTtYdy8hGhjjesCSZ3"><b style="color:var(--gold)" data-page-node-id="n08WXBH5dhc5njCFcQVjkB">「AI 不是花钱就能用的,FDE 是陪你跑通的人」</b><br data-page-node-id="7DB0GIpbJfJtRMXo8shFhY"><br data-page-node-id="XrW2dTtypiLBEwXbKvPiTB">接下来 15:10,我的同事李希会详细讲 FDE 怎么帮你提效 —— 不砸钱、不换系统、不动组织。</div>
+        </div>
+      </div>
+    </div>
+    <div class="cv-ft" data-page-node-id="Qwjvl1Mdt7jF8kjYVVVerH"><div class="left" data-page-node-id="3O1tK5EQf2bA9ZNEdAq4Rd"><span class="pg" data-page-node-id="q4vU6ZAeAIo91Q8CN4iQDj">17</span><span data-page-node-id="99AQ6EGzZWB6eCQM1LpU6Y">/ 18</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P18 结束页 ============ -->
+<section class="page" data-title="结束页" data-page-node-id="t0Ji2mvxQIWPMDSY9qBdCj">
+  <div class="stage" data-page-node-id="Ir0mKYxWqjlDVmnwLa3gFS"><div class="card-bg end" data-page-node-id="5bqBfS1q4UzPrhcijIGcCJ"></div>
+    <div class="end-in" data-page-node-id="SfC8XYLUZWt3qHlRZpXBtD">
+      <h1 class="rise" data-page-node-id="ctbv65EVFh1wZVInhzZBRR"><span class="g" data-page-node-id="QBduviH5ujSv9ATdu8GHJo">THANK YOU</span></h1>
+      <p class="es rise d1" data-page-node-id="cz2m8Y17JDm62fLYvbdt6c">20 年前,你们用机器解放了工人的双手;<br data-page-node-id="k3CuUAjcWyL19LVMJMqiNx">今天,让 <em style="color:var(--gold);font-style:normal;font-weight:700" data-page-node-id="M8RfVnyikjaSuWeJIDjgHh">WorkBuddy + FDE</em> 解放你们的大脑。</p>
+      
+      <div class="rise d3" style="margin-top:48px;display:flex;align-items:center;gap:18px;padding:18px 28px;
+        background:rgba(201,160,99,.10);border:1px solid var(--gold);border-radius:14px;
+        max-width:760px" data-page-node-id="GGL3KatQpAnwxYy7vDJtaA">
+        <div style="width:60px;height:60px;border-radius:50%;background:var(--gold);color:var(--deep);
+          display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;letter-spacing:.18em;flex:none" data-page-node-id="3a95GCQNJf9cZXB3lBoXH0">FDE</div>
+        <div style="text-align:left;flex:1" data-page-node-id="j53dbaMW823H0jdvRMubZZ">
+          <div style="font-size:15px;color:#fff;font-weight:700;margin-bottom:4px;letter-spacing:.04em" data-page-node-id="LYNKW8sEmLteyHPO1Y67oX">下一场 · 15:10 李希 · 《FDE 如何帮助企业提效》</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.75);line-height:1.6" data-page-node-id="8W2Gl4GkazHHsm5wiQeU63">把今天讲到的「数字分身战略」翻译成你企业的「生产力」 · 锁定 · 接入 · 试跑 · 量化</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script>
+(function(){
+  const deck = document.getElementById('deck');
+  const pages = [...deck.querySelectorAll('.page')];
+  const total = pages.length;
+  let cur = 0, swiped = false;
+
+  function go(n){
+    if (n < 0 || n >= total) return;
+    pages[cur].classList.remove('active');
+    cur = n;
+    pages[cur].classList.add('active');
+    updateNav();
+  }
+  function next(){ go(Math.min(cur+1, total-1)); }
+  function prev(){ go(Math.max(cur-1, 0)); }
+
+  // 键盘
+  window.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); next(); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
+    else if (e.key.toLowerCase() === 'f') toggleFs();
+    else if (/^[0-9]$/.test(e.key)) go(parseInt(e.key,10)-1);
+  });
+
+  // 鼠标点击翻页
+  document.addEventListener('click', e => {
+    if (swiped) return;
+    if (e.target.closest('[data-go], a, button, input, textarea, select')) return;
+    const x = e.clientX / window.innerWidth;
+    if (x > 0.55) next(); else if (x < 0.45) prev();
+  });
+
+  // 触摸滑动
+  let sx=0, st_time=0;
+  document.addEventListener('touchstart', e => { sx = e.touches[0].clientX; st_time = Date.now(); }, {passive:true});
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - sx, dt = Date.now() - st_time;
+    if (Math.abs(dx) > 50 && dt < 600 && Math.abs(dx) > Math.abs(e.changedTouches[0].clientY - sx)) {
+      swiped = true; dx < 0 ? next() : prev();
+      setTimeout(() => swiped = false, 350);
+    }
+  }, {passive:true});
+
+  function toggleFs(){
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+    else document.exitFullscreen?.();
+  }
+
+  function updateNav(){
+    document.querySelectorAll('.pg').forEach((el,i) => {
+      // 同步更新所有页码 — 简单做法:每页的 .pg 文本就是自己页码(已写死)
+    });
+  }
+
+  // data-go 跳转
+  document.addEventListener('click', e => {
+    const a = e.target.closest('[data-go]');
+    if (a) { e.preventDefault(); e.stopPropagation(); go(parseInt(a.dataset.go,10)-1); }
+  });
+
+  pages.forEach((p,i)=>{ i===0 ? p.classList.add('active') : p.classList.remove('active'); });
+})();
+</script>
+<style>
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes spinR{from{transform:rotate(0)}to{transform:rotate(-360deg)}}
+</style>
+</body>
+</html>
