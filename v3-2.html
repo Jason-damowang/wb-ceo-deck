@@ -158,20 +158,6 @@ body::before{content:'';position:fixed;inset:-8%;z-index:-1;pointer-events:none;
 .save .sv{font-size:22px;font-weight:800;color:var(--gold);line-height:1}
 .save .sd{font-size:11px;color:var(--ink3);margin-top:2px}
 
-/* === 12. tl 时间轴 === */
-.tl{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.tl-item{padding:16px;background:rgba(255,255,255,.05);
-  border-left:3px solid var(--gold);border-radius:8px}
-.tl-item .tn{font-size:11px;color:var(--gold);letter-spacing:.18em;font-weight:700}
-.tl-item .th{font-size:18px;font-weight:700;color:#fff;margin:6px 0 10px}
-.tl-item ul{list-style:none;margin-bottom:10px}
-.tl-item li{font-size:12px;color:rgba(255,255,255,.75);line-height:1.6;
-  padding:4px 0;border-bottom:1px dashed rgba(255,255,255,.1)}
-.tl-item li:last-child{border-bottom:none}
-.tl-item .ok{padding:8px 10px;background:rgba(201,160,99,.1);border-radius:6px;
-  font-size:12px;color:var(--gold);margin-top:auto}
-.tl-item .ok em{font-style:normal;font-weight:700}
-
 /* === 13. case-grid === */
 .case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .case-card{padding:18px;background:rgba(255,255,255,.05);
@@ -406,12 +392,6 @@ body::before{content:'';position:fixed;inset:-8%;z-index:-1;pointer-events:none;
 .stage.light .fin4 .c .h{color:var(--ink)}
 .stage.light .fin4 .c .p{color:rgba(28,39,51,.72)}
 
-/* === 35. light stage · P5 20年时间轴 tl-item 覆盖 === */
-.stage.light .tl-item{background:#fff;border:1px solid rgba(18,54,92,.12)}
-.stage.light .tl-item .th{color:var(--ink)}
-.stage.light .tl-item li{color:rgba(28,39,51,.72);border-bottom-color:rgba(18,54,92,.10)}
-.stage.light .tl-item .ok{background:rgba(201,160,99,.10);color:var(--ink)}
-
 /* === 36. light stage · P6/P8 cmp2-col 覆盖 === */
 .stage.light .cmp2-col{background:#fff;border:1px solid rgba(18,54,92,.12)}
 .stage.light .cmp2-col h3{color:var(--ink)}
@@ -443,6 +423,71 @@ body::before{content:'';position:fixed;inset:-8%;z-index:-1;pointer-events:none;
 .page[data-title="开场故事 宗庆后"] .story .quote{font-size:15px;line-height:1.6}
 .page[data-title="开场故事 宗庆后"] .story .quote .src{margin-top:8px;font-size:11px}
 .page[data-title="开场故事 宗庆后"] .goldline{padding:10px 16px;font-size:13px;line-height:1.55}
+
+/* === 41. P05 三个时代，三种赢法 · 阶梯式三段（三块时代面板 左低右高）=== */
+.stage.era{background:#12365C;color:#fff}
+.era-wrap{position:absolute;inset:0}
+.era-bg{background:
+  radial-gradient(circle at 88% 58%,rgba(201,160,99,.16),transparent 55%),
+  radial-gradient(circle at 8% 92%,rgba(10,34,57,.6),transparent 62%)}
+.era-title{position:absolute;left:40px;top:26px;font-size:48px;font-weight:700;
+  color:#fff;letter-spacing:.04em;line-height:1.15}
+.era-now{position:absolute;right:40px;top:44px;font-size:21px;color:#8A93A6;
+  letter-spacing:.16em;font-weight:600}
+.era-steps{position:absolute;left:0;top:0;width:1280px;height:720px;pointer-events:none}
+.era-sw{fill:#C9A063;font-size:19px;font-weight:700;letter-spacing:.12em}
+.era-p{position:absolute;display:flex;flex-direction:column;padding:22px;
+  border-radius:14px;border:1px solid rgba(255,255,255,.07)}
+.e1{left:40px;top:380px;width:380px;height:280px;background:#0D2A47}
+.e2{left:450px;top:300px;width:380px;height:360px;background:#16345A}
+.e3{left:860px;top:200px;width:380px;height:460px;background:#1B3F6B;
+  border-color:rgba(201,160,99,.75);
+  box-shadow:0 0 34px rgba(201,160,99,.22),inset 0 0 46px rgba(201,160,99,.07)}
+.era-p .e-name{font-size:29px;font-weight:700;color:#fff;letter-spacing:.02em;line-height:1.2}
+.era-p .e-kw{font-size:51px;font-weight:800;color:#C9A063;line-height:1.06;
+  margin-top:6px;letter-spacing:.02em}
+.era-p .e-mode{font-size:20px;color:rgba(255,255,255,.7);margin-top:10px;line-height:1.4}
+.era-p .e-win{font-size:20px;color:#fff;margin-top:4px;line-height:1.4}
+.e-pillrow{text-align:right;margin-top:10px}
+.e-pillrow .pill{font-size:13px;padding:6px 12px;letter-spacing:.08em}
+.era-p .e-case{margin-top:auto;border-top:1px solid rgba(201,160,99,.28);
+  padding-top:12px;display:flex;align-items:center;gap:10px;
+  font-size:21px;color:#fff;line-height:1.35}
+.era-p .e-ico{width:30px;height:30px;flex:0 0 auto;color:#C9A063}
+.era-p .e-case2{display:grid;grid-template-columns:1fr auto;gap:6px 10px;align-items:baseline;
+  font-size:inherit}
+.era-p .e-case2 .n{font-size:19px;color:#8A93A6;line-height:1.3}
+.era-p .e-case2 .v{font-size:34px;font-weight:800;color:#C9A063;line-height:1.15;
+  white-space:nowrap;letter-spacing:.01em}
+.era-p .e-case3{display:block}
+.era-p .e-case3 .e-ico{display:block;margin-bottom:8px;width:32px;height:32px}
+.era-p .e-case3 .t3{font-size:21px;color:#C9A063;line-height:1.35}
+.era-line{position:absolute;left:40px;right:40px;top:700px;height:1px;
+  background:linear-gradient(90deg,rgba(201,160,99,.15),#C9A063,rgba(201,160,99,.15))}
+.era-quote{position:absolute;left:40px;right:40px;top:664px;text-align:center;
+  font-size:24px;font-style:italic;color:#fff;line-height:1.35;letter-spacing:.01em}
+.era-quote em{color:var(--gold);font-style:italic;font-weight:700}
+.era-quote .qc{opacity:0;transition:opacity .06s linear}
+.era-quote .qc.on{opacity:1}
+.era-quote em.landed{text-shadow:0 0 12px rgba(201,160,99,.55)}
+.era-pg{position:absolute;left:40px;top:703px;display:flex;align-items:baseline;gap:2px;
+  font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.1em}
+.era-pg .pg{font-family:"Inter",monospace;font-size:14px;color:var(--gold);font-weight:700}
+/* 动画：① 标题+金句淡入 ② 三面板左→中→右 升台阶(各隔 400ms) ③ 面板三定格 500ms+其余压暗 20% ④ 金句打字机 */
+@keyframes eraFade{from{opacity:0}to{opacity:1}}
+@keyframes eraStep{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}
+@keyframes eraDim{from{filter:brightness(1)}to{filter:brightness(.8)}}
+@keyframes eraLock{0%{filter:brightness(1)}45%{filter:brightness(1.28)}100%{filter:brightness(1.12)}}
+.page.active .era-title,.page.active .era-now,.page.active .era-line{animation:eraFade .3s ease both}
+.page.active .e1{animation:eraStep .5s cubic-bezier(.22,.8,.3,1) .30s both,eraDim .5s ease 1.60s forwards}
+.page.active .e2{animation:eraStep .5s cubic-bezier(.22,.8,.3,1) .70s both,eraDim .5s ease 1.60s forwards}
+.page.active .e3{animation:eraStep .5s cubic-bezier(.22,.8,.3,1) 1.10s both}
+.page.active .e3 .e-kw,.page.active .e-trophy{animation:eraLock .5s ease 1.60s both}
+/* SVG 连线与标签跟随入场 */
+.page.active .era-steps{animation:eraFade .5s ease 1.20s both}
+@media print{.era-title,.era-now,.era-line,.era-steps,.era-p{opacity:1!important;
+    transform:none!important;filter:none!important;animation:none!important}
+  .era-quote .qc{opacity:1!important}}
 </style>
 </head>
 <body data-page-node-id="y9lzd0faDGnHhQWw4vFRS5">
@@ -585,58 +630,58 @@ body::before{content:'';position:fixed;inset:-8%;z-index:-1;pointer-events:none;
   </div></div>
 </section>
 
-<!-- ============ P05 20年成就时间轴 ============ -->
-<section class="page" data-title="20年成就时间轴" data-page-node-id="vFGCspovv3U9eIQKhsQFgS">
-  <div class="stage light" data-page-node-id="34MpiEblvOd0m1HaAerSSJ"><div class="card-bg" data-page-node-id="01FQGrxcRAgAM7BBXkCGtI"></div><div class="stage-in" data-page-node-id="jHexFf4Og8eA7CeOI9fraA">
-    <div class="hd" data-page-node-id="MDTllGP1R78wYQi8OtwDtO">
-      <span class="eyebrow" data-page-node-id="a0SLhQoadb4Zi0wrlfyLBZ">PART 01 · 自动化这 20 年</span>
-      <div class="hd-row" data-page-node-id="ybXX19c3idO0wExn0eILGu">
-        <div data-page-node-id="NTL0cfuAqKa2CjFpxkBABK"><h2 class="title" data-page-node-id="f14QgXsAaEsHcJ1d3JoSYJ">你们用机器和系统,<em data-page-node-id="jEFa2rJMj0H6WDM7Ou5ZVZ">解放了双手</em></h2>
-          <p class="sub" data-page-node-id="GkhLfWAkHsKxv0ZAmhE45S">2006 → 2026 · 富士康 + 三一两组国民级数字 · 第四节点就是此刻</p></div>
+<!-- ============ P05 三个时代，三种赢法 ============ -->
+<section class="page" data-title="三个时代 三种赢法">
+  <div class="stage era"><div class="card-bg era-bg"></div><div class="era-wrap">
+
+    <h2 class="era-title">三个时代，三种赢法</h2>
+    <div class="era-now">1990s — NOW</div>
+
+    <svg class="era-steps" viewBox="0 0 1280 720" aria-hidden="true">
+      <path d="M40 372 H441 V292 H851 V202" fill="none" stroke="#C9A063" stroke-width="2" stroke-linecap="round"/>
+      <path d="M851 186 l-8 16 h16 z" fill="#C9A063"/>
+      <text class="era-sw" x="240" y="360" text-anchor="middle">产能</text>
+      <text class="era-sw" x="646" y="280" text-anchor="middle">成本</text>
+      <text class="era-sw" x="864" y="184" text-anchor="start">认知</text>
+    </svg>
+
+    <div class="era-p e1">
+      <div class="e-name">规模时代 1990s–2005</div>
+      <div class="e-kw">产能为王</div>
+      <div class="e-mode">人海战术 + 渠道网络</div>
+      <div class="e-win"><span class="dot"></span>胆识 + 资源的企业</div>
+      <div class="e-case">
+        <svg class="e-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 3.5l5 5-9.2 9.2-6.4 1.4 1.4-6.4 9.2-9.2z"/><path d="M13.2 5.8l5 5"/><circle cx="6.6" cy="17.4" r=".9" fill="currentColor" stroke="none"/></svg>
+        <span>一支笔 · 187 家子公司</span>
       </div>
     </div>
-    <div class="bd" data-page-node-id="PyHBJGkbB66N98NHm7aaTg">
-      <div class="tl" data-page-node-id="DtvcMDv8ruxwOsqnRaXtge">
-        <div class="tl-item rise" data-page-node-id="anirv1FA08MK2pD4BPLCuk">
-          <div class="tn" data-page-node-id="zZMHYOgHpPypxEWHaYxliF">STAGE 01 · 2006-2015</div>
-          <div class="th" data-page-node-id="23N2l3vDCA7gBL8wqiY7Jg">机器设备普及</div>
-          <ul data-page-node-id="t8RDE3Q1dVokAkkvTsPAwG">
-            <li data-page-node-id="9UCzbWDOZbdIo4sV37UHcf">冲压 / 焊接 / 搬运机器人进车间</li>
-            <li data-page-node-id="UszOYL3d5lENyNBQnuKDxR">Excel / 邮件替代纸质台账</li>
-          </ul>
-          <div class="ok" data-page-node-id="qwV6btfr9p5IiKPpkjC8sB"><em data-page-node-id="IWG5hi3DxnIUDEyJtbLAtl">收官</em> · 富士康昆山:员工 <b data-page-node-id="yv0OChkxBABhx6wvDo41iF">11 万 → 5 万</b>(-54%),投入 3 亿、2000+ 台机械臂,营业额不降反升</div>
-        </div>
-        <div class="tl-item rise d1" data-page-node-id="6Qak1MInhZoqnJTVUaSFJH">
-          <div class="tn" data-page-node-id="iRqswcKyO1gz63ueygJ8v2">STAGE 02 · 2016-2021</div>
-          <div class="th" data-page-node-id="ES9Xj9xZXRzewcHhaGA4Fd">信息化打通</div>
-          <ul data-page-node-id="cN318DnpMqOU5oBoTqhRre">
-            <li data-page-node-id="UVk2RGiYtGJG0AK7sfmt3j">ERP / 财务 / OA / 企微陆续上线</li>
-            <li data-page-node-id="xj9nO0yBEseKCTyHLiAmlB">报销、审批、合同从线下跑到线上</li>
-          </ul>
-          <div class="ok" data-page-node-id="AWghTB23dMJKGDBJ33UWPU">跨部门流转效率提升 · 重复沟通减少</div>
-        </div>
-        <div class="tl-item rise d2" data-page-node-id="b3dOhqDSSd0Ru1DxonfnAE">
-          <div class="tn" data-page-node-id="RCmHAzBLTTKP4aCDvinME5">STAGE 03 · 2022-2025</div>
-          <div class="th" data-page-node-id="bCv1ZrKzMD2YpQkZd4KOUQ">智能协同</div>
-          <ul data-page-node-id="cBZfTfKpmHcf1VmzgMONMN">
-            <li data-page-node-id="HjLOLDls7iH7zAO52yQ7ER">2022 ChatGPT 发布,大模型时代开启</li>
-            <li data-page-node-id="y9bVusEFJUtlCGCFoTab0Y">算法排产 / 预测维护 / 智能客服上岗</li>
-          </ul>
-          <div class="ok" data-page-node-id="1iq8jMaKlEPTd4PAadq9lf"><em data-page-node-id="A45sHv7EALi1xJNbhDZVMY">点题</em> · 三一灯塔工厂:<b data-page-node-id="iV2kuwvnDVJjMgXzNIFyaI">2000 人年产 500 台 → 500 人年产 3000 台</b>,人均产值 1072.8 万</div>
-        </div>
-        <div class="tl-item rise d3" style="background:rgba(201,160,99,.12);border-color:var(--gold);border-left-color:var(--gold)" data-page-node-id="KNmSHOMMABWc2xI0HkWo8N">
-          <div class="tn" data-page-node-id="aYii0RGz809B39kuWv6p1B">STAGE 04 · 2026 · 现在</div>
-          <div class="th" style="color:var(--gold)" data-page-node-id="ay46cFwJrNQmpMn10LKOax">数字分身元年</div>
-          <ul data-page-node-id="yMBZzJWsXL94kh1B8ggprZ">
-            <li data-page-node-id="S1sY5GcBGf6t2x2BZpSjqa">过去 20 年解放了「手」和「系统」</li>
-            <li data-page-node-id="BIUNATjWLkzsvh4f2DkXFa">现在要解放「每个岗位上的大脑」</li>
-          </ul>
-          <div class="ok" style="background:rgba(201,160,99,.18);color:var(--deep)" data-page-node-id="l789upvJhMuN8ntZfmDj5n">解放了员工的双手,该用 AI 分身解放他们的大脑了</div>
-        </div>
+
+    <div class="era-p e2">
+      <div class="e-name">效率时代 2006–2021</div>
+      <div class="e-kw">成本为王</div>
+      <div class="e-mode">机器换人 + 系统打通</div>
+      <div class="e-win"><span class="dot"></span>敢投入 + 管理精细的企业</div>
+      <div class="e-case e-case2">
+        <div class="n">富士康昆山</div><div class="v">-54%</div>
+        <div class="n">三一 · 人均产值</div><div class="v">1072.8 万</div>
       </div>
     </div>
-    <div class="cv-ft" data-page-node-id="GHa93LSqETU4BDojqKo7CD"><div class="left" data-page-node-id="DIfzCeyqCxd11EtKkYsRpF"><span class="pg" data-page-node-id="PpbiuyKCkvjRWFwevSxbh1">05</span><span data-page-node-id="YjpXCAyjLfVJ5pSCItvtNB">/ 17</span></div>
+
+    <div class="era-p e3">
+      <div class="e-name">智能时代 2022–现在</div>
+      <div class="e-pillrow"><span class="pill">2026 · 数字分身元年</span></div>
+      <div class="e-kw">认知为王</div>
+      <div class="e-mode">AI 分身 + 人机协同</div>
+      <div class="e-win"><span class="dot"></span>决策最快 + 学习最快的企业</div>
+      <div class="e-case e-case3">
+        <svg class="e-ico e-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3.4 2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M7 5.5H4.6v1.6A3.2 3.2 0 0 0 7 10.2"/><path d="M17 5.5h2.4v1.6A3.2 3.2 0 0 1 17 10.2"/><path d="M12 14v3.2"/><path d="M8.4 20h7.2l-.9-2.8H9.3L8.4 20z"/></svg>
+        <div class="t3">冠军名单未写 · 在座都有座位</div>
       </div>
+    </div>
+
+    <div class="era-line"></div>
+    <p class="era-quote">规模时代的冠军靠<em>一支笔</em>，效率时代的冠军靠<em>一套系统</em>，智能时代的冠军——靠<em>一颗能被复制的大脑</em></p>
+    <div class="era-pg"><span class="pg">05</span><span>/ 17</span></div>
   </div></div>
 </section>
 
@@ -1249,6 +1294,53 @@ body::before{content:'';position:fixed;inset:-8%;z-index:-1;pointer-events:none;
 
   fit(); paint();
   setTimeout(function(){ fit(); paint(); }, 300);
+})();
+</script>
+<script>
+/* === P05 三个时代：金句打字机（逐字浮现，末句「一颗能被复制的大脑」最后落定）=== */
+(function(){
+  var pg = document.querySelector('.page[data-title="三个时代 三种赢法"]');
+  if(!pg) return;
+  var q = pg.querySelector('.era-quote');
+  if(!q) return;
+  var chars = [];
+  (function walk(node, inLand){
+    Array.prototype.slice.call(node.childNodes).forEach(function(n){
+      if(n.nodeType === 3){
+        var frag = document.createDocumentFragment();
+        Array.prototype.slice.call(n.textContent).forEach(function(ch){
+          var s = document.createElement('span');
+          s.className = 'qc' + (inLand ? ' land' : '');
+          s.textContent = ch;
+          frag.appendChild(s); chars.push(s);
+        });
+        node.replaceChild(frag, n);
+      } else if(n.nodeType === 1){
+        walk(n, inLand || n.tagName === 'EM');
+      }
+    });
+  })(q, false);
+  var timers = [];
+  function reset(){
+    timers.forEach(clearTimeout); timers = [];
+    chars.forEach(function(s){ s.classList.remove('on'); });
+    q.querySelectorAll('em').forEach(function(e){ e.classList.remove('landed'); });
+  }
+  function play(){
+    reset();
+    var t = 2050;
+    chars.forEach(function(s){
+      t += (s.classList.contains('land') ? 54 : 28);
+      (function(at, el){ timers.push(setTimeout(function(){ el.classList.add('on'); }, at)); })(t, s);
+    });
+    var last = t;
+    timers.push(setTimeout(function(){
+      q.querySelectorAll('em').forEach(function(e){ e.classList.add('landed'); });
+    }, last + 160));
+  }
+  new MutationObserver(function(){
+    if(pg.classList.contains('active')) play(); else reset();
+  }).observe(pg, {attributes:true, attributeFilter:['class']});
 })();
 </script>
 </body>
