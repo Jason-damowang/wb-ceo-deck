@@ -542,6 +542,31 @@ body::before{content:'';position:fixed;inset:-8%;z-index:-1;pointer-events:none;
 .roi4 .r .ratio i{font-style:normal;font-size:11.5px;font-weight:700;color:rgba(28,39,51,.5);letter-spacing:.1em}
 .roi4 .r .ratio b{font-size:30px;font-weight:800;color:var(--gold);letter-spacing:.01em;line-height:1.05}
 .srcnote{margin-top:5px;font-size:10.5px;color:rgba(28,39,51,.55);line-height:1.5;padding-left:4px}
+
+/* === 46. P13 上海络蒙 · 核心团队模块 === */.lm-note .coda{margin-top:2px;padding-top:12px;border-top:1px solid rgba(201,160,99,.24);
+  font-size:11.6px;color:rgba(255,255,255,.62);letter-spacing:.02em}
+
+.lm-chips{margin-top:15px;padding-top:13px;border-top:1px solid rgba(201,160,99,.28);display:flex;flex-direction:column;gap:7px;width:100%}
+.lm-chips span{font-size:11px;color:rgba(255,255,255,.74);background:rgba(255,255,255,.05);border:1px solid rgba(201,160,99,.22);border-radius:99px;padding:5px 10px;text-align:center;line-height:1.35}
+.lm-right{display:flex;flex-direction:column;gap:11px}
+.lm-sec{display:flex;align-items:center;gap:10px}
+.lm-sec .lb{font-size:11.5px;font-weight:800;letter-spacing:.2em;color:#C9A063}
+.lm-sec .ln{flex:1;height:1px;background:linear-gradient(90deg,rgba(201,160,99,.55),rgba(201,160,99,0))}
+.lm-team{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.lm-num{padding:16px 14px 17px;border-radius:12px;text-align:center;
+  background:linear-gradient(158deg,rgba(255,255,255,.055),rgba(255,255,255,.018));border:1px solid rgba(201,160,99,.24)}
+.lm-num .k{display:flex;align-items:baseline;justify-content:center;gap:4px}
+.lm-num .k b{font-size:34px;font-weight:800;color:#E8C890;line-height:1;letter-spacing:.01em}
+.lm-num .k b em{font-size:17px;font-style:normal}
+.lm-num .k i{font-style:normal;font-size:12.5px;font-weight:700;color:#C9A063}
+.lm-num .t{margin-top:10px;font-size:11.8px;color:rgba(255,255,255,.72);letter-spacing:.02em}
+.lm-note{flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:12px;padding:20px;border-radius:12px;
+  background:linear-gradient(158deg,rgba(255,255,255,.05),rgba(255,255,255,.015));border:1px solid rgba(201,160,99,.22)}
+.lm-note .row{display:flex;gap:9px;align-items:flex-start}
+.lm-note .dot{flex:0 0 auto;width:5px;height:5px;border-radius:99px;background:#C9A063;margin-top:7px}
+.lm-note p{margin:0;font-size:12.6px;line-height:1.62;color:rgba(255,255,255,.82)}
+.lm-note p b{color:#fff;font-weight:800;margin-right:7px}
+.lm-note p em{color:#E8C890;font-style:normal;font-weight:700}
 </style>
 </head>
 <body data-page-node-id="y9lzd0faDGnHhQWw4vFRS5">
@@ -1056,14 +1081,25 @@ body::before{content:'';position:fixed;inset:-8%;z-index:-1;pointer-events:none;
           <h3>上海络蒙电子科技有限公司</h3>
           <p class="lm-tag">企业级人工智能应用落地与数字化赋能服务商</p>
           <div class="lm-stack">技术底座：<b>腾讯 WorkBuddy + 络蒙 AI</b><br>多模型支持：腾讯混元 / DeepSeek / GPT / Claude</div>
+          <div class="lm-chips">
+          <span>腾讯云首批 WorkBuddy 合作伙伴</span>
+          <span>上海总部 · 服务全国客户</span>
+          <span>4 大交付：智能体 / 数据 / 内容 / 培训</span>
         </div>
-        <div class="lm-cards">
-        <div class="lm-card rise d1"><div class="lm-k"><b>10+</b><i>年</i></div><div class="lm-t"><b>复合背景</b>AI 应用 × 职业教育，技术与落地双视角。</div></div>
-        <div class="lm-card rise d2"><div class="lm-k"><b>200万+</b><i>用户社区</i></div><div class="lm-t"><b>方案持续验证</b>泛 AI 社区反向驱动产品化。</div></div>
-        <div class="lm-card rise d3"><div class="lm-k"><b>首批</b><i>合作伙伴</i></div><div class="lm-t"><b>WorkBuddy 首批</b>深度对接企微与腾讯会议生态。</div></div>
-        <div class="lm-card rise d4"><div class="lm-k"><b>0→1</b><i>全栈</i></div><div class="lm-t"><b>产品 · 运营 · 商业化</b>从需求调研到上线陪跑闭环。</div></div>
-        <div class="lm-card rise d5"><div class="lm-k"><b>上海</b><i>总部</i></div><div class="lm-t"><b>总部上海</b>远程交付 + 现场实施，服务全国客户。</div></div>
-        <div class="lm-card rise d6"><div class="lm-k"><b>4</b><i>大交付</i></div><div class="lm-t"><b>智能体 / 数据 / 内容 / 培训</b>四位一体，覆盖工具到组织闭环。</div></div>
+        </div>
+        <div class="lm-right">
+          <div class="lm-sec"><span class="lb">核心团队</span><span class="ln"></span></div>
+          <div class="lm-team">
+            <div class="lm-num rise d1"><div class="k"><b>50<em>+</em></b><i>人</i></div><div class="t">团队总人数</div></div>
+            <div class="lm-num rise d2"><div class="k"><b>70<em>%</em></b></div><div class="t">研发人员占比</div></div>
+            <div class="lm-num rise d3"><div class="k"><b>硕士</b><i>为主</i></div><div class="t">海外名校 + 国内 985</div></div>
+          </div>
+          <div class="lm-note rise d4">
+            <div class="row"><span class="dot"></span><p><b>大厂技术背景</b>核心成员来自 <em>华为 / 腾讯 / 阿里巴巴</em>，具备大规模系统研发与工程化管理能力。</p></div>
+            <div class="row"><span class="dot"></span><p><b>研发驱动</b>以研发为主的团队结构，保障产品快速迭代与高质量交付。</p></div>
+            <div class="row"><span class="dot"></span><p><b>行业深耕</b>AI 应用 + 职业教育十余年，依托 <em>200 万级泛 AI 用户社区</em>持续验证方案；具备从 0 到 1 搭建产品、运营与商业化的全栈能力。</p></div>
+            <div class="coda">AI 的价值不在技术本身，而在为企业解决实际问题。</div>
+          </div>
         </div>
       </div>
     </div>
