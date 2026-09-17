@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="PNJzjSNcBu0BaA1NQnu2Wo">
+<head data-page-node-id="AjpAJKh4Cz2euavPKCavfP">
+<meta charset="UTF-8" data-page-node-id="nlzLkNfk4A92hQRtri6bV5">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" data-page-node-id="Cm8NNEeJEBxWreis4d6p1V">
+<title>WorkBuddy × 总裁班 · 解放大脑 · 演示 v3.2</title>
+<style>
+/* === 1. 颜色变量（实战 10 色 + 阴影）===\n */
+:root{
+  --navy:#12365C;  --navy2:#1E4E7A;  --deep:#0A2239;
+  --gold:#C9A063;  --gold2:#E3C48F;
+  --ink:#1C2733;   --ink2:#5A6B7C;   --ink3:#93A3B3;
+  --line:#E3E9EF;  --bg:#F5F7FA;     --card:#FFFFFF;
+  --up:#C0392B;    --down:#1E8449;
+  --shadow-s:0 2px 8px rgba(18,54,92,.05), 0 1px 2px rgba(18,54,92,.04);
+  --shadow-m:0 10px 30px rgba(18,54,92,.08), 0 2px 8px rgba(18,54,92,.04);
+  --shadow-l:0 24px 60px rgba(18,54,92,.12), 0 6px 16px rgba(18,54,92,.06);
+  --r:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#0A2239;
+  font-family:"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+  color:#fff;touch-action:pan-y pinch-zoom;user-select:none;-webkit-user-select:none}
+body{display:flex;align-items:center;justify-content:center;background:#0A2239}
+/* 留边环境光：当前页底色放大 + 模糊，边界柔和过渡 */
+body::before{content:'';position:fixed;inset:-8%;z-index:-1;pointer-events:none;
+  background:var(--amb,#0A2239);filter:blur(70px) saturate(1.08)}
+
+:root{--fit:1}
+#deck{position:relative;width:1280px;height:720px;flex:0 0 auto;overflow:hidden;
+  transform:scale(var(--fit,1));transform-origin:50% 50%;
+  box-shadow:none;border-radius:0}
+.page{position:absolute;inset:0;width:100%;height:100%;opacity:0;visibility:hidden;
+  transition:opacity .5s ease;overflow:hidden}
+.page.active{opacity:1;visibility:visible}
+
+/* === 2. Stage 骨架 === */
+.stage{position:relative;width:100%;height:100%;background:linear-gradient(135deg,#12365C 0%,#0A2239 100%);
+  display:flex;flex-direction:column}
+.stage.light{background:#F5F7FA;color:#1C2733}
+.card-bg{position:absolute;inset:0;
+  background:radial-gradient(circle at 80% 20%,rgba(201,160,99,.08),transparent 60%);pointer-events:none}
+.card-bg.cover{background:
+  radial-gradient(circle at 85% 50%,rgba(201,160,99,.18),transparent 55%),
+  radial-gradient(circle at 15% 80%,rgba(30,78,122,.25),transparent 60%)}
+.card-bg.end{background:
+  radial-gradient(circle at 50% 50%,rgba(201,160,99,.15),transparent 70%)}
+.stage-in{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;
+  padding:32px 64px 56px;min-height:0}
+
+/* === 3. 页头统一 === */
+.hd{margin-bottom:18px}
+.eyebrow{display:inline-block;font-size:13px;font-weight:600;color:var(--gold);
+  letter-spacing:.22em;text-transform:uppercase;margin-bottom:10px}
+.hd-row{display:flex;align-items:flex-start;justify-content:space-between;gap:32px}
+.hd-row>div:first-child{flex:1}
+.title{font-size:32px;font-weight:700;line-height:1.25;color:#fff;letter-spacing:.04em}
+.stage.light .title{color:var(--ink)}
+.title em,.title .g{color:var(--gold);font-style:normal;font-weight:700}
+.sub{margin-top:10px;font-size:15px;color:rgba(255,255,255,.75);line-height:1.65}
+.stage.light .sub{color:var(--ink2)}
+.hd-badge{display:flex;align-items:center;gap:12px;padding:14px 22px;
+  border:1px solid rgba(201,160,99,.4);border-radius:14px;background:rgba(201,160,99,.06)}
+.hd-badge .n{font-size:34px;font-weight:800;color:var(--gold);line-height:1}
+.hd-badge .t{font-size:12px;color:rgba(255,255,255,.85);line-height:1.4;letter-spacing:.04em}
+.bd{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+
+/* === 5. 页脚 === */
+.cv-ft{display:flex;justify-content:space-between;align-items:center;
+  margin-top:auto;padding-top:14px;font-size:11px;color:rgba(255,255,255,.4);
+  letter-spacing:.1em}
+.stage.light .cv-ft{color:var(--ink3)}
+.cv-ft .left{display:flex;align-items:baseline;gap:2px}
+.cv-ft .pg{font-family:"Inter",monospace;font-size:14px;color:var(--gold);font-weight:700}
+.cv-ft .brand{display:flex;align-items:center;gap:8px}
+.cv-ft .wmark{display:inline-flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border:1px solid var(--gold);border-radius:50%;
+  font-weight:700;font-size:12px;color:var(--gold)}
+
+/* === 6. 通用 === */
+.pill{display:inline-block;padding:6px 14px;border:1px solid var(--gold);
+  border-radius:99px;font-size:12px;color:var(--gold);letter-spacing:.1em}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);
+  margin-right:10px;vertical-align:middle}
+
+/* === 7. 议程 goals === */
+.goals{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.goal{display:flex;gap:14px;padding:18px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,160,99,.18);border-radius:var(--r)}
+.goal .num{font-size:32px;font-weight:800;color:var(--gold);line-height:1;min-width:46px}
+.goal .h{font-size:16px;font-weight:600;color:#fff;margin-bottom:6px}
+.goal .p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.6}
+.notes{display:flex;gap:14px;margin-top:auto}
+.note{display:flex;gap:10px;padding:10px 14px;background:rgba(201,160,99,.08);
+  border-left:2px solid var(--gold);border-radius:6px;font-size:12px;color:rgba(255,255,255,.85);line-height:1.5}
+.note .x{color:var(--gold);font-weight:700}
+
+/* === 8. persona + pains === */
+.split{display:grid;grid-template-columns:1fr 1.2fr;gap:24px}
+.persona{padding:24px;background:rgba(255,255,255,.05);border-radius:var(--r)}
+.persona .role{font-size:11px;color:var(--gold);letter-spacing:.18em;margin-bottom:8px}
+.persona h3{font-size:22px;color:#fff;margin-bottom:12px}
+.persona .pj{font-size:14px;color:rgba(255,255,255,.8);line-height:1.6;margin-bottom:10px}
+.persona .pq{font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;
+  padding:14px;background:rgba(0,0,0,.2);border-radius:10px}
+.pains{display:grid;grid-template-columns:1fr;gap:14px}
+.pain{padding:16px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,160,99,.15);border-radius:12px;display:flex;gap:12px}
+.pain .pv{min-width:80px;text-align:center;padding:6px;border-right:1px solid rgba(201,160,99,.2)}
+.pain .pv .n{font-size:20px;font-weight:800;color:var(--gold);line-height:1}
+.pain .pv .u{font-size:11px;color:var(--ink3);margin-top:2px}
+.pain .pt{font-size:13px;color:rgba(255,255,255,.85);line-height:1.5;flex:1}
+.stage.light .pain .pt{color:var(--ink)}
+
+/* === 9. scenes 总览 === */
+.scenes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:auto}
+.scene{padding:22px;background:rgba(255,255,255,.05);
+  border:1px solid rgba(201,160,99,.2);border-radius:var(--r);
+  display:flex;flex-direction:column;gap:10px}
+.scene .si{display:inline-block;width:fit-content;padding:6px 12px;border-radius:6px;
+  font-size:11px;color:#fff;letter-spacing:.16em}
+.scene .st{font-size:18px;font-weight:700;color:#fff;line-height:1.3}
+.scene .ss{font-size:11px;color:var(--gold);letter-spacing:.16em}
+.scene .sd{font-size:13px;color:rgba(255,255,255,.75);line-height:1.6;flex:1}
+.scene .sm{padding-top:10px;border-top:1px solid rgba(201,160,99,.2);
+  font-size:13px;color:rgba(255,255,255,.85)}
+.scene .sm em{color:var(--gold);font-style:normal;font-weight:700}
+
+/* === 10. flowline 6 步 === */
+.flowline{display:flex;gap:6px;align-items:stretch}
+.fstep{flex:1;padding:14px;background:rgba(255,255,255,.05);
+  border:1px solid rgba(201,160,99,.18);border-radius:12px}
+.fstep .fn{font-size:11px;color:var(--gold);letter-spacing:.16em;margin-bottom:6px;
+  display:flex;align-items:center;gap:6px}
+.fstep .fn i{display:inline-flex;align-items:center;justify-content:center;
+  width:18px;height:18px;border-radius:50%;background:var(--gold);color:var(--deep);
+  font-style:normal;font-weight:700;font-size:11px}
+.fstep .fh{font-size:14px;font-weight:600;color:#fff;margin-bottom:6px}
+.fstep .fp{font-size:12px;color:rgba(255,255,255,.7);line-height:1.5}
+.farrow{align-self:center;color:var(--gold);font-size:18px;font-weight:700}
+
+/* === 11. cmp-list === */
+.cmp-list{display:flex;flex-direction:column;gap:10px}
+.cmp{display:grid;grid-template-columns:200px 1fr 140px;gap:16px;align-items:center;
+  padding:12px 16px;background:rgba(255,255,255,.04);border-radius:10px}
+.cmp .cn{font-size:14px;font-weight:600;color:#fff}
+.cmp .cn span{display:block;font-size:11px;color:var(--ink3);font-weight:400;margin-top:2px}
+.bars{display:flex;flex-direction:column;gap:6px}
+.brow{display:flex;align-items:center;gap:8px}
+.brow .bl{width:36px;font-size:11px;color:var(--ink2)}
+.btrack{flex:1;height:18px;background:rgba(255,255,255,.06);border-radius:4px;
+  position:relative;overflow:hidden}
+.bfill{height:100%;display:flex;align-items:center;justify-content:flex-end;
+  padding-right:8px;font-size:11px;color:#fff;font-weight:600;border-radius:4px}
+.bfill.bef{background:rgba(255,255,255,.2)}
+.bfill.aft.gold{background:linear-gradient(90deg,var(--gold),var(--gold2));color:var(--deep)}
+.save{text-align:right}
+.save .sv{font-size:22px;font-weight:800;color:var(--gold);line-height:1}
+.save .sd{font-size:11px;color:var(--ink3);margin-top:2px}
+
+/* === 13. case-grid === */
+.case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.case-card{padding:18px;background:rgba(255,255,255,.05);
+  border:1px solid rgba(201,160,99,.2);border-radius:var(--r);
+  display:flex;flex-direction:column;gap:8px}
+.case-card .tag{display:inline-block;width:fit-content;padding:4px 10px;
+  background:rgba(201,160,99,.15);border:1px solid var(--gold);border-radius:99px;
+  font-size:11px;color:var(--gold);letter-spacing:.08em}
+.case-card .h{font-size:16px;font-weight:700;color:#fff;margin-top:4px}
+.case-card .p{font-size:12px;color:rgba(255,255,255,.75);line-height:1.6;flex:1}
+.case-card .fx{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:8px;
+  border-top:1px solid rgba(201,160,99,.15)}
+.case-card .fx span{padding:3px 8px;background:rgba(255,255,255,.06);
+  border-radius:4px;font-size:11px;color:var(--gold)}
+
+/* === 14. shot 截图 === */
+.shot{padding:0;background:#fff;border-radius:var(--r);overflow:hidden;
+  box-shadow:var(--shadow-l);display:flex;flex-direction:column;height:100%}
+.shot img{width:100%;flex:1;object-fit:cover;display:block}
+.shot-cap{padding:12px 18px;background:var(--navy);color:#fff;
+  display:flex;align-items:center;gap:10px;font-size:12px}
+.shot-cap .num{flex:none;width:24px;height:24px;border-radius:50%;
+  background:var(--gold);color:var(--deep);display:flex;align-items:center;
+  justify-content:center;font-weight:700}
+
+/* === 15. cover === */
+.cv-in{position:relative;z-index:2;flex:1;display:flex;
+  align-items:center;padding:64px}
+.cv-l{flex:1.2}
+.cv-tag{display:inline-flex;align-items:center;padding:8px 16px;
+  background:rgba(201,160,99,.12);border:1px solid var(--gold);
+  border-radius:99px;font-size:12px;color:var(--gold);letter-spacing:.16em}
+.cv-h1{font-size:58px;font-weight:800;color:#fff;line-height:1.15;
+  margin-top:24px;letter-spacing:.04em;text-shadow:0 4px 24px rgba(0,0,0,.35)}
+.cv-h1 .g,.cv-h1 em{color:var(--gold);font-style:normal;font-weight:800}
+.cv-rule{width:80px;height:3px;background:var(--gold);margin:24px 0}
+.cv-sub{font-size:17px;color:rgba(255,255,255,.85);line-height:1.7;max-width:760px}
+.cv-sub b{color:#fff;font-weight:600}
+.cv-meta{display:flex;gap:24px;margin-top:36px;padding-top:28px;
+  border-top:1px solid rgba(201,160,99,.2)}
+.cv-meta>div{flex:1}
+.cv-meta .v{font-size:36px;font-weight:800;color:var(--gold);line-height:1}
+.cv-meta .v em{font-size:14px;color:rgba(255,255,255,.7);font-style:normal;
+  font-weight:400;margin-left:4px}
+.cv-meta .k{font-size:12px;color:rgba(255,255,255,.7);margin-top:6px;line-height:1.5}
+.cv-r{flex:1;display:flex;align-items:center;justify-content:center}
+
+/* === 16. end === */
+.end-in{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:64px;text-align:center}
+.end-in h1{font-size:74px;color:#fff;font-weight:800;line-height:1.2;
+  text-shadow:0 4px 24px rgba(0,0,0,.35);letter-spacing:.06em}
+.end-in h1 .g{color:#F0D49A;text-shadow:0 3px 18px rgba(240,212,154,.4)}
+.end-in .es{font-size:23px;color:rgba(255,255,255,.94);margin-top:26px;
+  max-width:860px;line-height:1.9;letter-spacing:.01em;text-shadow:0 2px 12px rgba(0,0,0,.3)}
+.end-rule{width:132px;height:3px;margin-top:26px;border-radius:3px;
+  background:linear-gradient(90deg,rgba(201,160,99,0) 0%,var(--gold) 50%,rgba(201,160,99,0) 100%)}
+.end-meta{margin-top:38px;font-size:13px;color:var(--gold);
+  letter-spacing:.34em;text-indent:.34em;opacity:.92}
+
+/* === 17. 动画 === */
+.rise{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
+.page.active .rise{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+.d4{transition-delay:.32s}.d5{transition-delay:.40s}.d6{transition-delay:.48s}
+.d7{transition-delay:.56s}.d8{transition-delay:.64s}
+
+/* === 18. 打印 === */
+@media print{
+  @page{size:1280px 720px;margin:0}
+  html,body{width:1280px!important;background:#fff!important;overflow:visible!important}
+  body>*:not(#deck){display:none!important}
+  #deck{position:static!important;transform:none!important;overflow:visible!important;
+    box-shadow:none!important;border-radius:0!important}
+  #deck>.page{position:relative!important;display:block!important;
+    width:1280px!important;height:720px!important;opacity:1!important;visibility:visible!important;
+    page-break-after:always;break-after:page;transform:none!important;transition:none!important}
+  #deck>.page:last-of-type{page-break-after:auto;break-after:auto}
+  .rise,.d1,.d2,.d3,.d4,.d5,.d6,.d7,.d8{opacity:1!important;transform:none!important;
+    transition:none!important;animation:none!important}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+/* === 19. 移动端 === */
+@media (max-width:768px){
+  .stage{font-size:14px}
+  .hd-row{flex-direction:column}
+  .hd-badge{margin-top:16px}
+  .goals,.scenes,.case-grid{grid-template-columns:1fr}
+  .flowline{flex-direction:column}
+  .farrow{transform:rotate(90deg)}
+  .tl{grid-template-columns:1fr 1fr}
+  .split{grid-template-columns:1fr}
+}
+
+/* === 21. 自定义:大数字展示 === */
+.bignum{display:flex;gap:32px;align-items:stretch;margin-bottom:14px}
+.bn{flex:1;padding:18px 20px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,160,99,.2);border-radius:14px;display:flex;flex-direction:column;justify-content:space-between;min-height:120px}
+.bn .v{font-size:48px;font-weight:800;color:var(--gold);line-height:1;letter-spacing:.02em}
+.bn .v em{font-size:18px;color:rgba(255,255,255,.7);font-style:normal;font-weight:600;margin-left:6px}
+.bn .k{font-size:13px;color:rgba(255,255,255,.85);line-height:1.5;margin-top:10px}
+
+/* === 22. 对照左右栏 === */
+.cmp2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.cmp2-col{padding:22px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,160,99,.18);border-radius:var(--r)}
+.cmp2-col.dark{background:rgba(201,160,99,.10);border-color:var(--gold)}
+.cmp2-col .tag{display:inline-block;padding:5px 12px;border-radius:6px;font-size:11px;
+  letter-spacing:.14em;color:#fff;background:linear-gradient(135deg,#12365C,#1E4E7A)}
+.cmp2-col.dark .tag{background:linear-gradient(135deg,#C9A063,#A37D44);color:var(--deep)}
+.cmp2-col h3{font-size:22px;color:#fff;margin:12px 0 6px;line-height:1.25}
+.cmp2-col .lead{font-size:13px;color:rgba(255,255,255,.7);line-height:1.7}
+.cmp2-col ul{list-style:none;margin-top:14px}
+.cmp2-col li{font-size:13px;color:rgba(255,255,255,.85);padding:6px 0;
+  border-bottom:1px dashed rgba(255,255,255,.1);display:flex;gap:8px;align-items:flex-start;line-height:1.55}
+.cmp2-col li:before{content:"·";color:var(--gold);font-weight:700;flex:none}
+
+/* === 23. 引言条 === */
+.goldline{padding:14px 20px;background:rgba(201,160,99,.10);
+  border-left:3px solid var(--gold);border-radius:8px;
+  font-size:14px;color:#fff;line-height:1.7}
+.goldline em{color:var(--gold);font-style:normal;font-weight:700}
+
+/* === 24. 矩阵(场景地图) === */
+.matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.matrix .cell{padding:16px;background:rgba(255,255,255,.05);
+  border:1px solid rgba(201,160,99,.2);border-radius:12px;display:flex;flex-direction:column;gap:6px}
+.matrix .cell .ic{font-size:22px}
+.matrix .cell .h{font-size:15px;font-weight:700;color:#fff}
+.matrix .cell .p{font-size:12px;color:rgba(255,255,255,.75);line-height:1.5}
+
+/* === 25. 行业圈 === */
+.industries{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:14px;
+  border-top:1px dashed rgba(201,160,99,.2)}
+.industries .ind{padding:5px 12px;background:rgba(201,160,99,.10);
+  border:1px solid rgba(201,160,99,.25);border-radius:99px;
+  font-size:12px;color:var(--gold);letter-spacing:.04em}
+
+/* === 26. 一天时间线 === */
+.day{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.day .step{padding:14px;background:rgba(255,255,255,.05);
+  border:1px solid rgba(201,160,99,.18);border-radius:12px;
+  display:flex;flex-direction:column;gap:8px}
+.day .step .tm{font-size:20px;font-weight:800;color:var(--gold);letter-spacing:.04em}
+.day .step .hh{font-size:14px;font-weight:700;color:#fff}
+.day .step .pp{font-size:12px;color:rgba(255,255,255,.75);line-height:1.55;flex:1}
+
+/* === 27. ROI 测算 4 列 === */
+.roi4{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.roi4 .r{padding:18px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,160,99,.2);border-radius:14px;
+  display:flex;flex-direction:column;gap:10px}
+.roi4 .r .head{display:flex;justify-content:space-between;align-items:center}
+.roi4 .r .num{font-size:13px;color:var(--gold);font-weight:700;letter-spacing:.18em}
+.roi4 .r .scale{font-size:11px;color:var(--ink3)}
+.roi4 .r .scope{font-size:14px;color:#fff;font-weight:600}
+.roi4 .r .save{font-size:32px;font-weight:800;color:var(--gold);letter-spacing:.02em;margin-top:auto}
+.roi4 .r .save em{font-size:14px;color:rgba(255,255,255,.7);font-style:normal;font-weight:600;margin-left:4px}
+
+/* === 28. 三栏隐性价值 === */
+.values{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.values .v{padding:18px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,160,99,.18);border-radius:14px;display:flex;flex-direction:column;gap:10px}
+.values .v .tag{display:inline-block;width:fit-content;padding:4px 10px;border-radius:6px;
+  background:rgba(201,160,99,.15);font-size:11px;color:var(--gold);letter-spacing:.14em}
+.values .v .h{font-size:17px;color:#fff;font-weight:700;margin-top:4px}
+.values .v .p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.65}
+.values .v .ref{font-size:11px;color:var(--ink3);margin-top:auto;padding-top:10px;
+  border-top:1px dashed rgba(201,160,99,.2);letter-spacing:.06em}
+
+/* === 30. 5件事 + 问 === */
+.boss{display:grid;grid-template-columns:1.3fr 1fr;gap:20px}
+.boss .five{padding:22px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,160,99,.2);border-radius:var(--r)}
+.boss .five h4{font-size:13px;color:var(--gold);letter-spacing:.18em;margin-bottom:14px;font-weight:700}
+.boss .five ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.boss .five li{display:flex;gap:14px;align-items:center;padding:10px 14px;
+  background:rgba(255,255,255,.04);border-radius:10px;font-size:14px;color:#fff}
+.boss .five li .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex:none}
+.boss .qa{padding:22px;background:rgba(201,160,99,.10);border:1px solid var(--gold);
+  border-radius:var(--r);display:flex;flex-direction:column;gap:14px;justify-content:center}
+.boss .qa h4{font-size:13px;color:var(--gold);letter-spacing:.18em;font-weight:700}
+.boss .qa .q{font-size:22px;color:#fff;font-weight:700;line-height:1.4;letter-spacing:.04em}
+.boss .qa .q:before{content:'"';color:var(--gold);font-weight:800;margin-right:4px}
+.boss .qa .q:after{content:'"';color:var(--gold);font-weight:800;margin-left:4px}
+.boss .qa .ref{font-size:11px;color:var(--ink3);letter-spacing:.08em}
+
+/* === 31. 财务分身 4 卡 === */
+.fin4{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.fin4 .c{padding:18px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,160,99,.2);border-radius:14px;
+  display:flex;flex-direction:column;gap:8px;min-height:120px}
+.fin4 .c .tag{display:inline-block;width:fit-content;padding:4px 10px;border-radius:6px;
+  background:rgba(201,160,99,.15);font-size:11px;color:var(--gold);letter-spacing:.14em;font-weight:700}
+.fin4 .c .h{font-size:16px;color:#fff;font-weight:700}
+.fin4 .c .p{font-size:12px;color:rgba(255,255,255,.78);line-height:1.6}
+
+/* === 32. 互动举手 === */
+.vote{padding:16px 22px;background:rgba(201,160,99,.10);border:1px solid var(--gold);
+  border-radius:12px;margin-top:auto;font-size:15px;color:#fff;line-height:1.7;text-align:center}
+.vote em{color:var(--gold);font-style:normal;font-weight:700}
+
+/* === 33. light stage 卡片覆盖(让深色风格卡片在浅色 stage 上可读) === */
+.stage.light .matrix .cell{background:#fff;border:1px solid rgba(18,54,92,.12)}
+.stage.light .matrix .cell .h{color:var(--ink)}
+.stage.light .matrix .cell .p{color:rgba(28,39,51,.72)}
+.stage.light .fstep{background:#fff;border:1px solid rgba(18,54,92,.12)}
+.stage.light .fstep .fh{color:var(--ink)}
+.stage.light .fstep .fp{color:rgba(28,39,51,.72)}
+.stage.light .case-card{background:#fff;border:1px solid rgba(18,54,92,.12)}
+.stage.light .case-card .h{color:var(--ink)}
+.stage.light .case-card .p{color:rgba(28,39,51,.72)}
+.stage.light .day .step{background:#fff;border:1px solid rgba(18,54,92,.12)}
+.stage.light .day .step .hh{color:var(--ink)}
+.stage.light .day .step .pp{color:rgba(28,39,51,.72)}
+.stage.light .boss .five{background:#fff;border:1px solid rgba(18,54,92,.12)}
+.stage.light .boss .five li{background:rgba(18,54,92,.04);color:var(--ink)}
+.stage.light .boss .qa{background:rgba(201,160,99,.08)}
+.stage.light .boss .qa .q{color:var(--ink)}
+.stage.light .vote{color:var(--ink)}
+
+/* === 34. light stage · P12 财务分身 fin4 覆盖 === */
+.stage.light .fin4 .c{background:#fff;border:1px solid rgba(18,54,92,.14);box-shadow:0 1px 0 rgba(18,54,92,.04)}
+.stage.light .fin4 .c .h{color:var(--ink)}
+.stage.light .fin4 .c .p{color:rgba(28,39,51,.72)}
+
+/* === 36. light stage · P6/P8 cmp2-col 覆盖 === */
+.stage.light .cmp2-col{background:#fff;border:1px solid rgba(18,54,92,.12)}
+.stage.light .cmp2-col h3{color:var(--ink)}
+.stage.light .cmp2-col .lead{color:rgba(28,39,51,.72)}
+.stage.light .cmp2-col li{color:rgba(28,39,51,.78);border-bottom-color:rgba(18,54,92,.10)}
+
+/* === 37. light stage · P15 ROI roi4 覆盖 === */
+.stage.light .roi4 .r{background:#fff;border:1px solid rgba(18,54,92,.12)}
+.stage.light .roi4 .r .scope{color:var(--ink)}
+.stage.light .roi4 .r .save em{color:rgba(28,39,51,.72)}
+
+/* === 38. light stage · P16 隐性价值 values 覆盖 === */
+.stage.light .values .v{background:#fff;border:1px solid rgba(18,54,92,.12)}
+.stage.light .values .v .h{color:var(--ink)}
+.stage.light .values .v .p{color:rgba(28,39,51,.72)}
+
+/* === 38-bis. light stage · 引言条 goldline 覆盖 === */
+.stage.light .goldline{color:var(--ink);background:rgba(201,160,99,.12)}
+
+/* === 40. P02 · 一支笔，撑起 782 亿（六张数据卡片 + 三段叙事 + 全场金句） === */
+.page[data-title="一支笔 撑起 782 亿"] .title{font-family:"Source Han Serif SC","Noto Serif SC","Songti SC",STSong,serif;font-size:36px}
+.p2-sub{margin-top:9px;font-size:15px;color:#A8B2C5;line-height:1.6;letter-spacing:.02em}
+.p2-bd{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;min-height:0}
+.p2-cards{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:14px}
+.p2-card{padding:12px 16px 13px;border-radius:14px;min-height:84px;
+  background:linear-gradient(158deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+  border:1px solid rgba(201,160,99,.22)}
+.p2-card .k{font-size:12px;color:#C9A063;letter-spacing:.14em}
+.p2-card .v{margin-top:6px;font-size:34px;font-weight:800;color:#E8C890;line-height:1;letter-spacing:.01em}
+.p2-card .v em{font-size:16px;font-style:normal;font-weight:600;margin-left:5px}
+.p2-card .d{margin-top:7px;font-size:13px;color:rgba(255,255,255,.9);line-height:1.5}
+.p2-card.txt{display:flex;flex-direction:column;justify-content:center}
+.p2-card.txt .d{margin-top:10px;font-size:13.5px;color:#A8B2C5;line-height:1.6}
+.p2-card .d em{color:#E8C890;font-style:normal;font-weight:700}
+.p2-narr{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;padding:2px 2px 0}
+.p2-n{padding-top:13px;border-top:1px solid rgba(201,160,99,.52)}
+.p2-n .num{font-size:14.5px;font-weight:700;color:#C9A063;margin-right:7px}
+.p2-n p{margin-top:0;font-size:14px;color:#A8B2C5;line-height:1.8}
+.p2-n p em{color:#E8C890;font-style:normal}
+.p2-quote{padding:14px 28px;border-radius:12px;text-align:center;
+  background:rgba(201,160,99,.09);border:1px solid rgba(201,160,99,.28);
+  font-family:"Source Han Serif SC","Noto Serif SC","Songti SC",STSong,serif;
+  font-size:25px;font-style:italic;color:#fff;line-height:1.45;letter-spacing:.02em}
+.p2-quote em{color:#E8C890;font-style:italic;font-weight:700}
+.page[data-title="一支笔 撑起 782 亿"] .cv-ft{border-top:1px solid rgba(201,160,99,.35)}
+/* === 41. P05 三个时代，三种赢法 · 阶梯式三段（三块时代面板 左低右高）=== */
+.stage.era{background:#12365C;color:#fff}
+.era-wrap{position:absolute;inset:0}
+.era-bg{background:
+  radial-gradient(circle at 88% 58%,rgba(201,160,99,.16),transparent 55%),
+  radial-gradient(circle at 8% 92%,rgba(10,34,57,.6),transparent 62%)}
+.era-title{position:absolute;left:40px;top:26px;font-size:48px;font-weight:700;
+  color:#fff;letter-spacing:.04em;line-height:1.15}
+.era-now{position:absolute;right:40px;top:44px;font-size:21px;color:#8A93A6;
+  letter-spacing:.16em;font-weight:600}
+.era-steps{position:absolute;left:0;top:0;width:1280px;height:720px;pointer-events:none}
+.era-sw{fill:#C9A063;font-size:19px;font-weight:700;letter-spacing:.12em}
+.era-p{position:absolute;display:flex;flex-direction:column;padding:22px;
+  border-radius:14px;border:1px solid rgba(255,255,255,.07)}
+.e1{left:40px;top:324px;width:380px;height:280px;background:#0D2A47}
+.e2{left:450px;top:244px;width:380px;height:360px;background:#16345A}
+.e3{left:860px;top:144px;width:380px;height:460px;background:#1B3F6B;
+  border-color:rgba(201,160,99,.75);
+  box-shadow:0 0 34px rgba(201,160,99,.22),inset 0 0 46px rgba(201,160,99,.07)}
+.era-p .e-name{font-size:29px;font-weight:700;color:#fff;letter-spacing:.02em;line-height:1.2}
+.era-p .e-kw{font-size:51px;font-weight:800;color:#C9A063;line-height:1.06;
+  margin-top:6px;letter-spacing:.02em}
+.era-p .e-mode{font-size:20px;color:rgba(255,255,255,.7);margin-top:10px;line-height:1.4}
+.era-p .e-win{font-size:20px;color:#fff;margin-top:4px;line-height:1.4}
+.e-pillrow{text-align:right;margin-top:10px}
+.e-pillrow .pill{font-size:13px;padding:6px 12px;letter-spacing:.08em}
+.era-p .e-case{margin-top:auto;border-top:1px solid rgba(201,160,99,.28);
+  padding-top:12px;display:flex;align-items:center;gap:10px;
+  font-size:21px;color:#fff;line-height:1.35}
+.era-p .e-ico{width:30px;height:30px;flex:0 0 auto;color:#C9A063}
+.era-p .e-case2{display:grid;grid-template-columns:1fr auto;gap:6px 10px;align-items:baseline;
+  font-size:inherit}
+.era-p .e-case2 .n{font-size:19px;color:#8A93A6;line-height:1.3}
+.era-p .e-case2 .v{font-size:34px;font-weight:800;color:#C9A063;line-height:1.15;
+  white-space:nowrap;letter-spacing:.01em}
+.era-p .e-case3{display:block}
+.era-p .e-case3 .e-ico{display:block;margin-bottom:8px;width:32px;height:32px}
+.era-p .e-case3 .t3{font-size:21px;color:#C9A063;line-height:1.35}
+.era-line{position:absolute;left:40px;right:40px;top:644px;height:1px;
+  background:linear-gradient(90deg,rgba(201,160,99,.15),#C9A063,rgba(201,160,99,.15))}
+.era-quote{position:absolute;left:40px;right:40px;top:608px;text-align:center;
+  font-size:24px;font-style:italic;color:#fff;line-height:1.35;letter-spacing:.01em}
+.era-quote em{color:var(--gold);font-style:italic;font-weight:700}
+.era-quote .qc{opacity:0;transition:opacity .06s linear}
+.era-quote .qc.on{opacity:1}
+.era-quote em.landed{text-shadow:0 0 12px rgba(201,160,99,.55)}
+.era-pg{position:absolute;left:40px;top:647px;display:flex;align-items:baseline;gap:2px;
+  font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.1em}
+.era-pg .pg{font-family:"Inter",monospace;font-size:14px;color:var(--gold);font-weight:700}
+/* 动画：① 标题+金句淡入 ② 三面板左→中→右 升台阶(各隔 400ms) ③ 面板三定格 500ms+其余压暗 20% ④ 金句打字机 */
+@keyframes eraFade{from{opacity:0}to{opacity:1}}
+@keyframes eraStep{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}
+@keyframes eraDim{from{filter:brightness(1)}to{filter:brightness(.8)}}
+@keyframes eraLock{0%{filter:brightness(1)}45%{filter:brightness(1.28)}100%{filter:brightness(1.12)}}
+.page.active .era-title,.page.active .era-now,.page.active .era-line{animation:eraFade .3s ease both}
+.page.active .e1{animation:eraStep .5s cubic-bezier(.22,.8,.3,1) .30s both,eraDim .5s ease 1.60s forwards}
+.page.active .e2{animation:eraStep .5s cubic-bezier(.22,.8,.3,1) .70s both,eraDim .5s ease 1.60s forwards}
+.page.active .e3{animation:eraStep .5s cubic-bezier(.22,.8,.3,1) 1.10s both}
+.page.active .e3 .e-kw,.page.active .e-trophy{animation:eraLock .5s ease 1.60s both}
+/* SVG 连线与标签跟随入场 */
+.page.active .era-steps{animation:eraFade .5s ease 1.20s both}
+@media print{.era-title,.era-now,.era-line,.era-steps,.era-p{opacity:1!important;
+    transform:none!important;filter:none!important;animation:none!important}
+  .era-quote .qc{opacity:1!important}}
+
+/* === 44. P02 上海络蒙 · 公司介绍（副本新增页 · 沿用本站深藏青 + 香槟金语言） === */
+.p-lm .title em{color:#E8C890}
+.p-lm-sub{margin-top:9px;font-size:15px;color:#A8B2C5;line-height:1.6;letter-spacing:.02em}
+.p-lm .sub{margin-top:9px;font-size:15px;color:#A8B2C5;line-height:1.6}
+.p-lm-bd{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+.p-lm-grid{display:grid;grid-template-columns:352px 1fr;gap:18px;align-items:stretch}
+/* 左：品牌面板 */
+.lm-brand{padding:22px 20px;border-radius:16px;text-align:center;
+  background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  border:1px solid rgba(201,160,99,.42);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.lm-logo{display:flex;align-items:center;justify-content:center;padding:14px 22px;border-radius:12px;
+  background:#fff;box-shadow:0 4px 16px rgba(0,0,0,.18)}
+.lm-logo img{max-width:168px;max-height:92px;object-fit:contain;display:block}
+.lm-brand h3{margin-top:16px;font-size:18px;font-weight:800;color:#fff;letter-spacing:.03em}
+.lm-brand .lm-tag{margin-top:9px;font-size:13.5px;color:#A8B2C5;line-height:1.65}
+.lm-brand .lm-stack{margin-top:14px;padding-top:13px;border-top:1px solid rgba(201,160,99,.28);
+  font-size:11.5px;color:rgba(255,255,255,.62);line-height:1.75}
+.lm-brand .lm-stack b{color:#E8C890;font-weight:700}
+/* 右：六张数据卡片 */
+.lm-cards{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:14px}
+.lm-card{padding:16px 18px 15px;border-radius:14px;
+  background:linear-gradient(158deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+  border:1px solid rgba(201,160,99,.24);display:flex;flex-direction:column;justify-content:center}
+.lm-card .lm-k{display:flex;align-items:baseline;gap:7px}
+.lm-card .lm-k b{font-size:31px;font-weight:800;color:#E8C890;line-height:1;letter-spacing:.01em}
+.lm-card .lm-k i{font-style:normal;font-size:13px;font-weight:600;color:#C9A063}
+.lm-card .lm-t{margin-top:10px;font-size:12.8px;line-height:1.6;color:rgba(255,255,255,.9)}
+.lm-card .lm-t b{color:#fff;font-weight:800;margin-right:5px}
+.p-lm .cv-ft{border-top:1px solid rgba(201,160,99,.35)}
+</style>
+</head>
+<body data-page-node-id="y9lzd0faDGnHhQWw4vFRS5">
+<div id="deck" data-page-node-id="TAYRqYjsIgtgWcrzqfiNbK">
+
+<!-- ============ P01 封面 ============ -->
+<section class="page" data-title="封面" data-page-node-id="DxhjlHQEqmQSVhZMSlxPkO">
+  <div class="stage" data-page-node-id="TVL892nsb5z9uQ0oQ3tyTG"><div class="card-bg cover" data-page-node-id="OwNsjrbFOflNAdtWv1Uo6V"></div>
+    <div class="cv-in" data-page-node-id="L1ztgf51pDF6VkyDkySfvT">
+      <div class="cv-l" data-page-node-id="riZVld1GPaAYhsiBUNIf79">
+        <span class="cv-tag rise" data-page-node-id="KoIBZiQPMMUoSdxMhnwAEs"><span class="dot" data-page-node-id="yhBbxn7VsggTVOyIk3PShp"></span>WORKBUDDY × 总裁班 · 演示材料</span>
+        <h1 class="cv-h1 rise d1" data-page-node-id="qsgUoSr5hnDzDmQp86mlFP">解放大脑 ·<br data-page-node-id="sqDp1FOWc4Trdm9SdeqSFm"><span class="g" data-page-node-id="S6HAnpGO9BlkpJz6DZRGS7">企业的第二次效率革命</span></h1>
+        <div class="cv-rule rise d2" data-page-node-id="lOtxJiA567nhr0OT4wqxu0"></div>
+        
+        <div class="cv-meta rise d4" data-page-node-id="Yh6TJdJIXAcdyEVby5Y9iS">
+          <div data-page-node-id="23wYSZ6byBfU6ZAyC6tzba"><div class="v" data-page-node-id="CcCzBO3pM9rF3ihIeel3cT">6<em data-page-node-id="AMtkhGYLYK9IEEym0JOGTn">个</em></div><div class="k" data-page-node-id="OFqFKuXzf3ey7hCh97bbvT">岗位数字分身<br data-page-node-id="shtygDgWMiktk3efDlCiYl">老板·销售·财务·人力·运营·行政</div></div>
+          <div data-page-node-id="xbQMzuB2CiW8SRlSjPsxo9"><div class="v" data-page-node-id="6cg6Qq7PWHAlQzKehV2Rg4">11<em data-page-node-id="OMaIAPzUMIpiDgEjs7diKp">个</em></div><div class="k" data-page-node-id="RRJ2uys6moEV6kF9GXZ1aA">覆盖行业<br data-page-node-id="gHjiKFlOlAX8L6KyAXEwLS">金融/制造/家纺/建工/物流…</div></div>
+          <div data-page-node-id="dgpxkjGHGmOvRhSJpRoSDR"><div class="v" data-page-node-id="aAecTV9iQV2t8J5QQSuOLJ">3-5<em data-page-node-id="SYCEtC93xrDsHE39GDQAQa">×</em></div><div class="k" data-page-node-id="MKFhFmtVkKjCQVqr3f5Jwr">投入产出<br data-page-node-id="LEUyrwisp1BfpzAlZvgk9V">4 套 ROI 测算模型</div></div>
+        </div>
+      </div>
+      <div class="cv-r rise d3" data-page-node-id="u4xqOPfueI0x3zJs6aNinM">
+        <svg viewBox="0 0 400 400" width="380" height="380" data-page-node-id="kWDq73KDw2KliqfpTCqxtT">
+          <circle cx="200" cy="200" r="168" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="1.4" data-page-node-id="V41nxg9TDLyUFviAInYYGV"/>
+          <circle cx="200" cy="200" r="138" fill="none" stroke="rgba(201,160,99,.30)" stroke-width="1" stroke-dasharray="5 9" style="transform-origin:200px 200px;animation:spin 46s linear infinite" data-page-node-id="IptajD9UZXqXRxQs47eyCw"/>
+          <circle cx="200" cy="200" r="108" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="1" stroke-dasharray="2 14" style="transform-origin:200px 200px;animation:spinR 62s linear infinite" data-page-node-id="iI8EozwplBaOsAIRgBDdVu"/>
+          <circle cx="200" cy="200" r="76" fill="rgba(201,160,99,.08)" stroke="rgba(201,160,99,.4)" stroke-width="1.2" data-page-node-id="vzY0c5j1EY30FsXaEcCqx2"/>
+          <text x="200" y="190" text-anchor="middle" fill="#fff" font-size="22" font-weight="700" data-page-node-id="AImkwcpVuo6kvutAzwLa3m">数字分身</text>
+          <text x="200" y="216" text-anchor="middle" fill="#C9A063" font-size="11" letter-spacing="4" data-page-node-id="zmJFW1LOU0NG9zzvhFo3cd">DIGITAL AVATAR</text>
+          <text x="200" y="234" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="9" letter-spacing="3" data-page-node-id="HtqinICXVfA9PGOG1NHyLu">2026 · 数字分身元年</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ P02 开场故事:宗庆后一支笔 ============ -->
+<!-- ============ P02 上海络蒙 · 公司介绍（副本新增页） ============ -->
+<section class="page" data-title="上海络蒙 公司介绍">
+  <div class="stage"><div class="card-bg"></div><div class="stage-in p-lm">
+    <div class="hd">
+      <span class="eyebrow">PART 01 · 关于上海络蒙</span>
+      <h2 class="title">上海络蒙：<em>企业 AI 分身的全栈落地伙伴</em></h2>
+      <p class="sub">从战略共创到系统上线，陪企业把 AI 能力沉淀为组织资产与增长结果 —— 不是外部顾问，而是内部增长伙伴。</p>
+    </div>
+    <div class="bd p-lm-bd">
+      <div class="p-lm-grid">
+        <div class="lm-brand rise">
+          <div class="lm-logo"><img src="data:image/png;base64,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" alt="上海络蒙"></div>
+          <h3>上海络蒙电子科技有限公司</h3>
+          <p class="lm-tag">企业级人工智能应用落地与数字化赋能服务商</p>
+          <div class="lm-stack">技术底座：<b>腾讯 WorkBuddy + 络蒙 AI</b><br>多模型支持：腾讯混元 / DeepSeek / GPT / Claude</div>
+        </div>
+        <div class="lm-cards">
+        <div class="lm-card rise d1"><div class="lm-k"><b>10+</b><i>年</i></div><div class="lm-t"><b>复合背景</b>AI 应用 × 职业教育，技术与落地双视角。</div></div>
+        <div class="lm-card rise d2"><div class="lm-k"><b>200万+</b><i>用户社区</i></div><div class="lm-t"><b>方案持续验证</b>泛 AI 社区反向驱动产品化。</div></div>
+        <div class="lm-card rise d3"><div class="lm-k"><b>首批</b><i>合作伙伴</i></div><div class="lm-t"><b>WorkBuddy 首批</b>深度对接企微与腾讯会议生态。</div></div>
+        <div class="lm-card rise d4"><div class="lm-k"><b>0→1</b><i>全栈</i></div><div class="lm-t"><b>产品 · 运营 · 商业化</b>从需求调研到上线陪跑闭环。</div></div>
+        <div class="lm-card rise d5"><div class="lm-k"><b>上海</b><i>总部</i></div><div class="lm-t"><b>总部上海</b>远程交付 + 现场实施，服务全国客户。</div></div>
+        <div class="lm-card rise d6"><div class="lm-k"><b>4</b><i>大交付</i></div><div class="lm-t"><b>智能体 / 数据 / 内容 / 培训</b>四位一体，覆盖工具到组织闭环。</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="cv-ft"><div class="left"><span class="pg">02</span><span>/ 14</span></div></div>
+  </div></div>
+</section>
+
+<section class="page" data-title="一支笔 撑起 782 亿">
+  <div class="stage"><div class="card-bg"></div><div class="stage-in p2">
+    <div class="hd p2-hd">
+      <span class="eyebrow">PART 01 · 开场共鸣</span>
+      <h2 class="title">一支笔，<em>撑起 782 亿</em></h2>
+      <p class="p2-sub">三次中国首富、3 万员工、187 家子公司 —— 他用一支笔管全国</p>
+    </div>
+    <div class="bd p2-bd">
+      <div class="p2-cards">
+        <div class="p2-card rise"><div class="k">顶点营收</div><div class="v">782.8<em>亿元</em></div><div class="d">娃哈哈 2013 年营收</div></div>
+        <div class="p2-card rise d1"><div class="k">员工规模</div><div class="v">3<em>万人</em></div><div class="d">全集团员工</div></div>
+        <div class="p2-card rise d1"><div class="k">子公司</div><div class="v">187<em>家</em></div><div class="d">遍布全国的生产与销售网络</div></div>
+        <div class="p2-card txt rise d2"><div class="k">关键安排</div><div class="d">2016 年之前<em>不设副总经理、不设董事会</em></div></div>
+        <div class="p2-card txt rise d2"><div class="k">工作强度</div><div class="d">早 7 点前到、晚 11 点后走 —— <em>几十年如一日</em></div></div>
+        <div class="p2-card txt rise d3"><div class="k">2021 年央视采访</div><div class="d">「我这一生，最自豪的一件事，是在娃哈哈<em>没有『能干』的下属</em>。」</div></div>
+      </div>
+      <div class="p2-narr">
+        <div class="p2-n rise d3">
+          
+          <p><span class="num">①</span>娃哈哈创始人宗庆后，中国三次首富。鼎盛时一年营收 <em>782.8 亿</em>，全国 <em>3 万员工</em>、<em>187 家子公司</em>。</p>
+        </div>
+        <div class="p2-n rise d4">
+          
+          <p><span class="num">②</span><em>2024 年 2 月 25 日</em>，宗老离世，79 岁。一支笔停下来的那一天，接班风波、商标之争、管理层更替轮番上演。两年之后，他说的那句「没有能干的下属」不幸言中 —— 失去「操作系统」的 782 亿企业，照样剧烈颠簸。</p>
+        </div>
+        <div class="p2-n rise d5">
+          
+          <p><span class="num">③</span>不是娃哈哈的问题，是<em>所有「一个人就是操作系统」的企业</em>共同的问题。</p>
+        </div>
+      </div>
+      <div class="p2-quote rise d6">连这样一颗大脑，都扛不住 3 万人的请示 —— <em>我们普通老板的大脑，又该拿什么来解放？</em></div>
+    </div>
+    <div class="cv-ft"><div class="left"><span class="pg">03</span><span>/ 14</span></div></div>
+  </div></div>
+</section>
+
+<!-- ============ P03 互动:这20年 ============ -->
+<section class="page" data-title="这20年 自动化" data-page-node-id="2YlED4OUepCgrDswK6VN1n">
+  <div class="stage" data-page-node-id="bVDKG60bJEm2Yj5IcahbMf"><div class="card-bg" data-page-node-id="un5xxTnTBs5jlAqB9GY9r6"></div><div class="stage-in" data-page-node-id="srcocPVFjJnhWD8LW5p9IG">
+    <div class="hd" data-page-node-id="eL1Y6hstRwXZNldtDMyBpi">
+      <span class="eyebrow" data-page-node-id="seUo71kUBIsrUAItCBr9id">PART 01 · 开场共鸣</span>
+      <div class="hd-row" data-page-node-id="QUKZprhLrtE8AfYSp1tA5x">
+        <div data-page-node-id="SjBLlPaCyqlcUmbv33FxnU"><h2 class="title" data-page-node-id="Np9ZN6N3uT01NtioK3jZV1">这 20 年,自动化<em data-page-node-id="cFi4YK0XUOGhS5hYpaoBOo">帮我们省下了什么?</em></h2>
+          <p class="sub" data-page-node-id="gKxIXGiH9fD1Eka117Av87">车间越来越空,办公室越来越满</p></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="D83OE5Klm4lVD8UZlUsr9I">
+      <div class="cmp2" style="margin-bottom:14px" data-page-node-id="EF6DqCcrLFdmh23QsB2ozn">
+        <div class="cmp2-col rise" data-page-node-id="G6Bsh0OzY9gOCc7QSo6nq9">
+          <div class="tag" data-page-node-id="nj1oQadZsK8CHE0eAaOa54">左边 · 已经赢过的</div>
+          <h3 data-page-node-id="SswSJIr7HiFY3MqiFcniAE">智能产线 · 自动化设备 · OA 系统</h3>
+          <p class="lead" data-page-node-id="BVnXbouiWM89tceUK5WpAj">20 年前我们裁掉了一批流水线工人;今天车间越来越空。</p>
+          <ul data-page-node-id="X4eH6Jx8sCsBOhr2DKL1LU">
+            <li data-page-node-id="kPZ9N48awEIZ4G8Lm6xbdj">冲压、焊接、搬运机器人大规模替代重复体力</li>
+            <li data-page-node-id="hFVo4ZJaSpqS4fwKB64W9t">ERP / 财务系统 / OA / 企微陆续上线,跨部门信息流转效率提升</li>
+            <li data-page-node-id="oZ3SGNchGVZ960e2yRB4v0">大模型时代:算法排产、预测维护、自动质检、智能客服陆续上岗</li>
+          </ul>
+        </div>
+        <div class="cmp2-col dark rise d1" data-page-node-id="bqe1bZ6aBdKJNd4DXTWDNx">
+          <div class="tag" data-page-node-id="xzysNAU9GHw0p2NBOQKZpC">右边 · 没赢过的</div>
+          <h3 data-page-node-id="bbdRxl6Kafq10qldHanCII">堆满文件的老板办公室</h3>
+          <p class="lead" data-page-node-id="346FyPYdz0ivXX9dqmdC6Q">报表、审批单、微信群——但办公室越来越满。</p>
+          <ul data-page-node-id="dA22aGhZ3IEQMMCzCV1Fjr">
+            <li data-page-node-id="PO1Gog9jzRxuFvrR00HHIm">订单要审、合同要看、对账要对、报表要查</li>
+            <li data-page-node-id="sl8X8ywIDfzlw0NlMNBo8X">系统 24 小时在转,决策者也是 24 小时在转</li>
+            <li data-page-node-id="H8KX49pwO63CPIxbLpMipO">要决策的事永远排队;汇报的事又常常带错数据</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="cv-ft" data-page-node-id="y59kDJYYoOgzoEJqmqpkYX"><div class="left" data-page-node-id="r7WojTMsKs78FDm0wF7z9T"><span class="pg" data-page-node-id="xedNBASJBnCTlzKVv81syY">04</span><span data-page-node-id="jI4uTDMovhbMrYVOhtAOFh">/ 14</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P04 王总 + 三个发现 ============ -->
+<!-- ============ P05 三个时代，三种赢法 ============ -->
+<section class="page" data-title="三个时代 三种赢法">
+  <div class="stage era"><div class="card-bg era-bg"></div><div class="era-wrap">
+
+    <h2 class="era-title">三个时代，三种赢法</h2>
+    <div class="era-now">1990s — NOW</div>
+
+    <svg class="era-steps" viewBox="0 0 1280 720" aria-hidden="true">
+      <path d="M40 316 H441 V236 H851 V146" fill="none" stroke="#C9A063" stroke-width="2" stroke-linecap="round"/>
+      <path d="M851 130 l-8 16 h16 z" fill="#C9A063"/>
+      <text class="era-sw" x="240" y="304" text-anchor="middle">产能</text>
+      <text class="era-sw" x="646" y="224" text-anchor="middle">成本</text>
+      <text class="era-sw" x="864" y="128" text-anchor="start">认知</text>
+    </svg>
+
+    <div class="era-p e1">
+      <div class="e-name">规模时代 1990s–2005</div>
+      <div class="e-kw">产能为王</div>
+      <div class="e-mode">人海战术 + 渠道网络</div>
+      <div class="e-win"><span class="dot"></span>胆识 + 资源的企业</div>
+      <div class="e-case">
+        <svg class="e-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 3.5l5 5-9.2 9.2-6.4 1.4 1.4-6.4 9.2-9.2z"/><path d="M13.2 5.8l5 5"/><circle cx="6.6" cy="17.4" r=".9" fill="currentColor" stroke="none"/></svg>
+        <span>一支笔 · 187 家子公司</span>
+      </div>
+    </div>
+
+    <div class="era-p e2">
+      <div class="e-name">效率时代 2006–2021</div>
+      <div class="e-kw">成本为王</div>
+      <div class="e-mode">机器换人 + 系统打通</div>
+      <div class="e-win"><span class="dot"></span>敢投入 + 管理精细的企业</div>
+      <div class="e-case e-case2">
+        <div class="n">富士康昆山</div><div class="v">-54%</div>
+        <div class="n">三一 · 人均产值</div><div class="v">1072.8 万</div>
+      </div>
+    </div>
+
+    <div class="era-p e3">
+      <div class="e-name">智能时代 2022–现在</div>
+      <div class="e-pillrow"><span class="pill">2026 · 数字分身元年</span></div>
+      <div class="e-kw">认知为王</div>
+      <div class="e-mode">AI 分身 + 人机协同</div>
+      <div class="e-win"><span class="dot"></span>决策最快 + 学习最快的企业</div>
+      <div class="e-case e-case3">
+        <svg class="e-ico e-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3.4 2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M7 5.5H4.6v1.6A3.2 3.2 0 0 0 7 10.2"/><path d="M17 5.5h2.4v1.6A3.2 3.2 0 0 1 17 10.2"/><path d="M12 14v3.2"/><path d="M8.4 20h7.2l-.9-2.8H9.3L8.4 20z"/></svg>
+        <div class="t3">冠军名单未写 · 在座都有座位</div>
+      </div>
+    </div>
+
+    <div class="era-line"></div>
+    <p class="era-quote">规模时代的冠军靠<em>一支笔</em>，效率时代的冠军靠<em>一套系统</em>，智能时代的冠军——靠<em>一颗能被复制的大脑</em></p>
+    <div class="era-pg"><span class="pg">05</span><span>/ 14</span></div>
+  </div></div>
+</section>
+
+<!-- ============ P06 下一个瓶颈 ============ -->
+<section class="page" data-title="下一个瓶颈" data-page-node-id="BfJYfGUtaFSGCpzy9xQqBC">
+  <div class="stage light" data-page-node-id="9B9RftsDsXranton7VYCPY"><div class="card-bg" data-page-node-id="7pLWdNCGtuDCLGnx4BvvCQ"></div><div class="stage-in" data-page-node-id="JIn2XqWiRjEVpAkZKfdLGd">
+    <div class="hd" data-page-node-id="NTWWCTDTCtKH8MuSSWAetA">
+      <span class="eyebrow" data-page-node-id="ROj0tamfRr5a5lFfPm7KMg">PART 02 · 认知升级</span>
+      <div class="hd-row" data-page-node-id="GWyhp7ZPCNd4dJhPDzAfOX">
+        <div data-page-node-id="6L6SjnvubQCjXFtt92qbWf"><h2 class="title" data-page-node-id="egf1LgL0O78Ev8q1bY1hDN">下一个瓶颈:<em data-page-node-id="PCRJWhbJ3Wgg99rE9LTTsb">脑子没被自动化</em></h2>
+          <p class="sub" data-page-node-id="rxPF21omy9yuMhHsQgqd7E">麦肯锡 + 微软数据压阵 · 机器 24h 在转,脑子也是 24h 在转</p></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="rryvPost89cbCb9driom4r">
+      <div class="cmp2" style="margin-bottom:14px" data-page-node-id="rCqrkGwiOc1cpCfv4HODUp">
+        <div class="cmp2-col rise" data-page-node-id="PtCghTSOy0wqFRvYknxBtY">
+          <div class="tag" data-page-node-id="QrwqCEueTtkmJPQbJMEuVW">麦肯锡 · The Social Economy</div>
+          <h3 data-page-node-id="azC0QwthhPeiSawggV1UTn">28% 时间耗在邮件</h3>
+          <p class="lead" data-page-node-id="yoB33VKChBNf7jUmHLchst">知识型员工每周 50 小时,其中 <em style="color:var(--gold);font-style:normal;font-weight:700" data-page-node-id="OHQrHOBT8EtelECksujiCL">14 小时</em> 泡在收件箱里。</p>
+          <ul data-page-node-id="i0DNm24O7i1SR8ZxSeHdSS">
+            <li data-page-node-id="VITA4KxDMrxcbyR9TfPPAf">报告口径:麦肯锡全球研究院</li>
+            <li data-page-node-id="oRsbbZqLlZyywsgb5uhl4L">关键人群:知识型员工 / 管理者</li>
+            <li data-page-node-id="9zSsLVtWrAgQVSbW8BbzXT">耗时构成:阅读 + 回复 + 抄送 + 跟进</li>
+          </ul>
+        </div>
+        <div class="cmp2-col rise d1" data-page-node-id="ijWKHcnLNQheACyOXpu5ZM">
+          <div class="tag" data-page-node-id="jVzuAeZqxeFVv2GWfgfAuZ">微软 · Work Trend Index 2025</div>
+          <h3 data-page-node-id="46hL75C0LftnjjCotlDPox">57% 工时花在沟通</h3>
+          <p class="lead" data-page-node-id="0o6YEaQap58b9tRfJ0kT9r">基于数百万 M365 用户实测 · 邮件 / 会议 / 群消息,只剩 <em style="color:var(--gold);font-style:normal;font-weight:700" data-page-node-id="QM3Bjwr4CfkYU76LOWtPMG">43%</em> 留给创造。</p>
+          <ul data-page-node-id="ffMoujI4CaEfFQlHeypT41">
+            <li data-page-node-id="ELNXzVsnmhS5SKCvRiGYgF">报告口径:微软 2025《Work Trend Index》</li>
+            <li data-page-node-id="Ez2QnTmIVQnRWKaY1vRn1n">沟通构成:邮件 + 会议 + 即时消息</li>
+            <li data-page-node-id="sYrVzRn2z2kbinftXD6S02">真正瓶颈:不是车间不够快,而是「思考」没自动化</li>
+          </ul>
+        </div>
+      </div>
+      <div class="goldline rise d2" style="background:rgba(201,160,99,.12)" data-page-node-id="rffuIXHezCiRwMXEd3xCuV">机器 24 小时在转,你们的脑子也在 24 小时在转——但脑子没有「自动化」。</div>
+    </div>
+    <div class="cv-ft" data-page-node-id="SDl2GFWWySHP9CdkbOOWVK"><div class="left" data-page-node-id="hbSbQKwCGe8dZ8tFhpvhQQ"><span class="pg" data-page-node-id="dcm9yR7Vx2jsW2HsFpWOeH">06</span><span data-page-node-id="IwrSHAaxFyP81UQBMinYup">/ 14</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P07 三个误解 ============ -->
+<section class="page" data-title="三个误解" data-page-node-id="kqP4TsAZtAN2sEhFllm2z8">
+  <div class="stage light" data-page-node-id="0z1msOdELy0LQLuuatOEP9"><div class="card-bg" data-page-node-id="6TAmjwKTG7PbJ6s3RbNvMD"></div><div class="stage-in" data-page-node-id="Aaeu5JWBzkzvhMAy3j7o6W">
+    <div class="hd" data-page-node-id="kgHGqjPekLdao30WlFA9Pq">
+      <span class="eyebrow" data-page-node-id="UMra976yjG4uuNEotdyvmZ">PART 02 · 认知升级</span>
+      <div class="hd-row" data-page-node-id="JO5YhKj6A4333pQVRnykrc">
+        <div data-page-node-id="1OEb0VtAFYZ5eDkcQOptzv"><h2 class="title" data-page-node-id="pfMdN2CgC6ZYkm4kZEWS09">多数人对 AI 的<em data-page-node-id="atnVvpT7YssjXGZLVLASkg">三个误解</em></h2>
+          <p class="sub" data-page-node-id="2asHP4PPPPNbMMdi4CKAH8">误解 × 实情 · 一对一破除</p></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="xlwYgrPOoQfoxT0e4G497u">
+      <div class="case-grid" data-page-node-id="8hJpDBILf1qf2zMyuZPsCR">
+        <div class="case-card rise" style="border-color:var(--up);background:rgba(192,57,43,.04)" data-page-node-id="FGb8WQl6jA1nqlnSq3xiZC">
+          <span class="tag" style="background:rgba(192,57,43,.15);color:var(--up);border-color:var(--up)" data-page-node-id="23RqGhbBaNPctycipZE8ND">× 误解 01</span>
+          <div class="h" data-page-node-id="HSjE6IM9mcu7URHyw7kV2W">AI 很贵</div>
+          <div class="p" data-page-node-id="GQ6kfmvr0pU5Om1zjBHuMI">大模型烧钱,只有头部企业才玩得起。</div>
+          <div class="fx" data-page-node-id="RkzmHkSjXszKRwT2zADWv2"><span style="background:rgba(30,132,73,.15);color:var(--down);border-color:var(--down)" data-page-node-id="C6SYyWaIk1ZIxAOWx0S4hh">√ 实情</span><span style="background:rgba(30,132,73,.1);color:var(--down)" data-page-node-id="oD7rxqIfXc7DRML724pYv2">SaaS 化,人均订阅远低于月薪</span></div>
+          <div class="fx" data-page-node-id="0OO8GirPC5vlsWfdlPUwaV"><span data-page-node-id="f8PvKMO9OsDnwsBIdHLT03">实际成本:约 1 名员工月薪的 5-10%</span></div>
+        </div>
+        <div class="case-card rise d1" style="border-color:var(--up);background:rgba(192,57,43,.04)" data-page-node-id="5Rc6A9vuBtfff95mPTavCy">
+          <span class="tag" style="background:rgba(192,57,43,.15);color:var(--up);border-color:var(--up)" data-page-node-id="DE7IiyHUCHyr0CPIRxmr2b">× 误解 02</span>
+          <div class="h" data-page-node-id="kKx8tiQZVzmMr0IMQxWwt7">大厂专属</div>
+          <div class="p" data-page-node-id="2J191pCQFMk4IxTmRzxzzl">AI 是互联网/科技行业的事,跟我没关系。</div>
+          <div class="fx" data-page-node-id="lyWg7jMiF257XFGZAGZSLI"><span style="background:rgba(30,132,73,.15);color:var(--down);border-color:var(--down)" data-page-node-id="JfHFELFUsn63NTmNUtUKZQ">√ 实情</span><span style="background:rgba(30,132,73,.1);color:var(--down)" data-page-node-id="J7AsYqjDjBzoP64CyaCR0v">越是劳动密集 + 事务密集越受益</span></div>
+          <div class="fx" data-page-node-id="nN1meGanKPcovDSkkA6SJI"><span data-page-node-id="V2q32ZkmREY1dHow886CU0">商会同行已落地:罗莱 / 恒辉 / 天海 / 瑞慈 / 国泰海通</span></div>
+        </div>
+        <div class="case-card rise d2" style="border-color:var(--up);background:rgba(192,57,43,.04)" data-page-node-id="MSaZbOcJLjzKKziIM90AGE">
+          <span class="tag" style="background:rgba(192,57,43,.15);color:var(--up);border-color:var(--up)" data-page-node-id="ph5KRQmu2TGu61wQAG6bIb">× 误解 03</span>
+          <div class="h" data-page-node-id="AHdDA57B3D0vL2rBl46Wfe">取代员工</div>
+          <div class="p" data-page-node-id="7fKkxo6LoZogYD1mc2DQKL">用了 AI 就要裁员,员工会抵触。</div>
+          <div class="fx" data-page-node-id="BBksvmtjz2ChVhSSP2taRe"><span style="background:rgba(30,132,73,.15);color:var(--down);border-color:var(--down)" data-page-node-id="nMJ9WBqkzBCCXgW2bfybKY">√ 实情</span><span style="background:rgba(30,132,73,.1);color:var(--down)" data-page-node-id="1eN2HMg6omCn1jAJ2wIR8A">取代的是「任务」不是「人」</span></div>
+          <div class="fx" data-page-node-id="GHATBsxGPL0a44SOSHas38"><span data-page-node-id="vF7YxIEKmFAMXwdOjRAlQx">自动化同理:机器代替了产线工人,也创造了运维岗位</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="cv-ft" data-page-node-id="0tOYGai5TJ50XvkIkVr5Mq"><div class="left" data-page-node-id="AuaGYLthZJgmIlQBShBmap"><span class="pg" data-page-node-id="F7x7U2wHg8d1GGa2ef7fNC">07</span><span data-page-node-id="pENbNXZTZIAe0MmOWklxiY">/ 14</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P08 自动化 vs 智能化 ============ -->
+<section class="page" data-title="自动化 vs 智能化" data-page-node-id="2TrVTHCAsRvAIgC7bAdDmU">
+  <div class="stage light" data-page-node-id="ZUjlZlAJ10EIOH76Wc9OV7"><div class="card-bg" data-page-node-id="ZnpgE27VtOHatIocQ43XkB"></div><div class="stage-in" data-page-node-id="LbzD3B79Rjagzv2iav56ZD">
+    <div class="hd" data-page-node-id="AmEPTxKkFFIVzc4zWJATjk">
+      <span class="eyebrow" data-page-node-id="YS552UrWHhguG10VUTvHN7">PART 02 · 认知升级</span>
+      <div class="hd-row" data-page-node-id="1TlYhZqH4mHoe3HEL4jFv4">
+        <div data-page-node-id="009G0KKU8sDTH7wqFVsNnV"><h2 class="title" data-page-node-id="Q9QnGUkV4TdIToFffODQzA">自动化 vs 智能化 · <em data-page-node-id="MOHEQ9DdX0FyVYQJZvcgt8">一张图讲清楚</em></h2>
+          <p class="sub" data-page-node-id="HTviIcEqU2R5bfi4yh7bHA">2006 买机床 vs 2026 用 AI · 跨行业通用</p></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="Ey72kcEEKuvTIGwyFHfzHd">
+      <div class="cmp2" style="margin-bottom:14px" data-page-node-id="L44qp5iIPj62d3YBRK9OHP">
+        <div class="cmp2-col rise" data-page-node-id="YYgzz0veMMjkwQGGtsGAgR">
+          <div class="tag" data-page-node-id="RcDIjwHfggp59DbJHfbpZS">自动化 · 体力替代</div>
+          <h3 data-page-node-id="uvo9bovkJREN2FoMfBouQZ">2006 年:买一台进口机床要转型吗?</h3>
+          <p class="lead" data-page-node-id="QdGTCkZ5ntuVgNinoqsbwK">冲压 / 焊接 / 搬运 / 装配 · 重复动作被机器替代。</p>
+          <ul data-page-node-id="CbqAAiWU5F0XTmqqK3LZZt">
+            <li data-page-node-id="liKOBXF61xYDkfGPFUGkAA">判断标准:逻辑重复的动作 → 机器替</li>
+            <li data-page-node-id="WhZ0DN0WW1u0oqX0WNH7GH">代表场景:制造业产线 / 仓储分拣 / 自动装配</li>
+            <li data-page-node-id="Zh2mr7G5P5EMiNYdSvLiuC">现实成果:富士康昆山员工 -54%,三一产值翻倍</li>
+          </ul>
+        </div>
+        <div class="cmp2-col dark rise d1" data-page-node-id="QcasUm2uVcJSoW8ysdnPC2">
+          <div class="tag" data-page-node-id="O8ocPfcBPFqOpowBlcjM8E">智能化 · 脑力替代</div>
+          <h3 data-page-node-id="bbZ5jlOejNigZS858E4nre">2026 年:企业要用 AI 吗?</h3>
+          <p class="lead" data-page-node-id="nt3PwlQgB5MYvaPLEnZMyU">读文件 / 写报告 / 做表格 / 查资料 / 跑流程 · 重复脑力被 AI 替。</p>
+          <ul data-page-node-id="cILav4gAR97uJqiYhLc6bA">
+            <li data-page-node-id="CkQ4UoGgkZbuldd1cIJHNg">判断标准:逻辑重复的思考 → AI 替</li>
+            <li data-page-node-id="d9aMqCGVA30dfqWO3fQQrP">代表场景:金融分析师 / 律师助理 / 财务对账 / 销售跟单</li>
+            <li data-page-node-id="Uplk1KJCTYsOlHm8JUdWUq">现在成果:销售跟单 2 天 → 2 小时,跨部门对齐 3 小时 → 30 分钟</li>
+          </ul>
+        </div>
+      </div>
+      <div class="goldline rise d2" style="background:rgba(201,160,99,.12)" data-page-node-id="lJT48KtqoSQBaY6C7XfJLi">你们不需要会造机床 / 写 ERP,只需要会用具——<em data-page-node-id="HPngZAJtpz7PHbBSbORO3W">AI 一样</em>。两者的判断标准完全一样:<em data-page-node-id="z8q5zxEs30ATFK8CcD0WCC">逻辑重复的工作都能被替代</em>。</div>
+    </div>
+    <div class="cv-ft" data-page-node-id="VSVbTVrmsk5E81MGOxWjw7"><div class="left" data-page-node-id="B2socHACq6GeJ1RlEzoNmA"><span class="pg" data-page-node-id="bk9J0QRa9OA005AlLWNZva">08</span><span data-page-node-id="Up879Hps13ugh9LeEI9YLA">/ 14</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P09 WorkBuddy 是什么 ============ -->
+<section class="page" data-title="WorkBuddy 是什么">
+  <div class="stage light"><div class="card-bg"></div><div class="stage-in p9">
+    <div class="hd">
+      <span class="eyebrow">PART 02 · 认知升级</span>
+      <div class="hd-row">
+        <div><h2 class="title">WorkBuddy · <em>给每个岗位一个数字分身</em></h2>
+          <p class="sub p9-sub">一个 SaaS 化的数字员工订阅平台 —— 像人一样能上班、按人头按月订阅、SLA 兜底</p></div>
+      </div>
+    </div>
+    <div class="bd p9-bd">
+      <div class="p9-def rise">
+        <div class="l"><span class="tag2">不卖软件 · 不卖项目</span><b>企业 AI 岗位订阅平台</b></div>
+        <div class="r">每个员工、每个岗位都能挂载一个数字分身 · 按订阅付费，SLA 由我们兜底 —— <b>版本、迭代、安全、灾备、续约、计费、升降配，全是我们的活</b> · 你拿到的，是一个永远在线的 7×24 数字员工池。</div>
+      </div>
+      <div class="p9-cap rise d1">一个数字员工 · 像人一样工作</div>
+      <div class="p9-cols">
+        <div class="p9-c rise d2"><div class="n">①</div><div class="h">他有头脑</div>
+          <ul><li>大模型决定多聪明 —— 今天已是顾问级 / 全科医生水平</li><li>能读合同 / 邮件 / 报表 / 行业研报 / 读一切文件</li><li>24 小时在线、不带情绪、不请假</li></ul></div>
+        <div class="p9-c rise d2"><div class="n">②</div><div class="h">他有手脚</div>
+          <ul><li>1000+ Skill 对接 SAP / 金蝶 / 用友 / CRM / 银行流水 / 企微 / 合同库</li><li>不是嘴上说说 —— 真的能动手去操作</li></ul></div>
+        <div class="p9-c rise d3"><div class="n">③</div><div class="h">他跟你配合</div>
+          <ul><li>给每个员工配一位 7×24 在线、永不疲倦、经验持续累积的顾问级助手</li><li>效果：每个员工的产能翻倍，整个部门的产出翻倍</li></ul></div>
+        <div class="p9-c rise d3"><div class="n">④</div><div class="h">他跟同事配合</div>
+          <ul><li>销售分身发现客户逾期 → 自动 ping 财务分身冻结账期 → 早 8 点简报里出现「这条客户建议停单」</li><li>60+ 家客户每天在跑的真实流程</li></ul></div>
+        <div class="p9-c rise d4"><div class="n">⑤</div><div class="h">他能沉淀经验</div>
+          <ul><li>老销售退休，20 年客户判断、客户脾气、报价策略 —— 以前人走经验全带走</li><li>今天喂给销售分身，他永远留在公司里，服务新员工</li></ul></div>
+      </div>
+      <div class="p9-cols3">
+        <div class="p9-n3 rise d4"><span class="pill">不需要 IT 部门</span><span class="t">SLA 由我们兜底、按结果交付 —— 你不用养团队，出问题我们上门</span></div>
+        <div class="p9-n3 rise d5"><span class="pill">不需要写代码</span><span class="t">业务部门用自然语言就能调起：「给王总出一份 Q3 报价」一句话就办</span></div>
+        <div class="p9-n3 rise d5"><span class="pill">不需要买服务器</span><span class="t">多租户 SaaS，开箱即用，企业微信里就能开起来</span></div>
+      </div>
+      <div class="p9-foot rise d6">
+        <div class="q">数字员工不是工具。它是你公司今天开始，可以拥有的<em>第一个虚拟资产</em>。</div>
+        <div class="cost">成本<br>不到一个实习生的<br>零头</div>
+      </div>
+    </div>
+    <div class="cv-ft"><div class="left"><span class="pg">09</span><span>/ 14</span></div></div>
+  </div></div>
+</section>
+
+<!-- ============ P10 场景地图 ============ -->
+<section class="page" data-title="场景地图" data-page-node-id="Eq2PQIMUxre9TZEkOv6N6q">
+  <div class="stage light" data-page-node-id="cWs4HDWf0BVGJDAkExfmNT"><div class="card-bg" data-page-node-id="uj3Bkh3qJHBnqLT91bHqba"></div><div class="stage-in" data-page-node-id="RTgU5Ect9hjUkULDgrIbGo">
+    <div class="hd" data-page-node-id="B6IJiTcekRHDz493gTHoLg">
+      <span class="eyebrow" data-page-node-id="XzcVpXvLX1odoig5TbXm7w">PART 03 · 场景落地</span>
+      <div class="hd-row" data-page-node-id="VKijiJwxrJCxPeX90AXKH6">
+        <div data-page-node-id="zhy8q9GlLTGUWVxTxKaFyz"><h2 class="title" data-page-node-id="aABAH7sgJXAueSlXs9sAY1">6 个岗位分身 × <em data-page-node-id="53jObr7DHzhqjLj2VNABND">11 个行业</em></h2>
+          <p class="sub" data-page-node-id="YHHkG4gIRi123i2gD8A2bN">每个企业的每个岗位,都能配一个数字分身 — 无论坐哪个行业,都能找到自己的格子</p></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="6wYHsPqQDCsCucEzzSttPi">
+      <div style="font-size:12px;color:var(--gold);letter-spacing:.16em;margin-bottom:10px;font-weight:700" data-page-node-id="TybPta7L7A6tq3rR2ZnYIR">CORE · 6 个岗位数字分身</div>
+      <div class="matrix" style="margin-bottom:8px" data-page-node-id="BaXOjjn6aal9y8SoG5DzfS">
+        <div class="cell rise" style="background:linear-gradient(135deg,rgba(201,160,99,.15),rgba(201,160,99,.05));border-color:var(--gold)" data-page-node-id="1rvVeWO8iHd6fmQNEguauE"><div class="ic" style="color:var(--gold)" data-page-node-id="hjTuKTa7cgEMilueh0GPz8">◎</div><div class="h" data-page-node-id="Yfk22AF6xJXUE4X3cDoxCw">老板分身</div><div class="p" data-page-node-id="lZv6p5VMO6AiqkQsw0jAKa">出门简报 · 随时问答</div></div>
+        <div class="cell rise d1" data-page-node-id="9d6gMoasVGw71XHtDQ8sRa"><div class="ic" style="color:var(--gold)" data-page-node-id="FpMXTAyGhLx2F9fTTFDhqS">◆</div><div class="h" data-page-node-id="Aa8VmlPAjNeSg6VHNrSX3U">销售分身</div><div class="p" data-page-node-id="k0Qab9EyM3DekoOROddNCM">询价 → 报价 → 跟单 → 收款</div></div>
+        <div class="cell rise d2" style="background:rgba(201,160,99,.10);border-color:var(--gold)" data-page-node-id="STWmUUHOSfly8oDeTcAybM"><div class="ic" style="color:var(--gold)" data-page-node-id="B47FusVI0dRgImD1txc83r">★</div><div class="h" data-page-node-id="nCwXAI4jKTTOvYYKoSFfT5">财务分身</div><div class="p" data-page-node-id="I9vBqGTZiH3ZlmLBwi97ZF">智能问数 · 自动对账 · 一键报表</div></div>
+        <div class="cell rise d3" data-page-node-id="ONE5ZXnQc96cY6SFlb12mb"><div class="ic" style="color:var(--gold)" data-page-node-id="gLovOAmGZ7mu5ZZIDbxAXM">◇</div><div class="h" data-page-node-id="FVY8FVKZzf96oM2U4BHRi9">人力分身</div><div class="p" data-page-node-id="EgKZRufNW1XSG6ZGRBQS0s">简历筛选 · 员工问答 · 入转离</div></div>
+        <div class="cell rise d4" data-page-node-id="OAGu9wmD5gSNWgPBRxAqUi"><div class="ic" style="color:var(--gold)" data-page-node-id="joUnPWw6NYWZBLp0Hk7XiA">○</div><div class="h" data-page-node-id="26inZSJucOuBGrIAMOMNcE">运营分身</div><div class="p" data-page-node-id="IlsxqW6owipIyJe5a8ga7g">周报 · 月报 · 经营看板</div></div>
+        <div class="cell rise d5" data-page-node-id="H7HmEGDENZFo80JlJpiUi9"><div class="ic" style="color:var(--gold)" data-page-node-id="Qk6lOlZOUanKQuPupFU0hh">□</div><div class="h" data-page-node-id="CPkdvfvApVyxtvGplehvgO">行政分身</div><div class="p" data-page-node-id="BGNfRESm2u6Z3OmBK2t9BN">会议纪要 · 待办入企微</div></div>
+      </div>
+      <div style="font-size:12px;color:var(--gold);letter-spacing:.16em;margin-top:8px;margin-bottom:10px;font-weight:700" data-page-node-id="0U8UepPNjKqDTwPF0FrCaX">11 个行业 · 对号入座</div>
+      <div class="industries rise d6" data-page-node-id="iTwIwrH8JFHvOj9DxM9Qja">
+        <span class="ind" data-page-node-id="wtDCOAfbAtzRJTAc6E2JV9">金融</span><span class="ind" data-page-node-id="GDf8sUw5AGkFbhUcBfZpBU">传媒</span><span class="ind" data-page-node-id="gob4OcV9i9PQxjWEMJv5PC">软件</span><span class="ind" data-page-node-id="LwX26o8JGo9oFziaNvuBdv">园区</span><span class="ind" data-page-node-id="ZzpC1gYsYZ1CUicnfZ7faw">能源</span><span class="ind" data-page-node-id="9IBfm86NVB4kRA1LpeEho9">建工</span><span class="ind" data-page-node-id="GBiF6kIPMKQvzCedrtvHgZ">食品</span><span class="ind" data-page-node-id="M6yOL3iyQFuTT3NX2EC4up">制造</span><span class="ind" data-page-node-id="Trj3rCCeA7XGDSVy5drhDe">医疗</span><span class="ind" data-page-node-id="9dsVqHUyr4gBCFmQYy6fuK">家纺</span><span class="ind" data-page-node-id="CpqW2nfP3cyh9Z98rVovbk">物流</span>
+      </div>
+          </div>
+    <div class="cv-ft" data-page-node-id="jwIvnuccymxAuv9q3Jrl58"><div class="left" data-page-node-id="ATcqWHG9Eo9JjKu8D8fDLM"><span class="pg" data-page-node-id="gNYgM0D3p2SpUQ7wGAleBS">10</span><span data-page-node-id="a1I4tE5faL1MxSD0xk4nrn">/ 14</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P11 销售分身 ============ -->
+<section class="page" data-title="销售分身">
+  <div class="stage light"><div class="card-bg"></div><div class="stage-in">
+    <div class="hd">
+      <span class="eyebrow">PART 03 · 销售分身</span>
+      <div class="hd-row">
+        <div><h2 class="title">销售分身 · <em>询价 → 收款</em>全链路</h2>
+          <p class="sub">销售每周只有 <b style="color:var(--gold)">28%</b> 时间在卖东西 · 场景：罗莱生活 / 国泰海通 · 全链路：询价邮件 → 报价单 → 投标文件 → 拜访纪要 → 客户档案维护 → 回款跟进</p></div>
+      </div>
+    </div>
+    <div class="bd">
+      <div class="rise" style="display:flex;align-items:center;gap:20px;padding:9px 20px;background:#fff;border:1px solid rgba(18,54,92,.14);border-left:3px solid var(--gold);border-radius:12px;margin-bottom:8px">
+        <div style="min-width:120px;line-height:1">
+          <span style="font-size:40px;font-weight:800;color:var(--gold);letter-spacing:.02em">28%</span>
+          <div style="font-size:11px;color:#1C2733;font-weight:700;margin-top:5px">时间在卖东西</div>
+        </div>
+        <div style="flex:1;border-left:1px solid rgba(18,54,92,.12);padding-left:20px;font-size:11.5px;color:rgba(28,39,51,.72);line-height:1.6">
+          <b style="color:var(--gold)">Salesforce《State of Sales》2025</b> · B2B 销售代表真正用于<b style="color:var(--gold)">直接销售</b>的时间占比<br>
+          剩下 72% 在做报价单、录 CRM、开会 —— <b style="color:var(--gold)">HubSpot 2024</b>：每天真正主动销售只有约 2 小时；<b style="color:var(--gold)">Forrester</b> 追踪 3,031 名销售：每周近 2 天耗在行政事务
+        </div>
+      </div>
+      <div class="flowline" style="margin-bottom:8px">
+        <div class="fstep rise" style="padding:9px 11px"><div class="fn"><i>1</i>询价邮件</div><div class="fh" style="font-size:13px">2 天 → <b style="color:var(--gold)">10 分钟</b></div><div class="fp" style="font-size:11px">自动整理询价<br>+ 起草回复</div></div>
+        <div class="farrow">→</div>
+        <div class="fstep rise d1" style="padding:9px 11px"><div class="fn"><i>2</i>报价单生成</div><div class="fh" style="font-size:13px">2 天 → <b style="color:var(--gold)">2 小时</b></div><div class="fp" style="font-size:11px">调用近 6 个月<br>历史报价模板</div></div>
+        <div class="farrow">→</div>
+        <div class="fstep rise d2" style="padding:9px 11px"><div class="fn"><i>3</i>投标文件</div><div class="fh" style="font-size:13px">3–5 天 → <b style="color:var(--gold)">1 天</b></div><div class="fp" style="font-size:11px">框架自动出<br>+ 商务条款核对</div></div>
+        <div class="farrow">→</div>
+        <div class="fstep rise d3" style="padding:9px 11px"><div class="fn"><i>4</i>拜访纪要</div><div class="fh" style="font-size:13px">30 分钟 → <b style="color:var(--gold)">2 分钟</b></div><div class="fp" style="font-size:11px">录音转写<br>+ 客户画像更新</div></div>
+        <div class="farrow">→</div>
+        <div class="fstep rise d4" style="padding:9px 11px"><div class="fn"><i>5</i>客户档案维护</div><div class="fh" style="font-size:13px">每周 3 小时 →<br><b style="color:var(--gold)">自动更新</b></div><div class="fp" style="font-size:11px">偏好 / 跟进节点<br>自动维护</div></div>
+        <div class="farrow">→</div>
+        <div class="fstep rise d5" style="padding:9px 11px;border-color:#B08A4A;background:linear-gradient(135deg,#C9A063,#DCBE8A)"><div class="fn" style="color:#12365C"><i style="background:#12365C;color:#C9A063">6</i>回款跟进</div><div class="fh" style="font-size:13px;color:#12365C">到期前 3 天<br><b style="color:#0E2A4D">自动推送</b></div><div class="fp" style="font-size:11px;color:rgba(18,54,92,.82)">节点预警<br>闭环落在收款</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:stretch;margin-bottom:8px">
+        <div class="case-card rise d4" style="padding:10px 14px">
+          <span class="tag">【旧】罗莱生活 · 订单报价</span>
+          <div class="p" style="font-size:11.5px">客户微信发来花型照片 → 翻历史报价表 / 核库存 / 找财务确认账期<br>→ <b style="color:#E84545">报价 2 天后</b>才发出，错过客户窗口</div>
+        </div>
+        <div class="rise d4" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:88px;text-align:center">
+          <span style="font-size:15px;font-weight:800;color:var(--gold);line-height:1.3;white-space:nowrap">2 天 →</span>
+          <span style="font-size:15px;font-weight:800;color:var(--gold);line-height:1.3;white-space:nowrap">10 分钟</span>
+        </div>
+        <div class="case-card rise d5" style="padding:10px 14px;border-color:var(--gold);background:linear-gradient(135deg,rgba(201,160,99,.13),#fff)">
+          <span class="tag" style="background:var(--gold);color:#12365C;border-color:var(--gold)">【新】销售分身</span>
+          <div class="p" style="font-size:11.5px">自动调出近 6 个月历史报价 + 库存 + 账期政策 → 套模板 <b style="color:var(--gold)">10 分钟生成 PDF</b> → @销售 审核后当天回复</div>
+        </div>
+      </div>
+      <div class="rise d5" style="display:flex;align-items:center;gap:16px;padding:9px 18px;background:#fff;border:1px solid rgba(18,54,92,.14);border-left:3px solid var(--gold);border-radius:12px;margin-bottom:8px">
+        <span class="tag" style="display:inline-block;width:fit-content;padding:4px 10px;background:rgba(201,160,99,.15);border:1px solid var(--gold);border-radius:99px;font-size:11px;color:var(--gold);letter-spacing:.06em;white-space:nowrap">国泰海通 · 投顾材料</span>
+        <div style="flex:1;font-size:11.5px;color:rgba(28,39,51,.72);line-height:1.5">200+ 高净值客户，每人每周一份定制材料；3 名客户经理 + 1 名助理每周被占 1.5 天<br><span style="color:rgba(28,39,51,.6);font-size:10.5px">合规风险段落自动标红，客户经理每周多出 1 天做客户经营</span></div>
+        <div style="font-size:16px;font-weight:800;color:var(--gold);white-space:nowrap">1.5 天 / 周 → 1 小时 / 周</div>
+      </div>
+      <div class="goldline rise d6">你花 2 万月薪雇来的销售，每天只有 2 小时在卖东西——剩下 6 小时，你在请他做文秘。</div>
+    </div>
+    <div class="cv-ft"><div class="left"><span class="pg">11</span><span>/ 14</span></div></div>
+  </div></div>
+</section>
+
+
+
+<!-- ============ P15 ROI 一笔明白账 ============ -->
+<section class="page" data-title="ROI 一笔明白账" data-page-node-id="P4sW8GJsPFZkbARhBrNTTc">
+  <div class="stage light" data-page-node-id="4uXBpcv7zJNpVzosa9gE8E"><div class="card-bg" data-page-node-id="ov5Myl1aWKW0d4FH8WZTZm"></div><div class="stage-in" data-page-node-id="SVasB44p588urq0jKFbAas">
+    <div class="hd" data-page-node-id="Wp7OB7kQHn6sD4Ba487cFT">
+      <span class="eyebrow" data-page-node-id="CCvAGIEk1MRCqkFmoXlnst">PART 04 · 算账</span>
+      <div class="hd-row" data-page-node-id="VTdeDa384PQ7tCoTD9XzGL">
+        <div data-page-node-id="c0znifvB4wfSTtjXbhSbQd"><h2 class="title" data-page-node-id="9Y6eWaEuDDqJulYioomUV5">一笔明白账 · 投 1 拿回 <em data-page-node-id="1bvKR4qXimVzCUnIDhOKg4">3-5 倍</em></h2>
+          <p class="sub" data-page-node-id="xhtCekGU3RlgUZGdFR5RkL">4 套测算 · 对应不同规模 / 行业 · 让任何老板都对得上号</p></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="WEtmsLaa5VWNrVaYwuu3FT">
+      <div class="roi4" data-page-node-id="6bao8jzlK0Xc6M1rMkieB2">
+        <div class="r rise" data-page-node-id="iRkeJNERCetLuMYOVN9VXJ">
+          <div class="head" data-page-node-id="BsTc80GyHODgCAQ6YKIgX7"><span class="num" data-page-node-id="5l36tcjTe7cFE4bE9R1vjl">①</span><span class="scale" data-page-node-id="rQB9r8wN4DbieueFseDXd3">小厂</span></div>
+          <div class="scope" data-page-node-id="Gk2cLTkWxLeqSIUb6bDbwm">20 人小厂 · 200-500 万营收</div>
+          <div class="save" data-page-node-id="wW3BVi41aM00LvKBAnTxCw">¥6-12<em data-page-node-id="GGGFBDeN2GsEipR9vszxbQ">万/年</em></div>
+        </div>
+        <div class="r rise d1" data-page-node-id="kicgkRu7mWVtbUKAqoHKje">
+          <div class="head" data-page-node-id="wQ2PpiZGZrGinF2K9EQHlR"><span class="num" data-page-node-id="HlhsyKSNROq6DvEEvELLOz">②</span><span class="scale" data-page-node-id="YvBCm3v2GWLyHZbEyNMBD3">中厂</span></div>
+          <div class="scope" data-page-node-id="NWXEeCKAx2hlPQpLeDaXj2">200 人中厂 · 5000 万-2 亿营收</div>
+          <div class="save" data-page-node-id="Ti02KDwuLolLzDajNxDjUM">¥60-120<em data-page-node-id="JsB5hZf0PcgusPJ1XcDTln">万/年</em></div>
+        </div>
+        <div class="r rise d2" data-page-node-id="09zpvJt2ZvWXfZj2tkWyKB">
+          <div class="head" data-page-node-id="KTCrzlwsOyMmAjJyybFSQR"><span class="num" data-page-node-id="DVN7pcr0iwWqZpf4epHgwi">③</span><span class="scale" data-page-node-id="MHvcA5ayJ0sVbYqLKwfCqA">金融小前台</span></div>
+          <div class="scope" data-page-node-id="3WxVsnFx8G7ruR1v9n9ht1">10-30 人投顾 / 客服</div>
+          <div class="save" data-page-node-id="OdOmsRIKAZpC8IVZlNETVA">¥30-80<em data-page-node-id="mdpc2jnBXEmxfmzsPmMjZt">万/年</em></div>
+        </div>
+        <div class="r rise d3" data-page-node-id="HFg5jTGhbuTPrPTmV5qlvV">
+          <div class="head" data-page-node-id="7iWGZ1PrXzJPpAtuRYQuhK"><span class="num" data-page-node-id="GkPefo1K4H8qUtVtgFn1be">④</span><span class="scale" data-page-node-id="EOfhrdLS35ESXpvu9UtcWw">建工项目部</span></div>
+          <div class="scope" data-page-node-id="FbXbELw5IVFNXOxyRGgqVf">10-30 人项目部</div>
+          <div class="save" data-page-node-id="ZnvahbiXvBMFmIL82FGlBK">¥40-100<em data-page-node-id="qn7VEcexy7O4ZJqDwSjDJy">万/年</em></div>
+        </div>
+      </div>
+      <div class="goldline rise d4" style="margin-top:auto;background:rgba(201,160,99,.10)" data-page-node-id="phgBfcLGM2PSQRpWXY40I4"><em data-page-node-id="dQU2dW96eS0tHWv6iodRky">成本口径 ·</em> 人均订阅 ≈ 1 名员工月薪的 <em data-page-node-id="NaVCpqaEoQp6ip6PMTzbuy">5% - 10%</em></div>
+    </div>
+    <div class="cv-ft" data-page-node-id="BL9nN5TQD6vW2EpDm1CgtK"><div class="left" data-page-node-id="GLHMG6vnVBVspG9uGpC1dM"><span class="pg" data-page-node-id="ooOnO6Q3hTbI8jmUSCj8V7">12</span><span data-page-node-id="PWfr5sSQcNXouT77925DDQ">/ 14</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P16 三个隐性价值 ============ -->
+<section class="page" data-title="三个隐性价值" data-page-node-id="5tLL5t598jRWi80eBWrVXw">
+  <div class="stage light" data-page-node-id="SUXC8gVhQz2C9NxudD2Sci"><div class="card-bg" data-page-node-id="gjNYVrqQWCVRK9cwAL9FXO"></div><div class="stage-in" data-page-node-id="y4G3Bzo6xYQntXj3Q5N1cx">
+    <div class="hd" data-page-node-id="drft44vpy89ALjib5emSf1">
+      <span class="eyebrow" data-page-node-id="7aUjCA6nf7Zj8GcNupVlNA">PART 04 · 隐性价值</span>
+      <div class="hd-row" data-page-node-id="CRUMQokkHlDvOkbSQDiygv">
+        <div data-page-node-id="u1pTRIvMk02wsSeGBkjIfX"><h2 class="title" data-page-node-id="iRlPFOCebvcvviBgGERO6n">不止省时间 · <em data-page-node-id="QA8BxGrHPKhvGUxFgUY0XB">三个隐性价值</em></h2>
+          <p class="sub" data-page-node-id="FMUghx2EG7uvtseM0PNwsG">决策更快 / 经验沉淀 / 组织升级 · 从「省钱」升级到「值钱」</p></div>
+      </div>
+    </div>
+    <div class="bd" data-page-node-id="AB7dwgU2gVCZiOOUmDufYB">
+      <div class="values" data-page-node-id="8TGvGjphmumZ7jCIuYmxl5">
+        <div class="v rise" data-page-node-id="IZibdYyvQnfFgjyLwD8Djf">
+          <span class="tag" data-page-node-id="TFCnc98yvVLeYrqNOgF7j8">决策更快</span>
+          <div class="h" data-page-node-id="SwF4qpFyCfKxpRSpI3yD93">信息随要随有 · 不用等周会</div>
+          <div class="p" data-page-node-id="fhWTKkxRfuEolIDNITpOjm">经营快报、异常预警、即时问答 · 老板随时掌握经营全貌,不再被周会牵着走。</div>
+          <div class="ref" data-page-node-id="78pVpHHBOKU1Aa6LjoY18E">参照:瑞慈医疗「经营快报」</div>
+        </div>
+        <div class="v rise d1" data-page-node-id="5oUVQB5K12yvkS1QfaTQ4A">
+          <span class="tag" data-page-node-id="K7wB6LHmNK03e1ZEJNG1oX">经验沉淀</span>
+          <div class="h" data-page-node-id="ob5HOtRkaIbT8f3ZSSIMCW">老师傅的方法 · 留存在企业里</div>
+          <div class="p" data-page-node-id="82tacQC1hdIgKGsGfQ61ep">老客户的偏好、老师傅的解决方法、行业 know-how · 全部沉淀为企业知识库,人走了,经验留下。</div>
+          <div class="ref" data-page-node-id="fTx7ylrsyIrS95ds0xvgYM">参照:牧鲸 / 德汇 知识库</div>
+        </div>
+        <div class="v rise d2" data-page-node-id="meLG1wBUFGCDQvoviqy6eD">
+          <span class="tag" data-page-node-id="wzj8XUemE7AfpmYSZ4FpcJ">组织升级</span>
+          <div class="h" data-page-node-id="3PeA1gMCRsNBlfkKVkRUJ2">「用 AI 的工厂」是招聘优势</div>
+          <div class="p" data-page-node-id="I6KV5FFvrTOGsBxzlGD0Pw">年轻员工愿意来 · 招聘广告从「传统行业」变成「AI 驱动」· 人才结构自然升级。</div>
+          <div class="ref" data-page-node-id="qBP4hI1Ggo9wfa76KMrNGv">参照:近两年制造业校招画像变化</div>
+        </div>
+      </div>
+      <div class="goldline rise d3" style="margin-top:auto;background:rgba(201,160,99,.10)" data-page-node-id="VbFJDFX0t9NtvQnx8XIAMJ">老师傅的方法、老客户的偏好,留存在<em data-page-node-id="eO7UQjMoEAC5fP9tenRM2s">企业里</em>而不是<em data-page-node-id="uruyeOmHzyoGpwQqeFr6PV">人脑里</em>。</div>
+    </div>
+    <div class="cv-ft" data-page-node-id="FxjK8bxoX41khEdF9HQfzp"><div class="left" data-page-node-id="GejACsN0whwF5Lln13IoBo"><span class="pg" data-page-node-id="PDIGnrqny6SBilm0U86C8d">13</span><span data-page-node-id="9CkjeSlQyrkS4m5BwIbxbC">/ 14</span></div>
+      </div>
+  </div></div>
+</section>
+
+<!-- ============ P18 结束页 ============ -->
+<section class="page" data-title="结束页" data-page-node-id="t0Ji2mvxQIWPMDSY9qBdCj">
+  <div class="stage" data-page-node-id="Ir0mKYxWqjlDVmnwLa3gFS"><div class="card-bg end" data-page-node-id="5bqBfS1q4UzPrhcijIGcCJ"></div>
+    <div class="end-in" data-page-node-id="SfC8XYLUZWt3qHlRZpXBtD">
+      <h1 class="rise" data-page-node-id="ctbv65EVFh1wZVInhzZBRR"><span class="g" data-page-node-id="QBduviH5ujSv9ATdu8GHJo">THANK YOU</span></h1>
+      <div class="end-rule rise d1"></div>
+      <p class="es rise d2" data-page-node-id="cz2m8Y17JDm62fLYvbdt6c">20 年前,你们用机器解放了工人的双手;<br data-page-node-id="k3CuUAjcWyL19LVMJMqiNx">今天,让 <em style="color:var(--gold);font-style:normal;font-weight:700" data-page-node-id="M8RfVnyikjaSuWeJIDjgHh">WorkBuddy</em> 解放你们的大脑。</p>
+      <div class="end-meta rise d3">WORKBUDDY · 数字分身 · 2026</div>
+      
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script>
+(function(){
+  const deck = document.getElementById('deck');
+  const pages = [...deck.querySelectorAll('.page')];
+  const total = pages.length;
+  let cur = 0, swiped = false;
+
+  function go(n){
+    if (n < 0 || n >= total) return;
+    pages[cur].classList.remove('active');
+    cur = n;
+    pages[cur].classList.add('active');
+    updateNav();
+  }
+  function next(){ go(Math.min(cur+1, total-1)); }
+  function prev(){ go(Math.max(cur-1, 0)); }
+
+  // 键盘
+  window.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); next(); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
+    else if (e.key.toLowerCase() === 'f') toggleFs();
+    else if (/^[0-9]$/.test(e.key)) go(parseInt(e.key,10)-1);
+  });
+
+  // 鼠标点击翻页
+  document.addEventListener('click', e => {
+    if (swiped) return;
+    if (e.target.closest('[data-go], a, button, input, textarea, select')) return;
+    const x = e.clientX / window.innerWidth;
+    if (x > 0.55) next(); else if (x < 0.45) prev();
+  });
+
+  // 触摸滑动
+  let sx=0, st_time=0;
+  document.addEventListener('touchstart', e => { sx = e.touches[0].clientX; st_time = Date.now(); }, {passive:true});
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - sx, dt = Date.now() - st_time;
+    if (Math.abs(dx) > 50 && dt < 600 && Math.abs(dx) > Math.abs(e.changedTouches[0].clientY - sx)) {
+      swiped = true; dx < 0 ? next() : prev();
+      setTimeout(() => swiped = false, 350);
+    }
+  }, {passive:true});
+
+  function toggleFs(){
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+    else document.exitFullscreen?.();
+  }
+
+  function updateNav(){
+    document.querySelectorAll('.pg').forEach((el,i) => {
+      // 同步更新所有页码 — 简单做法:每页的 .pg 文本就是自己页码(已写死)
+    });
+  }
+
+  // data-go 跳转
+  document.addEventListener('click', e => {
+    const a = e.target.closest('[data-go]');
+    if (a) { e.preventDefault(); e.stopPropagation(); go(parseInt(a.dataset.go,10)-1); }
+  });
+
+  pages.forEach((p,i)=>{ i===0 ? p.classList.add('active') : p.classList.remove('active'); });
+})();
+</script>
+<style>
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes spinR{from{transform:rotate(0)}to{transform:rotate(-360deg)}}
+
+/* === 42. P09 · WorkBuddy 给每个岗位一个数字分身（定义卡 + 五段定义 + 三个不需要 + 金句） === */
+.p9 .hd{margin-bottom:11px}
+.p9-sub{margin-top:8px;font-size:14.5px}
+.p9-bd{flex:1;display:flex;flex-direction:column;justify-content:center;gap:11px;min-height:0}
+.p9-def{display:grid;grid-template-columns:270px 1fr;gap:20px;align-items:center;padding:13px 22px;
+  background:#fff;border:1px solid var(--gold);border-radius:14px;box-shadow:0 2px 12px rgba(18,54,92,.07)}
+.p9-def .l{display:flex;flex-direction:column;gap:7px}
+.p9-def .l .tag2{align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.13em;color:#fff;
+  background:var(--navy);padding:4px 10px;border-radius:99px}
+.p9-def .l b{font-size:19px;color:var(--ink);letter-spacing:.02em}
+.p9-def .r{font-size:12.6px;line-height:1.72;color:rgba(28,39,51,.74)}
+.p9-def .r b{color:var(--navy);font-weight:800}
+.p9-cap{font-size:11.5px;font-weight:800;letter-spacing:.18em;color:var(--gold)}
+.p9-cols{display:grid;grid-template-columns:repeat(5,1fr);gap:11px;align-items:stretch}
+.p9-c{padding:11px 13px 12px;background:#fff;border:1px solid rgba(18,54,92,.12);
+  border-top:3px solid var(--gold);border-radius:12px}
+.p9-c .n{font-size:19px;font-weight:800;color:var(--gold);line-height:1}
+.p9-c .h{margin-top:4px;font-size:14px;font-weight:800;color:var(--ink);letter-spacing:.02em}
+.p9-c ul{margin:7px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px}
+.p9-c li{position:relative;padding-left:11px;font-size:11.7px;line-height:1.56;color:rgba(28,39,51,.76)}
+.p9-c li::before{content:"";position:absolute;left:0;top:6px;width:4px;height:4px;border-radius:99px;background:rgba(201,160,99,.9)}
+.p9-cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.p9-n3{display:flex;align-items:center;gap:12px;padding:10px 15px;background:#fff;
+  border:1px solid rgba(18,54,92,.12);border-radius:12px}
+.p9-n3 .pill{flex:0 0 auto;font-size:12px;font-weight:800;color:var(--navy);background:rgba(201,160,99,.20);
+  border:1px solid rgba(201,160,99,.5);padding:5px 11px;border-radius:99px;white-space:nowrap}
+.p9-n3 .t{font-size:11.6px;line-height:1.5;color:rgba(28,39,51,.72)}
+.p9-foot{display:grid;grid-template-columns:1fr 178px;gap:18px;align-items:center;padding:13px 22px;
+  background:linear-gradient(135deg,rgba(18,54,92,.02),rgba(201,160,99,.11));
+  border:1px solid rgba(201,160,99,.4);border-radius:14px}
+.p9-foot .q{font-family:"Source Han Serif SC","Noto Serif SC","Songti SC",STSong,serif;font-size:25px;
+  font-style:italic;color:var(--ink);line-height:1.45;letter-spacing:.02em}
+.p9-foot .q em{color:var(--gold);font-style:italic;font-weight:800}
+.p9-foot .cost{text-align:center;font-size:11.5px;font-weight:800;color:#fff;background:var(--navy);
+  border-radius:10px;padding:9px 6px;line-height:1.55;letter-spacing:.04em}
+.p9 .cv-ft{border-top:1px solid rgba(201,160,99,.5)}
+
+/* === 43. P13 · 老板分身（全链路 + 5 件事 + 两场景 + 虚拟资产战略级收口 + 金句） === */
+.p13 .hd{margin-bottom:9px}
+.p13-sub{margin-top:8px;font-size:15px}
+.p13-sub b{color:var(--navy);font-weight:800}
+.p13-bd{flex:1;display:flex;flex-direction:column;justify-content:center;gap:8px;min-height:0}
+.p13-chain{display:flex;align-items:center;gap:8px;padding:5px 18px;background:#fff;
+  border:1px solid rgba(201,160,99,.45);border-radius:12px;flex:0 0 auto}
+.p13-chain .lb{font-size:10.5px;font-weight:800;letter-spacing:.16em;color:#fff;background:var(--navy);
+  padding:4px 9px;border-radius:99px;margin-right:4px}
+.p13-chain .nd{font-size:12.5px;font-weight:700;color:var(--ink);white-space:nowrap}
+.p13-chain i{font-style:normal;color:var(--gold);font-weight:800;font-size:13px}
+.p13-two{display:grid;grid-template-columns:1fr 1.34fr;gap:11px;align-items:stretch}
+.p13-five{padding:10px 15px 11px;background:#fff;border:1px solid rgba(18,54,92,.12);border-radius:12px}
+.p13-five h4{margin:0 0 6px;font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--gold)}
+.p13-five ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px}
+.p13-five li{display:flex;gap:8px;align-items:flex-start;font-size:11.5px;line-height:1.38;
+  color:rgba(28,39,51,.78);background:rgba(18,54,92,.04);border-radius:8px;padding:4px 9px}
+.p13-five li .n{color:var(--gold);font-weight:800;flex:0 0 auto}
+.p13-scs{display:grid;grid-template-columns:1fr 1fr;gap:11px;align-items:stretch}
+.p13-sc{display:flex;flex-direction:column;padding:10px 13px 11px;background:#fff;
+  border:1px solid rgba(18,54,92,.12);border-left:3px solid var(--gold);border-radius:10px}
+.p13-sc .who{font-size:11px;font-weight:800;letter-spacing:.09em;color:var(--gold)}
+.p13-sc .txt{margin-top:5px;font-size:11.1px;line-height:1.48;color:rgba(28,39,51,.74)}
+.p13-sc .txt b{color:var(--navy);font-weight:800}
+.p13-sc .num{margin-top:auto;padding-top:6px;font-size:12px;font-weight:700;color:var(--ink)}
+.p13-sc .num b{color:var(--gold);font-size:13px}
+.p13-sc .say{margin-top:4px;font-size:10.3px;line-height:1.45;color:rgba(28,39,51,.55);font-style:italic}
+.p13-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.p13-stats .st{display:flex;align-items:baseline;gap:9px;padding:6px 12px;border-radius:10px;
+  background:rgba(201,160,99,.10);border:1px solid rgba(201,160,99,.35)}
+.p13-stats .st b{flex:0 0 auto;font-size:16px;font-weight:800;color:var(--gold)}
+.p13-stats .st span{font-size:10.2px;line-height:1.4;color:rgba(28,39,51,.66)}
+.p13-asset{padding:9px 20px 10px;border-radius:14px;color:#fff;
+  background:linear-gradient(135deg,#12365C 0%,#0A2239 100%);border:1px solid rgba(201,160,99,.55)}
+.p13-asset .cp{display:inline-block;font-size:9.6px;font-weight:800;letter-spacing:.2em;color:#0A2239;
+  background:var(--gold);padding:2px 9px;border-radius:99px}
+.p13-asset .big{margin-top:4px;font-family:"Source Han Serif SC","Noto Serif SC","Songti SC",STSong,serif;
+  font-size:22px;font-style:italic;font-weight:700;color:#E8C890;letter-spacing:.03em}
+.p13-asset .tx{margin-top:4px;font-size:11.3px;line-height:1.45;color:rgba(255,255,255,.82)}
+.p13-asset .tx b{color:#E8C890;font-weight:800}
+.p13-q{display:grid;grid-template-columns:1fr 316px;gap:16px;align-items:center;padding:8px 20px;
+  background:rgba(201,160,99,.12);border:1px solid rgba(201,160,99,.4);border-radius:12px}
+.p13-q .quo{font-family:"Source Han Serif SC","Noto Serif SC","Songti SC",STSong,serif;font-size:19px;
+  font-style:italic;color:var(--ink);line-height:1.42;letter-spacing:.02em}
+.p13-q .quo em{color:var(--gold);font-style:italic;font-weight:800}
+.p13-q .ask{font-size:10.4px;line-height:1.45;color:rgba(28,39,51,.6);
+  border-left:1px solid rgba(201,160,99,.55);padding-left:12px;font-style:italic}
+.p13 .cv-ft{border-top:1px solid rgba(201,160,99,.5);align-items:flex-start}
+.p13 .cv-ft .right{font-size:9.6px;line-height:1.5;color:rgba(28,39,51,.45);text-align:right;
+  letter-spacing:.02em;max-width:880px}
+</style>
+<script>
+/* === 自适应铺满：等比缩放到窗口大小，底色跟随当前页，无卡片留白 === */
+(function(){
+  var deck = document.getElementById('deck');
+  if(!deck) return;
+  var R = 1280/720;
+
+  function fit(){
+    var w = window.innerWidth || document.documentElement.clientWidth;
+    var h = window.innerHeight || document.documentElement.clientHeight;
+    var s = Math.min(w/1280, h/720);                       // 默认：等比内缩，绝不裁掉内容
+    if (Math.abs(w/h - R)/R < 0.025) s = Math.max(w/1280, h/720); // 接近 16:9 时铺满，最多裁 ~2%
+    document.documentElement.style.setProperty('--fit', s);
+  }
+
+  function paint(){
+    var p = deck.querySelector('.page.active');
+    var st = p && p.querySelector('.stage');
+    var bg = st ? getComputedStyle(st).background : '#0A2239';
+    document.body.style.background = bg;
+    document.documentElement.style.setProperty('--amb', bg);
+  }
+
+  window.addEventListener('resize', fit);
+  window.addEventListener('orientationchange', fit);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', fit);
+  try { new MutationObserver(paint).observe(deck, {subtree:true, attributes:true, attributeFilter:['class']}); } catch(e){}
+  window.addEventListener('keydown', function(e){ setTimeout(fit, 120); });  // 全屏切换后重算
+
+  fit(); paint();
+  setTimeout(function(){ fit(); paint(); }, 300);
+})();
+</script>
+<script>
+/* === P05 三个时代：金句打字机（逐字浮现，末句「一颗能被复制的大脑」最后落定）=== */
+(function(){
+  var pg = document.querySelector('.page[data-title="三个时代 三种赢法"]');
+  if(!pg) return;
+  var q = pg.querySelector('.era-quote');
+  if(!q) return;
+  var chars = [];
+  (function walk(node, inLand){
+    Array.prototype.slice.call(node.childNodes).forEach(function(n){
+      if(n.nodeType === 3){
+        var frag = document.createDocumentFragment();
+        Array.prototype.slice.call(n.textContent).forEach(function(ch){
+          var s = document.createElement('span');
+          s.className = 'qc' + (inLand ? ' land' : '');
+          s.textContent = ch;
+          frag.appendChild(s); chars.push(s);
+        });
+        node.replaceChild(frag, n);
+      } else if(n.nodeType === 1){
+        walk(n, inLand || n.tagName === 'EM');
+      }
+    });
+  })(q, false);
+  var timers = [];
+  function reset(){
+    timers.forEach(clearTimeout); timers = [];
+    chars.forEach(function(s){ s.classList.remove('on'); });
+    q.querySelectorAll('em').forEach(function(e){ e.classList.remove('landed'); });
+  }
+  function play(){
+    reset();
+    var t = 2050;
+    chars.forEach(function(s){
+      t += (s.classList.contains('land') ? 54 : 28);
+      (function(at, el){ timers.push(setTimeout(function(){ el.classList.add('on'); }, at)); })(t, s);
+    });
+    var last = t;
+    timers.push(setTimeout(function(){
+      q.querySelectorAll('em').forEach(function(e){ e.classList.add('landed'); });
+    }, last + 160));
+  }
+  new MutationObserver(function(){
+    if(pg.classList.contains('active')) play(); else reset();
+  }).observe(pg, {attributes:true, attributeFilter:['class']});
+})();
+</script>
+</body>
+</html>
